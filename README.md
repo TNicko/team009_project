@@ -1,12 +1,27 @@
 # team009_project
 
-1.download and install node js
-https://nodejs.org/en/download/ 
+## Sci-project
 
-should work fine after u simply clone all the stuff, cd to that path and do
-npm start
+### Accessing sci-project server
 
-local host portal http://localhost:3000/
+Run the following command in your terminal:
+
+```
+ssh teamb009@sci-project.lboro.ac.uk
+```
+
+When asked for password, enter the password from `group-credentials.txt` file.
+
+### Accessing database on sci-project sever
+
+Once you are connected to sci-project server via `ssh`, you can access the
+database with the following command:
+
+```
+mysql --user=teamb009 --password=6TfmSlNpBt teamb009
+```
+
+You should see the prompt `MariaDB [team006]>` and you are ready to enter SQL commands.
 -----
 <h1>Meeting Manager W4-10 (thursday 10:20am) <br> Report W5-10 (by 4 pm on each monday)</h1>
 <h2>Week 4</h2>
