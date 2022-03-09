@@ -13,16 +13,24 @@ app.use(express.static('public'))
 const mysql = require('mysql')
 const dbConn = mysql.createConnection({
     host: 'localhost',
-    user: 'team009',
-    password: '',
-    database: 'team009'
+    user: 'teamb009',
+    password: '6TfmSlNpBt',
+    database: 'teamb009',
 })
 
-dbConn.connect(function(err) {
-    if (err) throw err
-    console.log('Database connected!')
+dbConn.connect(function(error) {
+    if (error) {
+        console.log('error:')
+        console.error(error)
+    } else {
+        console.log('Database connected!')
+    }
 })
 
 app.use('/', indexRouter)
 
-app.listen(process.env.PORT || 3000)
+var port = process.env.PORT
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
+})
