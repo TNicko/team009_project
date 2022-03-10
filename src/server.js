@@ -10,6 +10,7 @@ app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(express.static('public'))
 
+// --- sci project connection ---
 const mysql = require('mysql')
 const dbConn = mysql.createConnection({
     host: 'localhost',
@@ -26,6 +27,7 @@ dbConn.connect(function(error) {
         console.log('Database connected!')
     }
 })
+// -------------------------------
 
 app.use('/', indexRouter)
 
