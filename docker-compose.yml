@@ -1,0 +1,25 @@
+services:
+    node:
+        build: .
+        volumes:
+            - ./src:/usr/app/src
+        ports:
+            - "8080:8080"
+        environment:
+            PORT: 8080
+            DOCKER: true
+        depends_on:
+            - mysql
+
+    mysql:
+        image: mysql:8
+        volumes:
+            - ./src/db/schema.sql:/docker-entrypoint-initdb.d/0-schema.sql
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: teamb009
+            MYSQL_USER: teamb009
+            MYSQL_PASSWORD: 6TfmSlNpBt
+        ports:
+            - "3306:3306"
