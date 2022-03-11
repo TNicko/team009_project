@@ -1,4 +1,11 @@
 ########
+# Project-specific
+########
+package-lock.json
+
+
+
+########
 # OS
 ########
 # macOS
@@ -7,7 +14,6 @@
 # Windows
 *.lnk
 [Dd]esktop.ini
-
 
 
 
@@ -165,6 +171,7 @@ dist
 
 # Built Visual Studio Code Extensions
 *.vsix
+
 
 
 ########
