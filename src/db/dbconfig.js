@@ -24,7 +24,7 @@ conn.connect(function (error) {
 });
 
 // The mysql module doesn't support promises out of the box which means much
-// of the architecture becomes prone to callback-hell. We use the native
+// of the architecture would become prone to callback-hell. We use the native
 // util.promisify so that it's generally easier to work with the mysql client.
 const query = util.promisify(conn.query).bind(conn);
 module.exports = { query: query };
