@@ -7,16 +7,12 @@ class Employee {
         this.telephone = telephone;
     }
 
-    static getAll(conn, callback) {
-        conn.query(
+    static async getAll(conn) {
+        let rows = await conn.query(
             "SELECT employee_id AS id, name, job, department, telephone FROM employee",
-            (error, results) => {
-                if (error) throw error;
-                let ret = results.map(emp => {
-                    return new Employee(emp.id, emp.name, emp.job, emp.department, emp.telephone);
-                });
-                callback(ret);
-            }
+        );
+        return rows.map(
+            emp => new Employee(emp.id, emp.name, emp.job, emp.department, emp.telephone)
         );
     }
 }
