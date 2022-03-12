@@ -1,34 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <h1>Example view</h1>
-    
-    <table>
-        <thead>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Job</th>
+            <th>Department</th>
+            <th>Telephone</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% employees.forEach(function(employee){ %>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Department</th>
-                <th>Telephone</th>
+                <td><%= employee.id %></th>
+                <td><%= employee.name %></td>
+                <td><%= employee.job %></td>
+                <td><%= employee.department %></td>
+                <td><%= employee.telephone %></td>
             </tr>
-        </thead>
-        <tbody>
-            <% employees.forEach(function(employee){ %>
-                <tr>
-                    <td><%= employee.id %></th>
-                    <td><%= employee.name %></td>
-                    <td><%= employee.job %></td>
-                    <td><%= employee.department %></td>
-                    <td><%= employee.telephone %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-</body>
-</html>
+        <% }) %>
+    </tbody>
+</table>
