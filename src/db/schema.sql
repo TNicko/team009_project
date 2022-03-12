@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS employee (
     employee_id INT UNSIGNED,
     name VARCHAR(150),
     job VARCHAR(100),
-    department VARCHAR(100), -- ??? seperate department table ???
+    department VARCHAR(100),
     telephone CHAR(10),
     PRIMARY KEY (employee_id)  
 );
@@ -74,7 +74,8 @@ CREATE TABLE IF NOT EXISTS ticket_log(
     log_id INT UNSIGNED,
     ticket_id INT UNSIGNED,
     update_date DATETIME NOT NULL,
-    update_value TEXT NOT NULL, -- ??? not practical ???
+    update_type VARCHAR(100) NOT NULL,
+    update_value VARCHAR(1000) NOT NULL,
     PRIMARY KEY (log_id),
     FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
 );
@@ -83,7 +84,7 @@ CREATE TABLE IF NOT EXISTS feedback(
     feedback_id INT UNSIGNED,
     ticket_id INT UNSIGNED,
     datetime DATETIME NOT NULL,
-    feedback VARCHAR(1000) NOT NULL, -- ??? feedback and feedback id seperate table ???
+    feedback VARCHAR(1000) NOT NULL,
     employee_id INT UNSIGNED,
     PRIMARY KEY (feedback_id),
     FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id),
@@ -94,7 +95,7 @@ CREATE TABLE IF NOT EXISTS solution(
     solution_id INT UNSIGNED,
     ticket_id INT UNSIGNED,
     datetime DATETIME NOT NULL,
-    solution VARCHAR(1000) NOT NULL, -- ??? solution and solution id seperate table ???
+    solution VARCHAR(1000) NOT NULL,
     solution_status ENUM('successful', 'pending', 'unsuccessful') NOT NULL,
     handler_id INT UNSIGNED,
     PRIMARY KEY (solution_id),
