@@ -8,6 +8,7 @@ services:
         environment:
             PORT: 8080
             DOCKER: "true"
+            SESSION_SECRET: ${SESSION_SECRET}
         depends_on:
             - mysql
 
