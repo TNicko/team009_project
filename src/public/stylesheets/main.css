@@ -1,17 +1,4 @@
-:root {
-    --white: white;
-    --grey: grey;
-    --bodyColor: rgb(236, 238, 243);
-    --navColor: rgb(44, 51, 66);
-    --navColor2: rgb(44, 51, 66);
-    --navLight: rgb(71, 82, 105);
-    --navText: rgb(165, 173, 190);
-    
-    
-    --tableHeaderColor: rgb(242, 244, 250);
-    --tableHeaderColor2: rgb(242, 244, 250);
-    --tableHeaderShade: rgb(218, 220, 226);
-}
+@import 'variables.css';
     
 * {
     box-sizing: border-box;
