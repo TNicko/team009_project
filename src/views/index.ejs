@@ -1,2 +1,187 @@
-Index page
-Your username is <%= name %> 
+<%- include('./partials/navbar.ejs') %>
+
+<div class="main_section">
+    <div class="main_container">
+        <div class="table_top">
+            <div class="table_title_container">
+                <h1 class="table_title">Tickets</h1>
+                <p class="table_title_info">Total 63</p>
+            </div>
+            <div class="table_scroll_section">
+                <div class="table_scroll_container">
+                    <button class="t-button t-button-left first-page">
+                        <div class="table-button-content">First</div>
+                    </button>
+                    <button class="t-button t-button-left t-arrow back-page">
+                        <div class="t-button-content">
+                            <span class="table-icon">
+                                <svg style="fill:currentColor" color="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.586 12l5.707-5.707a1 1 0 111.414 1.414L10.414 12l4.293 4.293a1 1 0 01-1.414 1.414L7.586 12z" fill=""></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </button>
+                    <span class="page-info">
+                        <span class="page-num">1</span>
+                        <span class="page-sep">/</span>
+                        <span class="number_of_pages">10</span>
+                    </span>
+                    <button class="t-button t-button-right t-arrow next-page">
+                        <div class="table-button-content">
+                            <span class="table-icon">
+                                <svg color="currentColor" viewBox="0 0 24 24" width="20" height="20" style="fill: currentcolor;">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.414 12l-5.707 5.707a1 1 0 01-1.414-1.414L13.586 12 9.293 7.707a1 1 0 011.414-1.414L16.414 12z" fill=""></path>
+                                </svg>  
+                            </span>
+                        </div>
+                    </button>
+                    <button class="t-button t-button-right last-page">
+                        <div class="table-button-content">Last</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table class="ticket_table">
+            <thead class="table_headers">
+                <tr>
+                    <th>Status</th> 
+                    <th>ID</th> 
+                    <th>Title</th> 
+                    <th>Problem Type</th>    
+                    <th>Name</th> 
+                    <th>Last Updated</th> 
+                    <th>Handler</th> 
+                </tr>
+            </thead>
+
+            <tbody class="ticket-body op-ticket-body">
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+                <tr>
+                    <td class="active"><span class="t-status">active</span></td>
+                    <td>12</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Kiko Casilla</td>
+                    <td>2022-02-24</td>
+                    <td>Tom Smith</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
