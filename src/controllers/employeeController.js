@@ -9,4 +9,6 @@ router.get('/', async (_, res) => {
     res.render('employee', { employees: result });
 })
 
+
 module.exports = router;
+

@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const router = express.Router();
+const conn = require("../db/dbconfig.js");
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const flash = require('express-flash');

@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS ticket (
     status ENUM('active', 'submitted', 'closed', 'unsuccessful') NOT NULL, 
     description VARCHAR(300),
     notes VARCHAR(1000),
-    handler_id INT UNSIGNED NOT NULL,
+    handler_id INT UNSIGNED,
     PRIMARY KEY (ticket_id),
     FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
     FOREIGN KEY (handler_id) REFERENCES handler(handler_id)
