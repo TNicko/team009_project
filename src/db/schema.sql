@@ -4,18 +4,21 @@ CREATE DATABASE IF NOT EXISTS teamb009;
 
 CREATE TABLE IF NOT EXISTS hardware (
     hardware_id INT UNSIGNED,
+    serial VARCHAR(50),
     name VARCHAR(100),
     PRIMARY KEY (hardware_id)
 );
 
 CREATE TABLE IF NOT EXISTS software (
     software_id INT UNSIGNED,
+    serial VARCHAR(50),
     name VARCHAR(100),
     PRIMARY KEY (software_id)
 );
 
 CREATE TABLE IF NOT EXISTS os (
     os_id INT UNSIGNED,
+    serial VARCHAR(50),
     name VARCHAR(100),
     PRIMARY KEY (os_id)
 );
