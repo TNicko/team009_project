@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS account;
 DROP TABLE IF EXISTS ticket_expertise;
 DROP TABLE IF EXISTS expertise;
+DROP TABLE IF EXISTS handler_expertise;
 DROP TABLE IF EXISTS ticket_hardware;
 DROP TABLE IF EXISTS ticket_software;
 DROP TABLE IF EXISTS ticket_os;

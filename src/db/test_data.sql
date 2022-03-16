@@ -22,7 +22,7 @@ VALUES ('05GZY-924YG-0LK7Z', 'Microsoft Teams'),
 INSERT INTO os
 VALUES ('V05GZ-Y924Y-G0LK7', 'Windows 8'),
        ('U2YAZ-F3BFC-KW6BD', 'Windows 11'),
-       ('XDS93-19LVA-18OK5', 'Mac'),
+       ('XDS93-19LVA-18OK5', 'Mac');
 
 INSERT INTO employee
 VALUES  (1565 , "Joey Smith", "Admin", 'IT', "0123456789"),
@@ -90,7 +90,7 @@ INSERT into handler_expertise
 VALUES (5247, 0),
     (5280, 1),
     (5280, 2),
-    (1911, 0);
+    (1911, 0),
     (1911, 1);
 -- ??? Ex Spec expertise ???
 
@@ -111,20 +111,20 @@ VALUES (0, 5177, 'closed', 'Printer out of ink', null, 5247),
     (12, 2222, 'active', 'Printer out of ink', 'Cannot find ink', null);
 
 INSERT into ticket_log
-VALUES (0, 4, 2022-01-01 20:10:00, 'notes', 'Everything is plugged in'), 
-    (1, 6, 2022-01-01 20:10:00, 'handler', 'Joey John'),
-    (2, 3, 2022-01-01 20:10:00, 'notes', 'Cannot find ink');
+VALUES (0, 4, '2022-01-01 20:10:00', 'notes', 'Everything is plugged in'), 
+    (1, 6, "2022-01-01 20:10:00", 'handler', 'Joey John'),
+    (2, 3, "2022-01-01 20:10:00", 'notes', 'Cannot find ink');
 
 INSERT into feedback
-VALUES (0, 5, 2022-02-01 20:10:00, 'Mouse charged but connection still not working');
+VALUES (0, 5, "2022-02-01 20:10:00", 'Mouse charged but connection still not working', 2222);
 
 INSERT into solution
-VALUES (0, 0, 2022-01-01 20:10:00, 'successful', 5247, 'Insert more ink into printer'),
-    (1, 1, 2022-02-01 20:10:00, 'successful', 1911, 'Select correct mouse from bluetooth list on mac'),
-    (2, 2, 2022-02-01 20:10:00, 'successful', 5280, 'Login using new credentials'),
-    (3, 3, 2022-02-02 20:10:00, 'pending', 1911, 'Get ink from storage room and replace in printer'),
-    (4, 5, 2022-02-02 20:10:00, 'unsuccessful', 1911, 'Charge mouse and wait for bluetooth connection to appear'),
-    (5, 7, 2022-02-02 20:10:00, 'pending', 5247, 'Plug keyboard into computer');
+VALUES (0, 0, "2022-01-01 20:10:00", 'successful', 5247, 'Insert more ink into printer'),
+    (1, 1, "2022-02-01 20:10:00", 'successful', 1911, 'Select correct mouse from bluetooth list on mac'),
+    (2, 2, "2022-02-01 20:10:00", 'successful', 5280, 'Login using new credentials'),
+    (3, 3, "2022-02-02 20:10:00", 'pending', 1911, 'Get ink from storage room and replace in printer'),
+    (4, 5, "2022-02-02 20:10:00", 'unsuccessful', 1911, 'Charge mouse and wait for bluetooth connection to appear'),
+    (5, 7, "2022-02-02 20:10:00", 'pending', 5247, 'Plug keyboard into computer');
 
 INSERT into ticket_expertise
 VALUES (0, 0),
@@ -144,20 +144,20 @@ VALUES (0, 0),
 INSERT into ticket_hardware
 VALUES ('ETA52-AMWB3-9QM68', 0),
     ('09BL0-17EBV-6JXA6', 1),
-    ('N4F9Y-MO2LP-Y5KTK' , 1),
+    ('N4F9Y-MO2LP-Y5KTK', 1),
     ('BU98S-FRHK2-KSO1Z', 2),
-    ('ETA52-AMWB3-9QM68' ,3),
-    ('BU98S-FRHK2-KSO1Z' ,4),
-    ('09BL0-17EBV-6JXA6' ,5),
+    ('ETA52-AMWB3-9QM68', 3),
+    ('BU98S-FRHK2-KSO1Z', 4),
+    ('09BL0-17EBV-6JXA6', 5),
     ('N4F9Y-MO2LP-Y5KTK', 5),
-    ('N4F9Y-MO2LP-Y5KTK', 6)
-    ('NKCQK-DNUII-90IY7' ,7),
-    ('N4F9Y-MO2LP-Y5KTK' ,8),
-    ('09BL0-17EBV-6JXA6' ,9),
+    ('N4F9Y-MO2LP-Y5KTK', 6),
+    ('NKCQK-DNUII-90IY7', 7),
+    ('N4F9Y-MO2LP-Y5KTK', 8),
+    ('09BL0-17EBV-6JXA6', 9),
     ('N4F9Y-MO2LP-Y5KTK', 9),
-    ('BU98S-FRHK2-KSO1Z' ,10),
-    ('NKCQK-DNUII-90IY7' ,11),
-    ('U8CHA-W2325-LQVGP' ,12);
+    ('BU98S-FRHK2-KSO1Z', 10),
+    ('NKCQK-DNUII-90IY7', 11),
+    ('U8CHA-W2325-LQVGP', 12);
 
 INSERT into ticket_software
 VALUES ('8NOUB-YITFK-X3VHE', 2),

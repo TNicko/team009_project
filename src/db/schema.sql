@@ -32,16 +32,16 @@ CREATE TABLE IF NOT EXISTS employee (
 CREATE TABLE IF NOT EXISTS handler (
     handler_id INT UNSIGNED,
     internal BOOLEAN,
-    PRIMARY KEY (handler_id),  
-    FOREIGN KEY (handler_id) REFERENCES employee(employee_id)
+    PRIMARY KEY (handler_id)  
+    -- FOREIGN KEY (handler_id) REFERENCES employee(employee_id)
 );
 
 CREATE TABLE IF NOT EXISTS account (
     user_id INT UNSIGNED,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
-    PRIMARY KEY (user_id),
-    FOREIGN KEY (user_id) REFERENCES employee(employee_id)
+    PRIMARY KEY (user_id)
+    -- FOREIGN KEY (user_id) REFERENCES employee(employee_id)
 );
 
 CREATE TABLE IF NOT EXISTS expertise (

@@ -46,141 +46,20 @@
                 <tr>
                     <th>Status</th> 
                     <th>ID</th> 
-                    <th>Title</th> 
                     <th>Problem Type</th>    
-                    <th>Name</th> 
                     <th>Last Updated</th> 
-                    <th>Handler</th> 
                 </tr>
             </thead>
 
             <tbody class="ticket-body op-ticket-body">
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
-                <tr>
-                    <td class="active"><span class="t-status">active</span></td>
-                    <td>12</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Kiko Casilla</td>
-                    <td>2022-02-24</td>
-                    <td>Tom Smith</td>
-                </tr>
+                <% tickets.forEach(function(ticket){ %>
+                    <tr>
+                        <td><%= ticket.status %></th>
+                        <td><%= ticket.ticket_id %></td>
+                        <td><%= ticket.problem_type %></td>
+                        <td><%= ticket.last_updated %></td>
+                    </tr>
+                <% }) %>
             </tbody>
         </table>
     </div>
