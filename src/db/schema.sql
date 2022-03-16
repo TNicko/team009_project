@@ -3,24 +3,21 @@
 CREATE DATABASE IF NOT EXISTS teamb009;
 
 CREATE TABLE IF NOT EXISTS hardware (
-    hardware_id INT UNSIGNED,
-    serial VARCHAR(50),
+    hardware_serial VARCHAR(50),
     name VARCHAR(100),
-    PRIMARY KEY (hardware_id)
+    PRIMARY KEY (hardware_serial)
 );
 
 CREATE TABLE IF NOT EXISTS software (
-    software_id INT UNSIGNED,
-    serial VARCHAR(50),
+    software_serial VARCHAR(50),
     name VARCHAR(100),
-    PRIMARY KEY (software_id)
+    PRIMARY KEY (software_serial)
 );
 
 CREATE TABLE IF NOT EXISTS os (
-    os_id INT UNSIGNED,
-    serial VARCHAR(50),
+    os_serial VARCHAR(50),
     name VARCHAR(100),
-    PRIMARY KEY (os_id)
+    PRIMARY KEY (os_serial)
 );
 
 CREATE TABLE IF NOT EXISTS employee (
@@ -114,22 +111,22 @@ CREATE TABLE IF NOT EXISTS ticket_expertise (
 );
 
 CREATE TABLE IF NOT EXISTS ticket_hardware (
-    hardware_id INT UNSIGNED,
+    hardware_serial VARCHAR(50),
     ticket_id INT UNSIGNED,
-    FOREIGN KEY (hardware_id) REFERENCES hardware(hardware_id),
+    FOREIGN KEY (hardware_serial) REFERENCES hardware(hardware_serial),
     FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
 );
 
 CREATE TABLE IF NOT EXISTS ticket_software (
-    software_id INT UNSIGNED,
+    software_serial VARCHAR(50),
     ticket_id INT UNSIGNED,
-    FOREIGN KEY (software_id) REFERENCES software(software_id),
+    FOREIGN KEY (software_serial) REFERENCES software(software_serial),
     FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
 );
 
 CREATE TABLE IF NOT EXISTS ticket_os (
-    os_id INT UNSIGNED,
+    os_serial VARCHAR(50),
     ticket_id INT UNSIGNED,
-    FOREIGN KEY (os_id) REFERENCES os(os_id),
+    FOREIGN KEY (os_serial) REFERENCES os(os_serial),
     FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
 );
