@@ -61,25 +61,25 @@ VALUES  (1565 , "Joey Smith", "Admin", 'IT', "0123456789", "admin"),
 --     (8850, 0);
 
 -- BCRYPT HASH NEEDED FOR PASSWORD
--- INSERT into account
--- VALUES (5247,"specialist1", ''),
---     (5280, "specialist2", ''),
---     (1911, "specialist3", ''),
+INSERT into account
+VALUES (5247,"specialist1", 'specialist'),
+    (5280, "specialist2", 'specialist'),
+    (1911, "specialist3", 'specialist'),
 
---     (3851, "ex_specialist1", ''),
---     (8850, "ex_specialist2", ''),
+    (3851, "ex_specialist1", 'ex_specialist'),
+    (8850, "ex_specialist2", 'ex_specialist'),
 
---     (4135, "analyst1", ''),
---     (4100, "analyst2", ''),
---     (4120, "analyst3", ''),
+    (4135, "analyst1", 'analyst'),
+    (4100, "analyst2", 'analyst'),
+    (4120, "analyst3", 'analyst'),
 
--- 	(5177 , 'user1', ''),
--- 	(3629 , 'user2', ''),
--- 	(3975 , 'user3', ''),
--- 	(3166 , 'user4', ''),
--- 	(1111, 'user5', ''),
--- 	(2222, 'user6', ''),
--- 	(3267, 'user7', '');
+	(5177 , 'user1', 'user'),
+	(3629 , 'user2', 'user'),
+	(3975 , 'user3', 'user'),
+	(3166 , 'user4', 'user'),
+	(1111, 'user5', 'user'),
+	(2222, 'user6', 'user'),
+	(3267, 'user7', 'user');
 
 INSERT into expertise
 VALUES (0, 'Hardware'),
