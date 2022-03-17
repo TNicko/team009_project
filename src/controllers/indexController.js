@@ -6,7 +6,7 @@ const Ticket = require("../models/ticketModel");
 router.get('/', async (req, res) => {
     let result = await Ticket.getAll(conn)
     console.log(result);
-    res.render('specialist');
+    res.render('./index/specialist');
 })
 
 
