@@ -1,4 +1,4 @@
-class Employee {
+class User {
     constructor(id, name, job, department, telephone) {
         this.id = id;
         this.name = name;
@@ -9,11 +9,11 @@ class Employee {
 
     static async getAll(conn) {
         let rows = await conn.query(
-            "SELECT employee_id AS id, name, job, department, telephone FROM employee",
+            "SELECT user_id AS id, name, job, department, telephone FROM user",
         );
         return rows.map(
-            emp => new Employee(emp.id, emp.name, emp.job, emp.department, emp.telephone)
+            emp => new User(emp.id, emp.name, emp.job, emp.department, emp.telephone)
         );
     }
 }
-module.exports = Employee;
+module.exports = User;

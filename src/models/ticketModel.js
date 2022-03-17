@@ -2,10 +2,10 @@ const exp = require("constants");
 
 class Ticket {
     // Specialist Ticket Table
-    constructor(ticket_id, status, employee_id, handler_id, description, notes, last_updated, problem_type) {
+    constructor(ticket_id, status, user_id, handler_id, description, notes, last_updated, problem_type) {
         this.ticket_id = ticket_id;
         this.status = status;
-        this.employee_id = employee_id;
+        this.user_id = user_id;
         this.handler_id = handler_id;
         this.description = description;
         this.notes = notes;
@@ -25,7 +25,7 @@ class Ticket {
             GROUP BY ticket_id) AS exp ON ticket.ticket_id = exp.ticket_id`,
         );
         return rows.map(
-            ticket => new Ticket(ticket.ticket_id, ticket.status, ticket.employee_id, ticket.handler_id, 
+            ticket => new Ticket(ticket.ticket_id, ticket.status, ticket.user_id, ticket.handler_id, 
                 ticket.description, ticket.notes, ticket.problem_type)
         );
     }

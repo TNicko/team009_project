@@ -24,25 +24,25 @@ VALUES ('V05GZ-Y924Y-G0LK7', 'Windows 8'),
        ('U2YAZ-F3BFC-KW6BD', 'Windows 11'),
        ('XDS93-19LVA-18OK5', 'Mac');
 
-INSERT INTO employee
-VALUES  (1565 , "Joey Smith", "Admin", 'IT', "0123456789"),
-	(2341 , "Alez Smith", "Admin",'Hardware', "0909898976"),
+INSERT INTO user
+VALUES  (1565 , "Joey Smith", "Admin", 'IT', "0123456789", "admin"),
+	(2341 , "Alez Smith", "Admin",'Hardware', "0909898976", "admin"),
 
-	(5247 ,"Tom Smith",  "Specialist", 'IT', "0123456789"),
-	(5280 , "Joey John","Specialist",'IT',  "0123456789"),
-	(1911 , "Arky Arek","Specialist",'Hardware', "0909898976"),
+	(5247 ,"Tom Smith",  "Specialist", 'IT', "0123456789", "specialist"),
+	(5280 , "Joey John","Specialist",'IT',  "0123456789", "specialist"),
+	(1911 , "Arky Arek","Specialist",'Hardware', "0909898976", "specialist"),
 
-	(4135, "Jacob Smith", "Analyst", "Data Analysis", "2341879094"),
-	(4100, "Nickolai Johnson","Analyst", "Data Analysis", "2341879094"),
-	(4120, "Ayman Ali","Analyst", "Data Analysis", "2341879094"),
+	(4135, "Jacob Smith", "Analyst", "Data Analysis", "2341879094", "analyst"),
+	(4100, "Nickolai Johnson","Analyst", "Data Analysis", "2341879094", "analyst"),
+	(4120, "Ayman Ali","Analyst", "Data Analysis", "2341879094", "analyst"),
 
-	(5177 ,"Joey Thompson", "Software Developer",'IT',  "0123456789"),
-	(3629 ,"Kiko Casilla", "Software Test Engineer",'IT', "0123456789"),
-	(3975 ,"Joey Kick", "Hardware Engineer",'Hardware', "0909898976"),
-	(3166 , "Jadon Sancho", "Network Engineer",'Network', "0234528789"),
-	(1111,"Jay Abro", "Project Manager", "Operating", "1287987623"),
-	(2222,"Joe Gimson","Project Manager", "Operating", "1287987623"),
-	(3267, "Jemimah Thompson","Project Management", "Operating" , "1287987623");
+	(5177 ,"Joey Thompson", "Software Developer",'IT',  "0123456789", "user"),
+	(3629 ,"Kiko Casilla", "Software Test Engineer",'IT', "0123456789", "user"),
+	(3975 ,"Joey Kick", "Hardware Engineer",'Hardware', "0909898976", "user"),
+	(3166 , "Jadon Sancho", "Network Engineer",'Network', "0234528789", "user"),
+	(1111,"Jay Abro", "Project Manager", "Operating", "1287987623", "user"),
+	(2222,"Joe Gimson","Project Manager", "Operating", "1287987623", "user"),
+	(3267, "Jemimah Thompson","Project Management", "Operating" , "1287987623", "user");
 	
 	-- (1000, 'Mike James','Database Expert', 'Databases', "0123456789"),
 	-- (1011, 'Stevie Jam','HR Manager', 'HR',"0123456789"),
@@ -53,12 +53,12 @@ VALUES  (1565 , "Joey Smith", "Admin", 'IT', "0123456789"),
 	-- (1760, 'Lonzo Ball','Software Engineer', 'IT', "0123456789"),
 	-- (1992, 'Lamelo Ball','Software Developer', 'IT',"0123456789");
 
-INSERT into handler 
-VALUES (5247, 1),
-	(5280, 1),
-	(1911, 1),
-    (3851, 0),
-    (8850, 0);
+-- INSERT into handler 
+-- VALUES (5247, 1),
+-- 	(5280, 1),
+-- 	(1911, 1),
+--     (3851, 0),
+--     (8850, 0);
 
 -- BCRYPT HASH NEEDED FOR PASSWORD
 -- INSERT into account

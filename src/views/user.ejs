@@ -1,0 +1,23 @@
+<%- include('./partials/user_navbar.ejs') %>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Job</th>
+            <th>Department</th>
+            <th>Telephone</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% users.forEach(function(user){ %>
+            <tr>
+                <td><%= user.id %></th>
+                <td><%= user.name %></td>
+                <td><%= user.job %></td>
+                <td><%= user.department %></td>
+                <td><%= user.telephone %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>

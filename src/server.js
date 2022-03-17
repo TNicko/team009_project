@@ -15,10 +15,10 @@ app.use(express.static(__dirname + '/public'));
 app.use(expressLayouts);
 
 const index = require('./controllers/indexController');
-const employee = require('./controllers/employeeController');
+const user = require('./controllers/userController');
 const login = require('./controllers/loginController');
 app.use('/', index);
-app.use('/employee', employee);
+app.use('/user', user);
 app.use('/login', login);
 
 
