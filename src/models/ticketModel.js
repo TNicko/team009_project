@@ -1,33 +1,66 @@
-const exp = require("constants");
-
 class Ticket {
-    // Specialist Ticket Table
-    constructor(ticket_id, status, user_id, handler_id, description, notes, last_updated, problem_type) {
-        this.ticket_id = ticket_id;
+    constructor(ticketId, userId, status, description, notes, handlerId, expertises, hardwares, softwares, oses) {
+        this.ticketId = ticketId;
+        this.userId = userId;
         this.status = status;
-        this.user_id = user_id;
-        this.handler_id = handler_id;
         this.description = description;
         this.notes = notes;
-
-        this.problem_type;
-        this.last_updated; // !!! get last updated !!!
-        // Add all other ticket info ...
+        this.handlerId = handlerId;
+        this.expertises = expertises;
+        this.hardwares = hardwares;
+        this.softwares = softwares;
+        this.oses = oses;
     }
 
-
+    static async #getEquipment(conn, equipmentType, id) {
+        return await conn.query(
+            `SELECT ${equipmentType}.${equipmentType}_serial AS serial, ${equipmentType}.name AS name
+             FROM ticket_${equipmentType}
+                      INNER JOIN ${equipmentType}
+                                 ON ticket_${equipmentType}.${equipmentType}_serial = ${equipmentType}.${equipmentType}_serial
+             WHERE ticket_id = ?`,
+            [id]
+        ).map(equipment => {
+            return {"serial": equipment.serial, "name": equipment.name}
+        });
+    }
 
     static async getAll(conn) {
-        let rows = await conn.query(
-            `SELECT ticket.*, problem_type FROM ticket INNER JOIN
-            (SELECT ticket_id, GROUP_CONCAT(exp_name) AS problem_type
-            FROM (SELECT ticket_id, exp.name AS exp_name FROM ticket_expertise INNER JOIN expertise AS exp ON ticket_expertise.expertise_id = exp.expertise_id) AS exp
-            GROUP BY ticket_id) AS exp ON ticket.ticket_id = exp.ticket_id`,
+        let tickets = await conn.query(
+            `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId
+             FROM ticket`
         );
-        return rows.map(
-            ticket => new Ticket(ticket.ticket_id, ticket.status, ticket.user_id, ticket.handler_id, 
-                ticket.description, ticket.notes, ticket.problem_type)
+
+        for (const ticket in tickets) {
+            let id = ticket.ticketId;
+            ticket.expertises = await conn.query(
+                `SELECT expertise.name AS name
+                 FROM ticket_expertise
+                          INNER JOIN expertise ON ticket_expertise.expertise_id = expertise.expertise_id
+                 WHERE ticket_id = ?`,
+                [id]
+            ).map(expertise => expertise.name);
+
+            ticket.hardwares = this.#getEquipment(conn, "hardware");
+            ticket.softwares = this.#getEquipment(conn, "software");
+            ticket.oses = this.#getEquipment(conn, "os");
+        }
+
+        return tickets.map(
+            ticket => new Ticket(
+                ticket.ticketId,
+                ticket.userId,
+                ticket.status,
+                ticket.description,
+                ticket.notes,
+                ticket.handlerId,
+                ticket.expertises,
+                ticket.hardwares,
+                ticket.softwares,
+                ticket.oses
+            )
         );
     }
 }
+
 module.exports = Ticket;
