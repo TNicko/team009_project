@@ -14,10 +14,10 @@ class Ticket {
 
     static async #getEquipment(conn, equipmentType, id) {
         let query = await conn.query(
-            `SELECT hardware.hardware_serial AS serial, hardware.name AS name
-             FROM ticket_hardware
-                      INNER JOIN hardware
-                                 ON ticket_hardware.hardware_serial = hardware.hardware_serial
+            `SELECT ${equipmentType}.${equipmentType}_serial AS serial, ${equipmentType}.name AS name
+             FROM ticket_${equipmentType}
+                      INNER JOIN ${equipmentType}
+                                 ON ticket_${equipmentType}.${equipmentType}_serial = ${equipmentType}.${equipmentType}_serial
              WHERE ticket_id = ?`,
             [id]
         );
