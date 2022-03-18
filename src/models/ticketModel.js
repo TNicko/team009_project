@@ -27,28 +27,34 @@ class Ticket {
         });
     }
 
-    static async getAll(conn) {
-        let tickets = await conn.query(
-            `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId
-             FROM ticket`
+    static async #augmentTicket(conn, ticket) {
+        let id = ticket.ticketId;
+
+        let expertiseQuery = await conn.query(
+            `SELECT expertise.name AS name
+             FROM ticket_expertise
+                      INNER JOIN expertise ON ticket_expertise.expertise_id = expertise.expertise_id
+             WHERE ticket_id = ?`,
+            [id]
         );
+        ticket.expertises = expertiseQuery.map(expertise => expertise.name);
 
-        for (const ticket of tickets) {
-            let id = ticket.ticketId;
+        ticket.hardwares = await this.#getEquipment(conn, "hardware", id);
+        ticket.softwares = await this.#getEquipment(conn, "software", id);
+        ticket.oses = await this.#getEquipment(conn, "os", id);
 
-            let expertiseQuery = await conn.query(
-                `SELECT expertise.name AS name
-                 FROM ticket_expertise
-                          INNER JOIN expertise ON ticket_expertise.expertise_id = expertise.expertise_id
-                 WHERE ticket_id = ?`,
-                [id]
-            );
-            ticket.expertises = expertiseQuery.map(expertise => expertise.name);
+        return ticket;
+    }
 
-            ticket.hardwares = await this.#getEquipment(conn, "hardware", id);
-            ticket.softwares = await this.#getEquipment(conn, "software", id);
-            ticket.oses = await this.#getEquipment(conn, "software", id);
-        }
+    static async getAll(conn) {
+        let queryString =
+            `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId
+             FROM ticket`;
+
+        let tickets = await conn.query(queryString);
+        tickets = await Promise.all(
+            tickets.map(ticket => this.#augmentTicket(conn, ticket))
+        );
 
         return tickets.map(
             ticket => new Ticket(
