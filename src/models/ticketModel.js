@@ -46,12 +46,27 @@ class Ticket {
         return ticket;
     }
 
-    static async getAll(conn) {
+    static async getAll(conn,
+                        skip, limit,
+                        filterColumn = null, filterValue = null,
+                        sortColumn = null, sortType = null) {
         let queryString =
             `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId
              FROM ticket`;
+        let queryParams = [];
 
-        let tickets = await conn.query(queryString);
+        if (filterColumn !== null) {
+            queryString += `\n WHERE ? = ?`;
+            queryParams.push(filterColumn, filterValue);
+        }
+
+        if (sortColumn !== null)
+            queryString += `\n ORDER BY ${sortColumn} ${sortType}`;
+
+        queryString += `\n LIMIT ?, ?`;
+        queryParams.push(skip, limit);
+
+        let tickets = await conn.query(queryString, queryParams);
         tickets = await Promise.all(
             tickets.map(ticket => this.#augmentTicket(conn, ticket))
         );
