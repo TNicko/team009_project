@@ -13,14 +13,16 @@ class Ticket {
     }
 
     static async #getEquipment(conn, equipmentType, id) {
-        return await conn.query(
-            `SELECT ${equipmentType}.${equipmentType}_serial AS serial, ${equipmentType}.name AS name
-             FROM ticket_${equipmentType}
-                      INNER JOIN ${equipmentType}
-                                 ON ticket_${equipmentType}.${equipmentType}_serial = ${equipmentType}.${equipmentType}_serial
+        let query = await conn.query(
+            `SELECT hardware.hardware_serial AS serial, hardware.name AS name
+             FROM ticket_hardware
+                      INNER JOIN hardware
+                                 ON ticket_hardware.hardware_serial = hardware.hardware_serial
              WHERE ticket_id = ?`,
             [id]
-        ).map(equipment => {
+        );
+
+        return query.map(equipment => {
             return {"serial": equipment.serial, "name": equipment.name}
         });
     }
@@ -31,19 +33,21 @@ class Ticket {
              FROM ticket`
         );
 
-        for (const ticket in tickets) {
+        for (const ticket of tickets) {
             let id = ticket.ticketId;
-            ticket.expertises = await conn.query(
+
+            let expertiseQuery = await conn.query(
                 `SELECT expertise.name AS name
                  FROM ticket_expertise
                           INNER JOIN expertise ON ticket_expertise.expertise_id = expertise.expertise_id
                  WHERE ticket_id = ?`,
                 [id]
-            ).map(expertise => expertise.name);
+            );
+            ticket.expertises = expertiseQuery.map(expertise => expertise.name);
 
-            ticket.hardwares = this.#getEquipment(conn, "hardware");
-            ticket.softwares = this.#getEquipment(conn, "software");
-            ticket.oses = this.#getEquipment(conn, "os");
+            ticket.hardwares = await this.#getEquipment(conn, "hardware", id);
+            ticket.softwares = await this.#getEquipment(conn, "software", id);
+            ticket.oses = await this.#getEquipment(conn, "software", id);
         }
 
         return tickets.map(
