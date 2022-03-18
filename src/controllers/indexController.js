@@ -9,7 +9,9 @@ router.get('/', async (req, res) => {
     res.render('./index/specialist');
 })
 
-
+router.get('/account', async (req, res) => {
+    res.render('./account');
+})
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

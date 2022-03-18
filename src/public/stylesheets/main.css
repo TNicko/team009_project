@@ -60,10 +60,43 @@ body {
     display: flex;
 }
 
-.nav_menus ul a {
-    margin: 10px;
+.menu_item {
+    list-style: none;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+
+.menu_item ul {
+    position: absolute;
+    min-width: 180px; 
+    top: 100%;
+    left: 0;
+    display: none;
+    background-color: var(--navColor);
+    padding-bottom:  5px;
+}
+
+li a {
+    width: 100%;
+    height: 100%;
+}
+li a:hover {
+    background-color: var(--navLight);
+}
+
+.menu_item ul li {
+    padding: 10px;
+}
+
+.menu_item:hover > ul {
+    display: block;
+}
+
+.menu_item a {
     text-decoration: none;
     color: var(--navText);
+    padding: 10px;
 }
 
 .nav_logo_container {
@@ -76,7 +109,7 @@ body {
     color: var(--white);
 }
 
-.menu_item {
+.menu_title {
     display: flex;
 }
 
@@ -162,11 +195,6 @@ body {
     padding: 12px 25px;
 }
 
-
-/* .ticket_table thead {
-    padding: 20px;        
-} */
-
 .ticket_table thead tr {
     text-align: left;
     font-weight: bold;
@@ -174,6 +202,19 @@ body {
     font-size: 75%;
     border-bottom: 1px solid var(--tableHeaderShade);
     text-transform: uppercase;
+}
+
+.ticket-body tr {
+    border-bottom: solid 1px var(--tableHeaderColor);
+    cursor: pointer;
+}
+
+.ticket-body tr:hover {
+    /* border-bottom: solid 3px var(--mainColor);
+    border-top: solid 3px var(--mainColor); */
+    box-shadow: 0 0px 6px rgb(0 0 0 / 20%),
+    0 2px 2px rgb(0 0 0 / 20%);
+    background-color: var(--tableBodyHover); 
 }
 
 .table_headers {
@@ -276,3 +317,67 @@ body {
     padding-right: 2px;
 }
 
+/* Account Page */
+.account_wrapper {
+    padding:60px;
+}
+
+.account_info {
+    flex-grow: 1;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    border-radius: 10px;
+    border: 1px solid #dadce0;
+}
+
+.info-title {
+    padding: 20px;
+    font-size: 1.4rem;
+}
+
+.info-tag {
+    position: absolute;
+    left: 40%;
+}
+
+.info-row {
+    display: flex;
+    padding: 20px;
+    border-bottom: 1px solid #dadce0;
+    position: relative;
+}
+
+.info-label {
+    margin-right: 30px;
+    color: var(--greyText);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.password-info-section {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.password-info-row {
+    border: none;
+}
+
+.logout-area {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#logout-btn {
+    justify-content: center;
+    padding: 10px 20px 10px 20px;
+}
