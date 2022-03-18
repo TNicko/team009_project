@@ -12,6 +12,10 @@ router.get('/', async (req, res) => {
 router.get('/account', async (req, res) => {
     res.render('./account');
 })
+router.get('/tables', async (req, res) => {
+    res.render('./tables');
+})
+
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

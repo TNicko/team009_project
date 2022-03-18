@@ -381,3 +381,30 @@ li a:hover {
     justify-content: center;
     padding: 10px 20px 10px 20px;
 }
+
+/* Tables Page */
+
+.col-edit {
+    width: 25%;
+}
+
+.tables {
+    display: flex;
+}
+
+.edit-table {
+    width: 15%;
+}
+
+.col-btn {
+    padding: 5px;
+    border-radius: 50%;
+    border: 1px solid var(--greyText);
+}
+
+.col-btn:hover {
+    cursor: pointer;
+    background-color: var(--navLight);
+}
+
+
