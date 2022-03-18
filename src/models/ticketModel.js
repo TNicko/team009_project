@@ -46,6 +46,31 @@ class Ticket {
         return ticket;
     }
 
+    static async getById(conn, id) {
+        let ticketResult = await conn.query(
+            `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId
+             FROM ticket
+             WHERE ticket_id = ?`,
+            [id]
+        );
+
+        let ticket = ticketResult[0];
+        ticket = await this.#augmentTicket(conn, ticket);
+
+        return new Ticket(
+            ticket.ticketId,
+            ticket.userId,
+            ticket.status,
+            ticket.description,
+            ticket.notes,
+            ticket.handlerId,
+            ticket.expertises,
+            ticket.hardwares,
+            ticket.softwares,
+            ticket.oses
+        );
+    }
+
     static async getAll(conn,
                         skip, limit,
                         filterColumn = null, filterValue = null,
