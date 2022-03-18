@@ -16,6 +16,7 @@ services:
         image: mysql:8
         volumes:
             - ./src/db/schema.sql:/docker-entrypoint-initdb.d/0-schema.sql
+            - ./src/db/test_data.sql:/docker-entrypoint-initdb.d/1-test_data.sql
         command: --default-authentication-plugin=mysql_native_password
         environment:
             MYSQL_ROOT_PASSWORD: root
