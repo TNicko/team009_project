@@ -4,7 +4,7 @@ const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
 
 router.get('/', async (req, res) => {
-    let result = await Ticket.getAll(conn)
+    let result = await Ticket.getAll(conn, 0, 100);
     res.render('./index/specialist');
 })
 
