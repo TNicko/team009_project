@@ -8,6 +8,12 @@ router.get('/', async (req, res) => {
     res.render('./index/specialist');
 })
 
+router.get('/ticket-information', async (req, res) => {
+    res.render('./ticket-information');
+})
+router.get('/tickets', async (req, res) => {
+    res.render('./index/specialist');
+})
 router.get('/account', async (req, res) => {
     res.render('./account');
 })

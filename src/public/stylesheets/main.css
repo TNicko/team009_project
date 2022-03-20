@@ -215,6 +215,7 @@ li a:hover {
     box-shadow: 0 0px 6px rgb(0 0 0 / 20%),
     0 2px 2px rgb(0 0 0 / 20%);
     background-color: var(--tableBodyHover); 
+    cursor: pointer;
 }
 
 .table_headers {
@@ -229,6 +230,7 @@ li a:hover {
     padding: 20px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .table_title_container {
@@ -404,7 +406,22 @@ li a:hover {
 
 .col-btn:hover {
     cursor: pointer;
-    background-color: var(--navLight);
+    background-color: var(--tableHeaderShade);
+}
+
+.table_options {
+
+}
+
+.add-new-btn {
+    padding: 10px;
+    border: 1px solid var(--greyText);
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.add-new-btn:hover {
+    background-color: var(--tableHeaderShade);
 }
 
 
