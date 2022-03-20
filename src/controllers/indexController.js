@@ -8,6 +8,20 @@ router.get('/', async (req, res) => {
     res.render('./index/specialist');
 })
 
+// INDEX PAGES
+router.get('/admin', async (req, res) => {
+    res.render('./index/admin');
+})
+router.get('/analyst', async (req, res) => {
+    res.render('./index/analyst');
+})
+router.get('/ext_specialist', async (req, res) => {
+    res.render('./index/ext_specialist');
+})
+router.get('/user', async (req, res) => {
+    res.render('./index/user');
+})
+
 router.get('/ticket-information', async (req, res) => {
     res.render('./ticket-information');
 })
@@ -17,8 +31,14 @@ router.get('/tickets', async (req, res) => {
 router.get('/account', async (req, res) => {
     res.render('./account');
 })
-router.get('/tables', async (req, res) => {
-    res.render('./tables');
+router.get('/hardware', async (req, res) => {
+    res.render('./hardware');
+})
+router.get('/software', async (req, res) => {
+    res.render('./software');
+})
+router.get('/os', async (req, res) => {
+    res.render('./os');
 })
 
 
