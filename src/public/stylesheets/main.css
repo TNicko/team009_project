@@ -117,19 +117,20 @@ li a:hover {
     padding: 5px;
 }
 
-.nav_search {
+.search_item {
     display: flex;
     flex-direction: column;
     margin: 20px;
 }
 
-.nav_search ::placeholder{
+.search_item ::placeholder{
     color: var(--navText);
 }
 
 .search_container {
     padding: 5px 10px 5px 10px;
-    background-color: var(--navLight);
+    background-color: var(--white);
+    border: 1px solid var(--navLight);
     border-radius: 5px;
 }
 
@@ -160,7 +161,7 @@ li a:hover {
     border: none;
     cursor: pointer;
     outline: none;
-    color: var(--navText);
+    color: var(--navLight);
 }
 
 .main_section {
@@ -409,8 +410,9 @@ li a:hover {
     background-color: var(--tableHeaderShade);
 }
 
-.table_options {
-
+.table_options_container {
+    display: flex;
+    align-items: center;
 }
 
 .add-new-btn {

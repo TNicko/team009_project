@@ -32,13 +32,13 @@ router.get('/account', async (req, res) => {
     res.render('./account');
 })
 router.get('/hardware', async (req, res) => {
-    res.render('./hardware');
+    res.render('./tables/hardware');
 })
 router.get('/software', async (req, res) => {
-    res.render('./software');
+    res.render('./tables/software');
 })
 router.get('/os', async (req, res) => {
-    res.render('./os');
+    res.render('./tables/os');
 })
 
 
