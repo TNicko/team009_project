@@ -15,7 +15,7 @@ class TicketLog {
         let logs = await conn.query(queryString, queryParams);
 
         return logs.map(
-            log => new TicketLog(log.id, log.date, log.type, log.value)
+            log => new TicketLog(log.id, id, log.date, log.type, log.value)
         );
     }
 }
