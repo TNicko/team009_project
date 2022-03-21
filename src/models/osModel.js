@@ -4,14 +4,14 @@ class Os{
         this.serial = serial
     }
 
-    static async getAll(conn, skip, limit,  searchColumn = null, search = null, sortColumn = null, sortType = null){
+    static async getAll(conn, skip, limit, search = null, sortColumn = null, sortType = null){
 
         let queryString = "SELECT os_serial as serial, name FROM os";
         let queryParams = [];
         
         if(search !== null){
-            queryString += `\n WHERE ? = ?`;
-            queryParams.push(searchColumn, search)
+            queryString += `\n WHERE name = ? \n OR os_serial = ?`;
+            queryParams.push(search, search)
         }
 
         if(sortColumn !== null){
@@ -22,9 +22,8 @@ class Os{
         queryParams.push(skip, limit);
 
         let oss = await conn.query(queryString, queryParams);
-
         return oss.map(
-            os => new Software(os.name, os.serial)
+            os => new Os(os.name, os.serial)
         );
     }
 }

@@ -4,14 +4,14 @@ class Software{
         this.serial = serial
     }
 
-    static async getAll(conn, skip, limit,  searchColumn = null, search = null, sortColumn = null, sortType = null){
+    static async getAll(conn, skip, limit, search = null, sortColumn = null, sortType = null){
 
         let queryString = "SELECT software_serial as serial, name FROM software";
         let queryParams = [];
         
         if(search !== null){
-            queryString += `\n WHERE ? = ?`;
-            queryParams.push(searchColumn, search)
+            queryString += `\n WHERE name = ? \n OR hardware_serial = ?`;
+            queryParams.push(search, search)
         }
 
         if(sortColumn !== null){
