@@ -1,10 +1,10 @@
 class TicketLog {
-    constructor(log_id, ticket_id, update_date, update_type, update_value) {
-        this.log_id = log_id;
-        this.ticket_id = ticket_id;
-        this.update_date = update_date;
-        this.update_type = update_type;
-        this.update_value = update_value;
+    constructor(logId, ticketId, updateDate, updateType, updateValue) {
+        this.logId = logId;
+        this.ticketId = ticketId;
+        this.updateDate = updateDate;
+        this.updateType = updateType;
+        this.updateValue = updateValue;
     }
 
     static async getAllForTicketId(conn, id) {
@@ -15,7 +15,7 @@ class TicketLog {
         let logs = await conn.query(queryString, queryParams);
 
         return logs.map(
-            log => new TicketLog(log.id, log.date, log.type, log.value)
+            log => new TicketLog(log.id, id, log.date, log.type, log.value)
         );
     }
 }
