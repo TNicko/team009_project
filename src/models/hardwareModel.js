@@ -5,14 +5,14 @@ class Hardware{
     }
 
 
-    static async getAll(conn, skip, limit, search = null, sortColumn = null, sortType = null){
+    static async getAll(conn, skip, limit, searchColumn = null, search = null, sortColumn = null, sortType = null){
 
         let queryString = "SELECT hardware_serial as serial, name FROM hardware";
         let queryParams = [];
         
-        if(search !== null){
-            queryString += `\n WHERE name = ?`;
-            queryParams.push(search)
+        if(searchColumn !== null){
+            queryString += `\n WHERE ? = ?`;
+            queryParams.push(searchColumn, search)
         }
 
         if(sortColumn !== null){
