@@ -10,7 +10,7 @@ class Os{
         let queryParams = [];
         
         if(search !== null){
-            queryString += `\n WHERE name = ? \n OR os_serial = ?`;
+            queryString += `\n WHERE name = '%?%' \n OR os_serial = '%?%'`;
             queryParams.push(search, search)
         }
 
@@ -22,6 +22,7 @@ class Os{
         queryParams.push(skip, limit);
 
         let oss = await conn.query(queryString, queryParams);
+
         return oss.map(
             os => new Os(os.name, os.serial)
         );
