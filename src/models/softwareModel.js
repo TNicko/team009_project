@@ -10,7 +10,7 @@ class Software{
         let queryParams = [];
         
         if(search !== null){
-            queryString += `\n WHERE name = '%?%' \n OR software_serial = '%?%'`;
+            queryString += `\n WHERE name LIKE '%?%' \n OR software_serial LIKE '%?%'`;
             queryParams.push(search, search)
         }
 

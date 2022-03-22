@@ -11,7 +11,7 @@ class Hardware{
         let queryParams = [];
         
         if(search !== null){
-            queryString += `\n WHERE name = '%?%' \n OR hardware_serial = '%?%'`;
+            queryString += `\n WHERE name LIKE '%?%' \n OR hardware_serial LIKE '%?%'`;
             queryParams.push(search, search)
         }
 

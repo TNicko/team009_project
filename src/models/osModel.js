@@ -10,7 +10,7 @@ class Os{
         let queryParams = [];
         
         if(search !== null){
-            queryString += `\n WHERE name = '%?%' \n OR os_serial = '%?%'`;
+            queryString += `\n WHERE name LIKE '%?%' \n OR os_serial LIKE '%?%'`;
             queryParams.push(search, search)
         }
 
