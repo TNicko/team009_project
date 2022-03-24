@@ -2,68 +2,6 @@
 
 <div class="main_section">
     <div class="main_container">
-        <div class="table_top">
-            <div class="table_title_container">
-                <h1 class="table_title">Your Tickets</h1>
-                <p class="table_title_info">Total 63</p>
-            </div>
-            <%- include('../partials/pagination.ejs') %>
-        </div>
-        <table class="ticket_table">
-            <thead class="table_headers">
-                <tr>
-                    <th>Status</th> 
-                    <th>ID</th> 
-                    <th>Problem Type</th>    
-                    <th>Last Updated</th> 
-                </tr>
-            </thead>
-
-            <tbody class="ticket-body op-ticket-body">
-                 
-                <tr class="overdue">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr class="overdue">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-            </tbody>
-        </table>
+        <%- include('../partials/ticket_table.ejs') %>
     </div>
 </div>
