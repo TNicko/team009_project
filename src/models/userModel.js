@@ -69,6 +69,19 @@ class User {
         // reminder to not write this many obvious comments for your actual code unless you
         // want to get beaten up by me
     }
+    static async GetById(coon, id){
+        'SELECT user_id AS id_name, job, description, telephone, FROM user, WHERE user_id = ?'
+        [id]
+        let user = userResult[0];
+        user = await this.#augmentUser(conn,user);
+        return new user(
+            this.id,
+            this.name,
+            this.job,
+            this.department, 
+            this.telephone
+        );
+    }
 }
 
 module.exports = User;
