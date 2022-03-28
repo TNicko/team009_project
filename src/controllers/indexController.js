@@ -22,15 +22,7 @@ router.get('/user', async (req, res) => {
     res.render('./index/user');
 })
 
-router.get('/ticket-information', async (req, res) => {
-    res.render('./ticket-information');
-})
-router.get('/tickets', async (req, res) => {
-    res.render('./index/specialist');
-})
-router.get('/account', async (req, res) => {
-    res.render('./account');
-})
+// Tables
 router.get('/hardware', async (req, res) => {
     res.render('./tables/hardware');
 })
@@ -40,6 +32,18 @@ router.get('/software', async (req, res) => {
 router.get('/os', async (req, res) => {
     res.render('./tables/os');
 })
+
+// Other
+router.get('/ticket-information', async (req, res) => {
+    res.render('./ticket-information');
+})
+router.get('/account', async (req, res) => {
+    res.render('./account');
+})
+router.get('/submit_problem', async (req, res) => {
+    res.render('./submit_problem');
+})
+
 
 
 function checkAuthenticated(req, res, next) {
