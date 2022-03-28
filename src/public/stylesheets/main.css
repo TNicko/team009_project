@@ -16,6 +16,10 @@ body {
     flex-direction: column;
 }
 
+button {
+    cursor: pointer;
+}
+
 .top_section {
     display: flex;
     flex-direction: column;
@@ -120,7 +124,6 @@ li a:hover {
 .search_item {
     display: flex;
     flex-direction: column;
-    margin: 20px;
 }
 
 .search_item ::placeholder{
@@ -149,7 +152,7 @@ li a:hover {
 .search_input {
     width: 100%;
     max-width: 600px;
-    min-width: 300px;
+    min-width: 50px;
     position: relative;
     display: inline-block;
     font-size: 14px;
@@ -159,7 +162,6 @@ li a:hover {
 .search_btn {
     background: none;
     border: none;
-    cursor: pointer;
     outline: none;
     color: var(--navLight);
 }
@@ -171,9 +173,25 @@ li a:hover {
     margin-top: 50px;
 }
 
+.main_spec {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+.main_spec_container {
+    background-color: var(--white);
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 6px var(--tableHeaderShade);
+    margin: 30px;
+}
+
 .main_container {
     background-color: var(--white);
-    width: 75%;
+    width: 90%;
     border-radius: 10px 10px 10px 10px;
     box-shadow: 0 0 1px var(--tableHeaderShade),
     0 0 1px var(--tableHeaderShade),
@@ -289,7 +307,6 @@ li a:hover {
 
 .t-button:hover {
     background-color: #dee6f1;
-    cursor: pointer;
 }
 
 .t-arrow {
@@ -341,8 +358,17 @@ li a:hover {
 }
 
 .info-title {
-    padding: 20px;
     font-size: 1.4rem;
+}
+
+.info-top {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-btn {
+    padding: 10px;
 }
 
 .info-tag {
@@ -418,7 +444,6 @@ li a:hover {
 .add-new-btn {
     padding: 10px;
     border: 1px solid var(--greyText);
-    cursor: pointer;
     border-radius: 5px;
 }
 
