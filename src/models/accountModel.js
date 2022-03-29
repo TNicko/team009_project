@@ -8,7 +8,7 @@ class Account {
 
     static async getByName(conn, name) {
             let accountResult = await conn.query(
-                `SELECT user_id AS id,username,password FROM account
+                `SELECT user_id AS id,username,password
                  FROM account
                  WHERE username = ?`,
                 [name]
