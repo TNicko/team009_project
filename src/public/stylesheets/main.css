@@ -200,6 +200,11 @@ li a:hover {
     0 0 6px var(--tableHeaderShade);
 }
 
+.table_section {
+    overflow-y: scroll;
+    height: 500px;
+}
+
 .ticket_table {
     border-collapse:collapse;
     border-spacing: -200px 0;
@@ -210,6 +215,7 @@ li a:hover {
     z-index: 2;
     width: 100%;
 }
+
 .ticket_table td, .ticket_table th {
     padding: 12px 25px;
 }
@@ -338,11 +344,11 @@ li a:hover {
 }
 
 /* Account Page */
-.account_wrapper {
+.information_wrapper {
     padding:60px;
 }
 
-.account_info {
+.all_info {
     flex-grow: 1;
     font-size: 0.9rem;
     display: flex;
@@ -374,6 +380,12 @@ li a:hover {
 .info-tag {
     position: absolute;
     left: 40%;
+    padding: 0px;
+    border: none;
+}
+
+input.info-tag{
+    border-bottom: 1px solid #dadce0;
 }
 
 .info-row {
@@ -381,6 +393,7 @@ li a:hover {
     padding: 20px;
     border-bottom: 1px solid #dadce0;
     position: relative;
+    align-items: center;
 }
 
 .info-label {
@@ -388,6 +401,34 @@ li a:hover {
     color: var(--greyText);
     text-transform: uppercase;
     font-size: 0.8rem;
+}
+
+.textarea-row {
+    padding-bottom: 130px;
+    align-items: baseline;
+}
+
+.textarea-solution {
+    padding-bottom: 170px;
+    align-items: baseline;
+}
+
+.textarea-input {
+    left: 40%;
+    padding: 0;
+    margin: -10px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-text {
+    padding: 5px;
+}
+
+.submit-btn {
+    padding: 5px;
+    margin-top: 15px;
 }
 
 .password-info-section {
@@ -451,4 +492,121 @@ li a:hover {
     background-color: var(--tableHeaderShade);
 }
 
+/* submit_problem Section */
 
+.submission_wrapper {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.submission_section {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.submission_item {
+    padding: 20px;
+}
+
+.submission_subtitle {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.user-textarea {
+    padding: 5px;
+    font-size: 1.2vw;
+}
+
+.submit_section {
+    display: flex;
+    justify-content: center;
+}
+
+#submit-problem-btn {
+    padding: 5px;
+}
+
+.checkbox_section {
+    padding-top: 30px;
+}
+
+/* --- Checkbox CSS --- */
+/* Customize the label (the container) */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-bottom: 20px;
+  }
+  
+  .checkbox_p {
+    font-size: 12px;
+    padding-bottom: 20px;
+    color: var(--navColor);
+  }
+
+  /* Hide the browser's default checkbox */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container .checkmark:after {
+    left: 6px;
+    top: 3px;
+    width: 3px;
+    height: 5px;
+    border: solid white;
+    border-width: 0 1px 1px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }

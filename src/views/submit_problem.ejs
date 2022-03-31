@@ -1,10 +1,53 @@
 <%- include('./partials/user_navbar.ejs') %>
 
-
 <div class="main_section">
     <div class="main_container">
-        
-       
-        
+        <div class="information_section">
+            <div class="submission_wrapper">
+                <h1>Submit a problem</h1>
+                <div class="submission_section">
+                    <div class="submission_item problem_type_section">
+                        <h2 class="submission_title">Problem Type</h2>
+                        <p class="submission_subtitle">What kind of problem are you experiencing?</p>
+                        <div class="checkbox_section">
+                            <p class="checkbox_p">Select one or more options:</p>
+                            <label class="container">Hardware
+                                <input type="checkbox" checked="checked">
+                                <span class="checkmark"></span>
+                              </label>
+                              
+                              <label class="container">Software
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                              </label>
+                              
+                              <label class="container">Network
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                              </label>
+                              
+                              <label class="container">Other
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                              </label>
+                        </div>
+                    </div>
+                    <div class="submission_item description_section">
+                        <h2 class="submission_title">Description</h2>
+                        <p class="submission_subtitle">Please describe the issue: </p>
+                        <textarea name="description" class="user-textarea" id="user_description" cols="60" rows="10"></textarea>
+                    </div>
+                    <div class="submission_item notes_section">
+                        <h2 class="submission_title">Notes</h2>
+                        <p class="submission_subtitle">Provide any extra details: </p>
+                        <textarea name="notes" placeholder="optional..." class="user-textarea" id="user_notes" cols="60" rows="10"></textarea>
+
+                    </div>
+                    <div class="submission_item submit_section">
+                        <button id="submit-problem-btn">Submit Problem</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
 </div>
