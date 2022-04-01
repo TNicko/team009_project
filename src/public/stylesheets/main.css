@@ -537,7 +537,8 @@ input.info-tag{
 
 .problem_type_input {
     padding-bottom: 10px;
-    
+    flex-direction: column;
+    display: none;
 }
 
 .pt_input_field {
@@ -702,10 +703,6 @@ input.info-tag{
     font-size: 13px;
     display: flex;
     flex-direction: column;
-}
-
-.problem_type_input {
-    display: none;
 }
 
 
