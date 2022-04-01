@@ -535,9 +535,19 @@ input.info-tag{
     padding-top: 30px;
 }
 
+.problem_type_input {
+    padding-bottom: 10px;
+    
+}
+
+.pt_input_field {
+    padding: 5px;
+    
+}
+
 /* --- Checkbox CSS --- */
 /* Customize the label (the container) */
-.container {
+.chb_container {
     display: block;
     position: relative;
     padding-left: 35px;
@@ -558,7 +568,7 @@ input.info-tag{
   }
 
   /* Hide the browser's default checkbox */
-  .container input {
+  .chb_container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -577,12 +587,12 @@ input.info-tag{
   }
   
   /* On mouse-over, add a grey background color */
-  .container:hover input ~ .checkmark {
+  .chb_container:hover input ~ .checkmark {
     background-color: #ccc;
   }
   
   /* When the checkbox is checked, add a blue background */
-  .container input:checked ~ .checkmark {
+  .chb_container input:checked ~ .checkmark {
     background-color: #2196F3;
   }
   
@@ -594,12 +604,12 @@ input.info-tag{
   }
   
   /* Show the checkmark when checked */
-  .container input:checked ~ .checkmark:after {
+  .chb_container input:checked ~ .checkmark:after {
     display: block;
   }
   
   /* Style the checkmark/indicator */
-  .container .checkmark:after {
+  .chb_container .checkmark:after {
     left: 6px;
     top: 3px;
     width: 3px;
@@ -610,3 +620,95 @@ input.info-tag{
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+
+  /* Admin View  */
+
+#admin_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.admin_top {
+    display: flex;
+    justify-content: center;
+    width: 60%;
+
+}
+
+.admin_panel {
+    padding:40px 120px;
+    margin-bottom: 20px;
+    margin: 10px;
+    background-color: var(--white);
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 6px var(--tableHeaderShade);
+    overflow: hidden;
+
+    display: flex;
+    position: relative;
+}
+
+.strike_line {
+    position: absolute;
+    padding: 3px;
+    top: -8px;
+    right:0;
+    left: 10px;
+    width: 2px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    height: 60%; 
+    transform: rotate(45deg);
+}
+
+.sl1{ background: var(--panelYellow); }
+.pi1{color: var(--panelYellow);}
+
+.sl2{ background: var(--panelGreen); }
+.pi2{ color: var(--panelGreen);}
+
+.sl3{ background: var(--panelRed); }
+.pi3{ color: var(--panelRed);}
+
+.sl4{ background: var(--panelBlue); }
+.pi4{ color: var(--panelBlue);}
+
+.panel_info {
+    position: absolute;
+    top: 30%;
+    right: 0;
+    left: 25px;
+    width: 2px;
+    display: flex;
+}
+
+.panel_icon {
+    font-size: 25px;
+}
+
+.panel_title {
+    padding-left: 10px;
+}
+
+.panel_title p:first-of-type {
+    text-transform: uppercase;
+    color: var(--greyText);
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+}
+
+.problem_type_input {
+    display: none;
+}
+
+
+
+
+

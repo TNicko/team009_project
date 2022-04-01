@@ -11,25 +11,49 @@
                         <p class="submission_subtitle">What kind of problem are you experiencing?</p>
                         <div class="checkbox_section">
                             <p class="checkbox_p">Select one or more options:</p>
-                            <label class="container">Hardware
-                                <input type="checkbox" checked="checked">
+                            <label class="chb_container">Hardware
+                                <input type="checkbox" class="chb" id="chb_hardware">
                                 <span class="checkmark"></span>
-                              </label>
-                              
-                              <label class="container">Software
-                                <input type="checkbox">
+                            </label>
+                            <div class="problem_type_input" id="hardware_input">
+                                <input type="text" class="pt_input_field" list="hardware_list" placeholder="hardware id" value="">
+                                <datalist id="hardware_list">
+                                    <option value="93489384"></option> 
+                                    <option value="93489384"></option> 
+                                    <option value="93489384"></option> 
+                                </datalist>
+                            </div>
+                            
+                            <label class="chb_container">Software
+                                <input type="checkbox" class="chb" id="chb_software">
                                 <span class="checkmark"></span>
-                              </label>
-                              
-                              <label class="container">Network
-                                <input type="checkbox">
+                            </label>
+                            <div class="problem_type_input" id="software_input">
+                                <input type="text" class="pt_input_field"  list="software_list" placeholder="software id" value="">
+                                <datalist id="software_list">
+                                    <option value="93489384"></option> 
+                                    <option value="93489384"></option> 
+                                    <option value="93489384"></option> 
+
+                                </datalist>
+                            </div>
+                            
+                            <label class="chb_container">Network
+                                <input type="checkbox" class="chb" id="chb_network">
                                 <span class="checkmark"></span>
-                              </label>
-                              
-                              <label class="container">Other
-                                <input type="checkbox">
+                            </label>
+                            <div class="problem_type_input">
+                                <input type="text" class="pt_input_field" placeholder="" value="">
+                            </div>
+
+                            <label class="chb_container">Other
+                                <input type="checkbox" class="chb" id="chb_other">
                                 <span class="checkmark"></span>
-                              </label>
+                            </label>
+                            <div class="problem_type_input" id="other_input">
+                                <input type="text" class="pt_input_field" placeholder="other..." value="">
+                            </div>
+
                         </div>
                     </div>
                     <div class="submission_item description_section">
@@ -51,3 +75,5 @@
         </div> 
     </div>
 </div>
+
+<script src="scripts/submit_problem.js" type="text/javascript"></script>
