@@ -17,13 +17,18 @@
                             </label>
                             <div class="problem_type_input" id="hardware_input">
                                 <p>Provide hardware serial number:</p>
-                                <input type="text" class="pt_input_field" list="hardware_list" placeholder="hardware id" value="">
+                                <div class="hardware_input_sec">
+                                    <input type="text" class="pt_input_field" list="hardware_list" placeholder="hardware id" value="">
+                                    <div class="input_del">
+                                        <!-- <button class="delete_input_btn"><i class="fa-solid fa-trash-can"></i></button> -->
+                                    </div>
+                                 </div>
                                 <datalist id="hardware_list">
                                     <option value="93489384"></option> 
                                     <option value="93489384"></option> 
                                     <option value="93489384"></option> 
                                 </datalist>
-                                <button class="add_input_btn">Add hardware</button>
+                                <button class="add_input_btn" id="add_hardware_btn">Add hardware</button>
                             </div>
                             
                             <label class="chb_container">Software
@@ -31,13 +36,18 @@
                                 <span class="checkmark"></span>
                             </label>
                             <div class="problem_type_input" id="software_input">
-                                <input type="text" class="pt_input_field"  list="software_list" placeholder="software id" value="">
+                                <div class="software_input_sec">
+                                    <input type="text" class="pt_input_field" list="software_list" placeholder="software id" value="">
+                                    <div class="input_del">
+
+                                    </div>
+                                 </div>
                                 <datalist id="software_list">
                                     <option value="93489384"></option> 
                                     <option value="93489384"></option> 
                                     <option value="93489384"></option> 
-
                                 </datalist>
+                                <button class="add_input_btn" id="add_software_btn">Add software</button>
                             </div>
                             
                             <label class="chb_container">Network

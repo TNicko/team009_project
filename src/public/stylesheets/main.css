@@ -546,6 +546,15 @@ input.info-tag{
     
 }
 
+.hardware_input_sec {
+    display: flex;
+    align-items: center;
+}
+
+.input_del {
+    margin-left: 10px;
+}
+
 /* --- Checkbox CSS --- */
 /* Customize the label (the container) */
 .chb_container {
