@@ -82,20 +82,20 @@ VALUES (5247, 'specialist1', 'specialist'),
        (3267, 'user7', 'user');
 
 INSERT INTO expertise
-VALUES (0, 'Hardware'),
+VALUES (3, 'Hardware'),
        (1, 'Software'),
        (2, 'Network');
 
 INSERT INTO handler_expertise
-VALUES (5247, 0),
+VALUES (5247, 3),
        (5280, 1),
        (5280, 2),
-       (1911, 0),
+       (1911, 3),
        (1911, 1);
 -- ??? Ex Spec expertise ???
 
 INSERT INTO ticket
-VALUES (0, 5177, 'closed', 'Printer out of ink', NULL, 5247),
+VALUES (13, 5177, 'closed', 'Printer out of ink', NULL, 5247),
        (1, 3629, 'closed', 'Mouse Bluetooth not connecting with Mac', NULL, 1911),
        (2, 3975, 'closed', 'Adobe not working', NULL, 5280),
 
@@ -112,15 +112,15 @@ VALUES (0, 5177, 'closed', 'Printer out of ink', NULL, 5247),
        (12, 2222, 'active', 'Printer out of ink', 'Cannot find ink', NULL);
 
 INSERT INTO ticket_log
-VALUES (0, 4, '2022-01-01 20:10:00', 'notes', 'Everything is plugged in'),
+VALUES (3, 4, '2022-01-01 20:10:00', 'notes', 'Everything is plugged in'),
        (1, 6, '2022-01-01 20:10:00', 'handler', 'Joey John'),
        (2, 3, '2022-01-01 20:10:00', 'notes', 'Cannot find ink');
 
 INSERT INTO feedback
-VALUES (0, 5, '2022-02-01 20:10:00', 'Mouse charged but connection still not working', 2222);
+VALUES (1, 5, '2022-02-01 20:10:00', 'Mouse charged but connection still not working', 2222);
 
 INSERT INTO solution
-VALUES (0, 0, '2022-01-01 20:10:00', 'successful', 5247, 'Insert more ink into printer'),
+VALUES (6, 13, '2022-01-01 20:10:00', 'successful', 5247, 'Insert more ink into printer'),
        (1, 1, '2022-02-01 20:10:00', 'successful', 1911, 'Select correct mouse from bluetooth list on mac'),
        (2, 2, '2022-02-01 20:10:00', 'successful', 5280, 'Login using new credentials'),
        (3, 3, '2022-02-02 20:10:00', 'pending', 1911, 'Get ink from storage room and replace in printer'),
@@ -128,22 +128,22 @@ VALUES (0, 0, '2022-01-01 20:10:00', 'successful', 5247, 'Insert more ink into p
        (5, 7, '2022-02-02 20:10:00', 'pending', 5247, 'Plug keyboard into computer');
 
 INSERT INTO ticket_expertise
-VALUES (0, 0),
-       (0, 1),
+VALUES (3, 13),
+       (3, 1),
        (1, 2),
-       (0, 3),
-       (0, 4),
-       (0, 5),
+       (3, 3),
+       (3, 4),
+       (3, 5),
        (1, 6),
-       (0, 7),
+       (3, 7),
        (2, 8),
-       (0, 9),
+       (3, 9),
        (2, 10),
-       (0, 11),
-       (0, 12);
+       (3, 11),
+       (3, 12);
 
 INSERT INTO ticket_hardware
-VALUES ('ETA52-AMWB3-9QM68', 0),
+VALUES ('ETA52-AMWB3-9QM68', 13),
        ('09BL0-17EBV-6JXA6', 1),
        ('N4F9Y-MO2LP-Y5KTK', 1),
        ('BU98S-FRHK2-KSO1Z', 2),

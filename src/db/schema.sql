@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS os (
 );
 
 CREATE TABLE IF NOT EXISTS user (
-    user_id INT UNSIGNED,
+    user_id INT UNSIGNED AUTO_INCREMENT,
     name VARCHAR(150),
     job VARCHAR(100),
     department VARCHAR(100),
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS user (
 -- );
 
 CREATE TABLE IF NOT EXISTS account (
-    user_id INT UNSIGNED,
+    user_id INT UNSIGNED AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     PRIMARY KEY (user_id),
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS account (
 );
 
 CREATE TABLE IF NOT EXISTS expertise (
-    expertise_id INT UNSIGNED,
+    expertise_id INT UNSIGNED AUTO_INCREMENT,
     name VARCHAR(100),
     PRIMARY KEY (expertise_id)
 );
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS handler_expertise (
 
 
 CREATE TABLE IF NOT EXISTS ticket (
-    ticket_id INT UNSIGNED,
+    ticket_id INT UNSIGNED AUTO_INCREMENT,
     user_id INT UNSIGNED NOT NULL,
     status ENUM('active', 'submitted', 'closed', 'unsuccessful') NOT NULL, 
     description VARCHAR(300) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS ticket (
 );
 
 CREATE TABLE IF NOT EXISTS ticket_log(
-    log_id INT UNSIGNED,
+    log_id INT UNSIGNED AUTO_INCREMENT,
     ticket_id INT UNSIGNED,
     update_date DATETIME NOT NULL,
     update_type VARCHAR(100) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS ticket_log(
 );
 
 CREATE TABLE IF NOT EXISTS feedback(
-    feedback_id INT UNSIGNED,
+    feedback_id INT UNSIGNED AUTO_INCREMENT,
     ticket_id INT UNSIGNED,
     datetime DATETIME NOT NULL,
     feedback VARCHAR(1000) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS feedback(
 );
 
 CREATE TABLE IF NOT EXISTS solution(
-    solution_id INT UNSIGNED,
+    solution_id INT UNSIGNED AUTO_INCREMENT,
     ticket_id INT UNSIGNED,
     datetime DATETIME NOT NULL,
     solution_status ENUM('successful', 'pending', 'unsuccessful') NOT NULL,
