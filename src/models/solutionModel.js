@@ -19,5 +19,21 @@ class Solution {
             row => new Solution(row.id, id, row.dateTime, row.status, row.handlerId, row.solution)
         );
     }
+
+    static async createForTicket(conn){
+        // Take values from created object?
+        let queryString =
+            "INSERT INTO solution VALUES (?, ?, ?, ?, ?)";
+        let queryParams = [id, this.dateTime, this.solutionStatus, this.handlerId, this.solution];
+
+        let result = await conn.query(queryString, queryParams);
+        
+    }
+
+    static async updateById(conn, solutionId, ticketId, status, handlerId, solution){
+        let queryString = "UPDATE solution SET ticket_id = ?, solution_status = ?, handler_id = ?, solution = ? WHERE solution_id = ?"
+        let queryParams = [ticketId, status, handlerId, solution, solutionId]
+        let result = await conn.query(queryString, queryParams);
+    }
 }
 module.exports = Solution;
