@@ -111,6 +111,49 @@ class Ticket {
             )
         );
     }
+
+    static async create(conn, userId, status, description, notes, handlerId) {
+        // ticketId is not going to be used for the creation because it is auto incrementing.
+        // Hardware/software/OS are separate to the ticket table, so they are handled in their
+        // own respective models.
+        let queryString = `
+            INSERT INTO ticket (user_id, status, description, notes, handler_id)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        let queryParams = [userId, status, description, notes, handlerId];
+
+        await conn.query(queryString, queryParams);
+    }
+
+    static async updateById(conn,
+                            ticketId,
+                            userId = null,
+                            status = null,
+                            description = null,
+                            notes = null,
+                            handlerId = null) {
+        let queryString = "UPDATE ticket SET ticket_id = ?";
+        let queryParams = [ticketId];
+
+        const addToQuery = (param, name) => {
+            if (param != null)
+            {
+                queryString += `, ${name} = ? `;
+                queryParams.push(param)
+            }
+        };
+
+        addToQuery(userId, "user_id");
+        addToQuery(status, "status");
+        addToQuery(description, "description");
+        addToQuery(notes, "notes");
+        addToQuery(handlerId, "handler_id");
+
+        queryString += "WHERE ticket_id = ?";
+        queryParams.push(ticketId)
+
+        await conn.query(queryString, queryParams);
+    }
 }
 
 module.exports = Ticket;
