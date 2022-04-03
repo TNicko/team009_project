@@ -111,6 +111,19 @@ class Ticket {
             )
         );
     }
+
+    static async create(conn, userId, status, description, notes, handlerId) {
+        // ticketId is not going to be used for the creation because it is auto incrementing.
+        // Hardware/software/OS are separate to the ticket table, so they are handled in their
+        // own respective models.
+        let queryString = `
+            INSERT INTO ticket (user_id, status, description, notes, handler_id)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        let queryParams = [userId, status, description, notes, handlerId];
+
+        await conn.query(queryString, queryParams);
+    }
 }
 
 module.exports = Ticket;
