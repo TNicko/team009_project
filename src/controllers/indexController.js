@@ -43,6 +43,12 @@ router.get('/account', async (req, res) => {
 router.get('/submit_problem', async (req, res) => {
     res.render('./submit_problem');
 })
+router.get('/all_tickets', async (req, res) => {
+    res.render('./submit_problem');
+})
+router.get('/users', async (req, res) => {
+    res.render('./users');
+})
 
 
 
