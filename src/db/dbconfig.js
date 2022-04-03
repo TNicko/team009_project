@@ -28,3 +28,4 @@ conn.connect(function (error) {
 // util.promisify so that it's generally easier to work with the mysql client.
 const query = util.promisify(conn.query).bind(conn);
 module.exports = { query: query };
+

@@ -1,101 +1,90 @@
 <%- include('../partials/spec_navbar.ejs') %>
 
 <div class="main_section">
-    <div class="main_container">
-        <div class="table_top">
-            <div class="table_title_container">
-                <h1 class="table_title">Your Tickets</h1>
-                <p class="table_title_info">Total 63</p>
-            </div>
-            <div class="table_scroll_section">
-                <div class="table_scroll_container">
-                    <button class="t-button t-button-left first-page">
-                        <div class="table-button-content">First</div>
-                    </button>
-                    <button class="t-button t-button-left t-arrow back-page">
-                        <div class="t-button-content">
-                            <span class="table-icon">
-                                <svg style="fill:currentColor" color="currentColor" viewBox="0 0 24 24" width="20" height="20">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.586 12l5.707-5.707a1 1 0 111.414 1.414L10.414 12l4.293 4.293a1 1 0 01-1.414 1.414L7.586 12z" fill=""></path>
-                                </svg>
-                            </span>
-                        </div>
-                    </button>
-                    <span class="page-info">
-                        <span class="page-num">1</span>
-                        <span class="page-sep">/</span>
-                        <span class="number_of_pages">10</span>
-                    </span>
-                    <button class="t-button t-button-right t-arrow next-page">
-                        <div class="table-button-content">
-                            <span class="table-icon">
-                                <svg color="currentColor" viewBox="0 0 24 24" width="20" height="20" style="fill: currentcolor;">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.414 12l-5.707 5.707a1 1 0 01-1.414-1.414L13.586 12 9.293 7.707a1 1 0 011.414-1.414L16.414 12z" fill=""></path>
-                                </svg>  
-                            </span>
-                        </div>
-                    </button>
-                    <button class="t-button t-button-right last-page">
-                        <div class="table-button-content">Last</div>
-                    </button>
+    <div class="main_spec">
+        
+        <div class="main_spec_container">
+            <%- include('../partials/ticket_table.ejs') %>
+        </div>
+
+        <div class="main_spec_container">
+            <div class="table_section">
+                <div class="table_top">
+                    <div class="table_title_container">
+                        <h1 class="table_title">Open Tickets</h1>
+                        <p class="table_title_info">Total 12</p>
+                    </div>
+                    <div class="table_options_container">
+                        <%- include('../partials/pagination.ejs') %>
+                    </div>
                 </div>
+                <table class="ticket_table">
+                    <thead class="table_headers">
+                        <tr>
+                            <th>ID</th> 
+                            <th>Problem Type</th>
+                            <th>Title</th>    
+                            <th>Last Updated</th> 
+                        </tr>
+                    </thead>
+            
+                    <tbody class="ticket-body op-ticket-body">
+                        
+                        <tr class="overdue">
+                            <!-- <td class="active">Active</td> -->
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                        </tr>
+                        <tr class="overdue">
+                            <!-- <td class="active">Active</td> -->
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                        </tr>
+                        <tr data-href="">
+                            <!-- <td class="active">Active</td> -->
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                        </tr>
+                        <tr data-href="">
+                            <!-- <td class="active">Active</td> -->
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                        </tr>
+                        <tr data-href="">
+                            <!-- <td class="active">Active</td> -->
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                        </tr>
+                        <tr data-href="">
+                            <!-- <td class="active">Active</td> -->
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                        </tr>
+                        <tr data-href="">
+                            <!-- <td class="active">Active</td> -->
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <table class="ticket_table">
-            <thead class="table_headers">
-                <tr>
-                    <th>Status</th> 
-                    <th>ID</th> 
-                    <th>Problem Type</th>    
-                    <th>Last Updated</th> 
-                </tr>
-            </thead>
 
-            <tbody class="ticket-body op-ticket-body">
-                 
-                <tr class="overdue">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr class="overdue">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-                <tr data-href="">
-                    <td class="active">Active</td>
-                    <td>3</td>
-                    <td>Software</td>
-                    <td>20/03/27</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>
+
+<script src="scripts/index.js" type="text/javascript"></script>

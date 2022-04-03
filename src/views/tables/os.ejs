@@ -1,0 +1,113 @@
+<%- include('../partials/spec_navbar.ejs') %>
+
+<div class="main_section">
+    <div class="main_container">
+        <div class="table_top">
+            <div class="table_title_container">
+                <h1 class="table_title">Operating Systems</h1>
+                <p class="table_title_info">Total 4</p>
+            </div>
+
+            <div class="table_options_container">
+                
+                <div class="table_options">
+                    <button class="add-new-btn">
+                        Add New
+                    </button>
+                </div>
+            <!-- Searchbar -->
+            
+            <div class="search_item">
+                <div class="search_container">
+                    <form>
+                        <button class="search_btn"><i class="fas fa-sliders-h"></i></button>
+                        <input type="text" class="search_input" placeholder="Search OS">
+                        <button class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+                <!-- Search Filters-->
+                <div class="search_filters">
+
+                </div>
+
+            </div>
+
+            <%- include('../partials/pagination.ejs') %>
+            </div>
+
+        </div>
+        <div class="tables">
+            <table class="ticket_table">
+                <thead class="table_headers">
+                    <tr>
+                        <th>Serial Number</th> 
+                        <th>Name</th> 
+                        <!-- <th class="col-edit"></th>  -->
+                    </tr>
+                </thead>
+    
+                <tbody class="ticket-body op-ticket-body">
+                     
+                    <tr>
+                        <td>G4G69-RJHCP-N3IZ3</td>
+                        <td>Windows</td>
+                        <!-- <td class="col-edit"><i class="fa-solid fa-pen"></i></td> -->
+                    </tr>
+                    <tr>
+                        <td>G4G69-RJHCP-N3IZ3</td>
+                        <td>Windows</td>
+                        <!-- <td class="col-edit"><i class="fa-solid fa-pen"></i></td> -->
+                    </tr>
+                    <tr>
+                        <td>G4G69-RJHCP-N3IZ3</td>
+                        <td>Windows</td>  
+                        <!-- <td class="col-edit"><i class="fa-solid fa-pen"></i></td> -->
+                    </tr>
+                    <tr>
+                        <td>G4G69-RJHCP-N3IZ3</td>
+                        <td>Windows</td>
+                        <!-- <td class="col-edit"><i class="fa-solid fa-pen"></i></td> -->
+                    </tr>
+                  
+                </tbody>
+            </table>
+            <table class="ticket_table edit-table">
+                <thead class="table_headers blank-header">
+                    <tr>
+                        <th>edit</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-edit">
+                            <button class="col-btn">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-edit">
+                            <button class="col-btn">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-edit">
+                            <button class="col-btn">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                            <td class="col-edit">
+                                <button class="col-btn">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                            </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

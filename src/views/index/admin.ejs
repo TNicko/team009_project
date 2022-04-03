@@ -1,1 +1,176 @@
 <%- include('../partials/admin_navbar.ejs') %>
+
+<div class="main_section" id="admin_section">
+        <div class="admin_top">
+            <div class="admin_panel">
+                <div class="strike_line sl1">
+
+                </div>
+                <div class="panel_info">
+                    <div class="panel_icon pi1">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="panel_title">
+                        <p>Unassigned</p>
+                        <p>5</p>
+                    </div>
+                        
+                </div>
+
+        
+            </div>
+            <div class="admin_panel">
+                <div class="strike_line sl2">
+
+                </div>
+                <div class="panel_info">
+                    <div class="panel_icon pi2">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
+                    <div class="panel_title">
+                        <p>Assigned</p>
+                        <p>23</p>
+                    </div>
+                        
+                </div>
+                
+            </div>
+            <div class="admin_panel">
+                <div class="strike_line sl3">
+
+                </div>
+                <div class="panel_info">
+                    <div class="panel_icon pi3">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="panel_title">
+                        <p>Overdue</p>
+                        <p>1</p>
+                    </div>
+                        
+                </div>
+                
+            </div>
+            <div class="admin_panel">
+                <div class="strike_line sl4">
+
+                </div>
+                <div class="panel_info">
+                    <div class="panel_icon pi4">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <div class="panel_title">
+                       <p>Other</p>
+                       <p>02093</p>
+                    </div>
+                        
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="main_container">
+        
+            <div class="table_section">
+                <div class="table_top">
+                    <div class="table_title_container">
+                        <h1 class="table_title">Your Tickets</h1>
+                        <p class="table_title_info">Total 63</p>
+                    </div>
+                    <div class="table_options_container">
+                        <!-- Searchbar -->
+                        <div class="search_item">
+                            <div class="search_container">
+                                <form>
+                                    <button class="search_btn"><i class="fas fa-sliders-h"></i></button>
+                                    <input type="text" class="search_input" placeholder="Search Ticket">
+                                    <button class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                            <!-- Search Filters -->
+                            <div class="search_filters">
+            
+                            </div>
+                        </div>
+                        <%- include('../partials/pagination.ejs') %>
+                    </div>
+            
+                </div>
+            
+                <table class="ticket_table">
+                    <thead class="table_headers">
+                        <tr>
+                            <th>Status</th> 
+                            <th>ID</th> 
+                            <th>Problem Type</th>
+                            <th>Title</th>    
+                            <th>Last Updated</th>
+                            <th>Specialist</th> 
+                        </tr>
+                    </thead>
+            
+                    <tbody class="ticket-body op-ticket-body">
+                        
+                        <tr class="overdue">
+                            <td class="active">Active</td>
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                            <td>Nickolai Tchesnokov</td>
+                        </tr>
+                        <tr class="overdue">
+                            <td class="active">Active</td>
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                            <td>Nickolai Tchesnokov</td>
+                        </tr>
+                        <tr data-href="">
+                            <td class="active">Active</td>
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                            <td>Nickolai Tchesnokov</td>
+                        </tr>
+                        <tr data-href="">
+                            <td class="active">Active</td>
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                            <td>Nickolai Tchesnokov</td>
+                        </tr>
+                        <tr data-href="">
+                            <td class="active">Active</td>
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                            <td>Nickolai Tchesnokov</td>
+                        </tr>
+                        <tr data-href="">
+                            <td class="active">Active</td>
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                            <td>-</td>
+                        </tr>
+                        <tr data-href="">
+                            <td class="active">Active</td>
+                            <td>3</td>
+                            <td>Software</td>
+                            <td>Broken Computer</td>
+                            <td>20/03/27</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+</div>
