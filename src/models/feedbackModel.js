@@ -19,7 +19,7 @@ class Feedback {
         );
     }
 
-    static async createForTicket(conn, id, feedback, userId){
+    static async createForTicket(conn, ticketId, feedback, userId){
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds;
@@ -27,9 +27,9 @@ class Feedback {
 
         let queryString =
             "INSERT INTO feedback VALUES (?, ?, ?, ?)";
-        let queryParams = [id, dateTime, feedback, userId];
+        let queryParams = [ticketId, dateTime, feedback, userId];
 
-        let result = await conn.query(queryString, queryParams);
+        await conn.query(queryString, queryParams);
     }
 
     static async updateById(conn, feedbackId, ticketId = null, feedback = null, userId = null){
