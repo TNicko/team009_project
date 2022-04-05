@@ -33,12 +33,7 @@ class Feedback {
     }
 
     static async updateById(conn, feedbackId, ticketId = null, feedback = null, userId = null){
-        // const object = {'ticket_id': ticketId, 'b': 2, 'c' : 3};
-        // for (const [key, value] of Object.entries(object)) {
-        // console.log(key, value);}
-
-        let params = [ticketId, feedback, userId];
-        let paramNames = ['ticket_id', 'feedback', 'user_id']
+        const allParams = {'ticket_id': ticketId, 'feedback': feedback, 'user_id' : userId};
         let queryString = "";
         let queryParams = [];
 
@@ -49,13 +44,12 @@ class Feedback {
             }
         }
 
-        for(var i = 0; i < params.length; i++){
-            if(params[i] != null && !queryParams.length){
-                queryString += `UPDATE feedback SET ${paramNames[i]} = ?`;
-                queryParams.push(params[i]);
-
+        for (const [name, param] of Object.entries(allParams)) {
+            if(param != null && !queryParams.length){
+                queryString += `UPDATE feedback SET ${name} = ?`;
+                queryParams.push(param);
             }else{
-                addToQuery(params[i],paramNames[i]);
+                addToQuery(param,name);
             }
         }
 
