@@ -32,10 +32,38 @@ class Feedback {
         let result = await conn.query(queryString, queryParams);
     }
 
-    static async updateById(conn, feedbackId, ticketId, feedback, userId){
-        let queryString = "UPDATE feedback SET ticket_id = ?, feedback = ?, user_id = ? WHERE feedback_id = ?"
-        let queryParams = [ticketId, feedback, userId, feedbackId]
-        let result = await conn.query(queryString, queryParams);
+    static async updateById(conn, feedbackId, ticketId = null, feedback = null, userId = null){
+        // const object = {'ticket_id': ticketId, 'b': 2, 'c' : 3};
+        // for (const [key, value] of Object.entries(object)) {
+        // console.log(key, value);}
+
+        let params = [ticketId, feedback, userId];
+        let paramNames = ['ticket_id', 'feedback', 'user_id']
+        let queryString = "";
+        let queryParams = [];
+
+        const addToQuery = (param, name) => {
+            if(param != null){
+                queryString += `,${name} = ? `;
+                queryParams.push(param);
+            }
+        }
+
+        for(var i = 0; i < params.length; i++){
+            if(params[i] != null && !queryParams.length){
+                queryString += `UPDATE feedback SET ${paramNames[i]} = ?`;
+                queryParams.push(params[i]);
+
+            }else{
+                addToQuery(params[i],paramNames[i]);
+            }
+        }
+
+        if(queryParams.length){
+            queryString += "WHERE feedback_id = ?";
+            queryParams.push(feedbackId)
+            await conn.query(queryString, queryParams);
+        }
     }
 }
 module.exports = Feedback;
