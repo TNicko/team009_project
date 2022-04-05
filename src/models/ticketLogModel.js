@@ -29,7 +29,7 @@ class TicketLog {
             "INSERT INTO ticket_log VALUES (?, ?, ?, ?)";
         let queryParams = [id, dateTime, type, value];
 
-        let result = await conn.query(queryString, queryParams);
+        await conn.query(queryString, queryParams);
     }
 }
 module.exports = TicketLog;
