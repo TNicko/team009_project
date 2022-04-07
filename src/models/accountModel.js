@@ -7,21 +7,50 @@ class Account {
 
 
     static async getByName(conn, name) {
-            let accountResult = await conn.query(
-                `SELECT user_id AS id,username,password
-                 FROM account
-                 WHERE username = ?`,
-                [name]
-            );
-    
-            let account = accountResult[0];
-    
+
+        let accountResult = await conn.query(
+            `SELECT user_id AS id,username,password
+                FROM account
+                WHERE username = ?`,
+            [name]
+        );
+        
+        let account = accountResult[0];
+
+        if (account) {
             return new Account(
                 account.id,
                 account.username,
                 account.password,
-            );
+            ); 
+        } else {
+            return null;
         }
+
+    }
+
+    static async getById(conn, id) {
+
+        let accountResult = await conn.query(
+            `SELECT user_id AS id,username,password
+                FROM account
+                WHERE user_id = ?`,
+            [id]
+        );
+        
+        let account = accountResult[0];
+
+        if (account) {
+            return new Account(
+                account.id,
+                account.username,
+                account.password,
+            ); 
+        } else {
+            return null;
+        }
+
+    }
 }
 
 module.exports = Account;

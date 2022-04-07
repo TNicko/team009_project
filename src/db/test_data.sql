@@ -62,24 +62,27 @@ VALUES (1565, 'Joey Smith', 'Admin', 'IT', '0123456789', 'admin'),
 
 -- BCRYPT HASH NEEDED FOR PASSWORD
 INSERT INTO account
-VALUES (5247, 'specialist1', 'specialist'),
-       (5280, 'specialist2', 'specialist'),
-       (1911, 'specialist3', 'specialist'),
+VALUES (1565, 'admin1', '$2a$09$IRpqJiQa4zBdNxO25k5GV.QgO6qpLk/R2PC6Xszad3MtOpJkI5m1e'),
+        (2341, 'admin2', '$2a$09$wnJaFVyuqjNzo2fbMkOQle3CtKJ5db7nURPLATgwBK3HjvOU0gfy.'),
+        
+        (5247, 'specialist1', '$2a$09$FJgzCpLWoJd8aS9FT9pLg.QoM2nh1Sb8bS0C78cwG.PM3rj84yW5K'),
+        (5280, 'specialist2', '$2a$09$jDbiHX9HRt12DeMP8hPlqOrrm6ArkztYlqaD90/tPug...RVmUcqW'),
+        (1911, 'specialist3', '$2a$09$vrnsXDPHH3ATEzKv/v.P..So6wafbwzzaULQAXp5TXvKdLAMchvGS'),
 
-#        (3851, 'ex_specialist1', 'ex_specialist'),
-#        (8850, 'ex_specialist2', 'ex_specialist'),
+#        (3851, 'ex_specialist1', '$2a$09$OBC.dRIsO9npg6o9yWTE1eH2DUwoO1UFprug2dL1gUw8W5BsRLQVW'),
+#        (8850, 'ex_specialist2', '$2a$09$2ADZ2yYvnNM6VXOhsH0E8eOfhjEofgGiAiT6iwtxLiBdY4EK8grLC'),
 
-       (4135, 'analyst1', 'analyst'),
-       (4100, 'analyst2', 'analyst'),
-       (4120, 'analyst3', 'analyst'),
+       (4135, 'analyst1', '$2a$09$EqQqvdcXEZ6OOa288Rs0G.Lv1RfquEN7OWrqTxty.eAntxqrR8T6m'),
+       (4100, 'analyst2', '$2a$09$zriKgaOdjWW9kHugqpfCFeSUxq5sOU/4q/GPXRz7kjV58hWBxYPtS'),
+       (4120, 'analyst3', '$2a$09$1V9tJLhifVMsBbjdbt9kwOrOb7VYoQGzXD6Z5gI2P5x4Rx2RbgW7K'),
 
-       (5177, 'user1', 'user'),
-       (3629, 'user2', 'user'),
-       (3975, 'user3', 'user'),
-       (3166, 'user4', 'user'),
-       (1111, 'user5', 'user'),
-       (2222, 'user6', 'user'),
-       (3267, 'user7', 'user');
+       (5177, 'user1', '$2a$09$MA.Gf0vzxBfEjmYetjoIaO4gL9YclC/EXLQ9UJ8s99Vs50FlRxVkS'),
+       (3629, 'user2', '$2a$09$r8IMrWLMFi9.vKRwRAjHYeyhsoqdwKYp3BYS2iHuu2yuMwDQcu7C.'),
+       (3975, 'user3', '$2a$09$z/oRwnl97g4UeYds1u2JDO.DcJed4nxzCZFxiatCcU4Vbt97me2kG'),
+       (3166, 'user4', '$2a$09$u/qeq9qpFl16drSDY4Y6pe55fApbBDz.rf9CLpV1AsxBnoVriTInO'),
+       (1111, 'user5', '$2a$09$.e/Bf2vcpQ5zvXhXcBBc.ezooOb4kY/yC3K09NMsA59ERhfM84Dvi'),
+       (2222, 'user6', '$2a$09$eik84n9obqokr2IIcEeqYOCadbM0L/NFI14YpBnS8jpkAtu07IUXm'),
+       (3267, 'user7', '$2a$09$WKQUfScZvc2xF0IfoxiF7uKUK5P0Cv9No2BlB6rmgALSs4z/nNPg2');
 
 INSERT INTO expertise
 VALUES (3, 'Hardware'),
