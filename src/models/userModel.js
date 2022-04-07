@@ -1,11 +1,12 @@
 class User {
-    constructor(id, name, job, department, telephone) {
+    constructor(id, name, job, department, telephone, type) {
         this.id = id;
         this.name = name;
         this.job = job;
         this.department = department;
         this.telephone = telephone;
-    }
+        this.type = type;
+    }   
 
     // This is an example function so that you can understand what models are
     // supposed to do in an MVC architecture.
@@ -20,7 +21,7 @@ class User {
         // and build it up, depending on what's given in the parameters.
         // We also have queryParams, which is the data that actually needs to be passed into
         // the SQL query.
-        let queryString = "SELECT user_id AS id, name, job, department, telephone FROM user";
+        let queryString = "SELECT user_id AS id, name, job, department, telephone, account_type AS type FROM user";
         let queryParams = [];
 
         // If filterColumn is not null, it means that the SQL query needs to filter the results.
@@ -63,23 +64,26 @@ class User {
         // object. Here I've used a map to convert each element of the users array into
         // a User object, but you can use a normal for loop if ur cringe.
         return users.map(
-            user => new User(user.id, user.name, user.job, user.department, user.telephone)
+            user => new User(user.id, user.name, user.job, user.department, user.telephone, user.type)
         );
 
         // reminder to not write this many obvious comments for your actual code unless you
         // want to get beaten up by me
     }
     static async getById(conn, id){
-        let query = 'SELECT user_id AS id, name, job, department, telephone FROM user WHERE user_id = ?';
+
+        let query = 'SELECT user_id AS id, name, job, department, telephone, account_type AS type FROM user WHERE user_id = ?';
         let params = [id];
         let result = await conn.query(query, params);
         let user = result[0];
+        
         return new User(
             user.id,
             user.name,
             user.job,
             user.department, 
-            user.telephone
+            user.telephone,
+            user.type
         );
     }
 }

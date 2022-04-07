@@ -2,14 +2,25 @@ const express = require('express');
 const router = express.Router();
 const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
+const User = require("../models/userModel");
 
 router.get('/', checkAuthenticated, async (req, res) => {
     let result = await Ticket.getAll(conn, 0, 100);
 
+    let user = await User.getById(conn, req.user.id);
     
-    
-    res.render('./index/specialist', { username: req.user.username});
-    console.log('user: ' + req.user);
+    if(user.type == 'admin'){
+        res.render('./index/admin', { username: req.user.username});
+    } 
+    if(user.type == 'user'){
+        res.render('./index/user', { username: req.user.username});
+    } 
+    if(user.type == 'specialist'){
+        res.render('./index/specialist', { username: req.user.username});
+    } 
+    if(user.type == 'analyst'){
+        res.render('./index/analyst', { username: req.user.username});
+    } 
 })
 
 // INDEX PAGES

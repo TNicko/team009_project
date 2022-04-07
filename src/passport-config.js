@@ -9,9 +9,6 @@ function initialize(passport) {
     const authenticateUser = async (username, password, done) => {
         
         let user  = await Account.getByName(conn, username)
-        // const user = getUserByUsername(username)
-
-        console.log("id: " + user.id);
 
         if (user == null) {
             return done(null, false, { message: 'No user with that username' })
