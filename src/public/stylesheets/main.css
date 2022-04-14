@@ -357,7 +357,8 @@ li a:hover {
 .info-section {
     display: flex;
     flex-direction: column;
-    margin: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border-radius: 10px;
     border: 1px solid #dadce0;
 }
@@ -428,11 +429,6 @@ input.info-tag{
 .submit-btn {
     padding: 5px;
     margin-top: 15px;
-}
-
-.password-info-section {
-    padding-top: 20px;
-    padding-bottom: 20px;
 }
 
 .password-info-row {
