@@ -206,7 +206,6 @@ li a:hover {
 
 .ticket_table {
     border-collapse:collapse;
-    border-spacing: -200px 0;
     margin: 0;
     margin-top: 0px;
     font-size: 0.9rem;
@@ -238,7 +237,6 @@ li a:hover {
     border-top: solid 3px var(--mainColor); */
     box-shadow: 0 0px 6px rgb(0 0 0 / 20%),
     0 2px 2px rgb(0 0 0 / 20%);
-    background-color: var(--tableBodyHover); 
     cursor: pointer;
 }
 
@@ -301,7 +299,6 @@ li a:hover {
     height: 40px;
     background-color: transparent;
     border-radius: 8px;
-    color: var(--buttonTextColor);
     border: none;
     font-weight: 600;
     font-size: 14px;
