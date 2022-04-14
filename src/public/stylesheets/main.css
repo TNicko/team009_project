@@ -208,7 +208,6 @@ li a:hover {
 .ticket_table {
     border-collapse: collapse;
     margin: 0;
-    margin-top: 0px;
     font-size: 0.9rem;
     table-layout: fixed;
     z-index: 2;
@@ -236,7 +235,7 @@ li a:hover {
 .ticket-body tr:hover {
     /* border-bottom: solid 3px var(--mainColor);
     border-top: solid 3px var(--mainColor); */
-    box-shadow: 0 0px 6px rgb(0 0 0 / 20%),
+    box-shadow: 0 0 6px rgb(0 0 0 / 20%),
     0 2px 2px rgb(0 0 0 / 20%);
     cursor: pointer;
 }
@@ -379,7 +378,7 @@ li a:hover {
 .info-tag {
     position: absolute;
     left: 40%;
-    padding: 0px;
+    padding: 0;
     border: none;
 }
 
@@ -555,7 +554,6 @@ input.info-tag {
     display: block;
     position: relative;
     padding-left: 35px;
-    margin-bottom: 12px;
     cursor: pointer;
     font-size: 12px;
     -webkit-user-select: none;
@@ -620,8 +618,6 @@ input.info-tag {
     height: 5px;
     border: solid white;
     border-width: 0 1px 1px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
 
@@ -643,7 +639,6 @@ input.info-tag {
 
 .admin_panel {
     padding: 40px 120px;
-    margin-bottom: 20px;
     margin: 10px;
     background-color: var(--white);
     border-radius: 10px 10px 10px 10px;
