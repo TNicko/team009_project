@@ -1,5 +1,5 @@
 @import 'variables.css';
-    
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -30,7 +30,7 @@ button {
 
 .nav {
     background: var(--navColor);
-    background-image: linear-gradient(to right, var(--navColor2) , var(--navColor));
+    background-image: linear-gradient(to right, var(--navColor2), var(--navColor));
     color: var(--white);
     height: 60px;
     display: flex;
@@ -73,18 +73,19 @@ button {
 
 .menu_item ul {
     position: absolute;
-    min-width: 180px; 
+    min-width: 180px;
     top: 100%;
     left: 0;
     display: none;
     background-color: var(--navColor);
-    padding-bottom:  5px;
+    padding-bottom: 5px;
 }
 
 li a {
     width: 100%;
     height: 100%;
 }
+
 li a:hover {
     background-color: var(--navLight);
 }
@@ -126,7 +127,7 @@ li a:hover {
     flex-direction: column;
 }
 
-.search_item ::placeholder{
+.search_item ::placeholder {
     color: var(--navText);
 }
 
@@ -205,7 +206,7 @@ li a:hover {
 }
 
 .ticket_table {
-    border-collapse:collapse;
+    border-collapse: collapse;
     margin: 0;
     margin-top: 0px;
     font-size: 0.9rem;
@@ -221,7 +222,7 @@ li a:hover {
 .ticket_table thead tr {
     text-align: left;
     font-weight: bold;
-    color:var(--grey);
+    color: var(--grey);
     font-size: 75%;
     border-bottom: 1px solid var(--tableHeaderShade);
     text-transform: uppercase;
@@ -248,7 +249,7 @@ li a:hover {
     vertical-align: middle;
 }
 
-.table_top{
+.table_top {
     padding: 20px;
     display: flex;
     justify-content: space-between;
@@ -303,7 +304,7 @@ li a:hover {
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .2s;
 }
 
@@ -322,6 +323,7 @@ li a:hover {
     opacity: 0.5;
     pointer-events: none;
 }
+
 .t-button-right {
     margin-left: 12px;
     opacity: 1;
@@ -341,7 +343,7 @@ li a:hover {
 
 /* Account Page */
 .information_wrapper {
-    padding:60px;
+    padding: 60px;
 }
 
 .all_info {
@@ -381,7 +383,7 @@ li a:hover {
     border: none;
 }
 
-input.info-tag{
+input.info-tag {
     border-bottom: 1px solid #dadce0;
 }
 
@@ -535,7 +537,7 @@ input.info-tag{
 
 .pt_input_field {
     padding: 5px;
-    
+
 }
 
 .hardware_input_sec {
@@ -561,57 +563,57 @@ input.info-tag{
     -ms-user-select: none;
     user-select: none;
     margin-bottom: 20px;
-  }
-  
-  .checkbox_p {
+}
+
+.checkbox_p {
     font-size: 12px;
     padding-bottom: 20px;
     color: var(--navColor);
-  }
+}
 
-  /* Hide the browser's default checkbox */
-  .chb_container input {
+/* Hide the browser's default checkbox */
+.chb_container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
+}
+
+/* Create a custom checkbox */
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
     height: 16px;
     width: 16px;
     background-color: #eee;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .chb_container:hover input ~ .checkmark {
+}
+
+/* On mouse-over, add a grey background color */
+.chb_container:hover input ~ .checkmark {
     background-color: #ccc;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .chb_container input:checked ~ .checkmark {
+}
+
+/* When the checkbox is checked, add a blue background */
+.chb_container input:checked ~ .checkmark {
     background-color: #2196F3;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .chb_container input:checked ~ .checkmark:after {
+}
+
+/* Show the checkmark when checked */
+.chb_container input:checked ~ .checkmark:after {
     display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .chb_container .checkmark:after {
+}
+
+/* Style the checkmark/indicator */
+.chb_container .checkmark:after {
     left: 6px;
     top: 3px;
     width: 3px;
@@ -621,9 +623,9 @@ input.info-tag{
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
 
-  /* Admin View  */
+/* Admin View  */
 
 #admin_section {
     display: flex;
@@ -640,7 +642,7 @@ input.info-tag{
 }
 
 .admin_panel {
-    padding:40px 120px;
+    padding: 40px 120px;
     margin-bottom: 20px;
     margin: 10px;
     background-color: var(--white);
@@ -660,26 +662,46 @@ input.info-tag{
     position: absolute;
     padding: 3px;
     top: -8px;
-    right:0;
+    right: 0;
     left: 10px;
     width: 2px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    height: 60%; 
+    height: 60%;
     transform: rotate(45deg);
 }
 
-.sl1{ background: var(--panelYellow); }
-.pi1{color: var(--panelYellow);}
+.sl1 {
+    background: var(--panelYellow);
+}
 
-.sl2{ background: var(--panelGreen); }
-.pi2{ color: var(--panelGreen);}
+.pi1 {
+    color: var(--panelYellow);
+}
 
-.sl3{ background: var(--panelRed); }
-.pi3{ color: var(--panelRed);}
+.sl2 {
+    background: var(--panelGreen);
+}
 
-.sl4{ background: var(--panelBlue); }
-.pi4{ color: var(--panelBlue);}
+.pi2 {
+    color: var(--panelGreen);
+}
+
+.sl3 {
+    background: var(--panelRed);
+}
+
+.pi3 {
+    color: var(--panelRed);
+}
+
+.sl4 {
+    background: var(--panelBlue);
+}
+
+.pi4 {
+    color: var(--panelBlue);
+}
 
 .panel_info {
     position: absolute;
