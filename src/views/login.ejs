@@ -1,15 +1,43 @@
-<h1>Login</h1>
-<% if (messages.error) { %> 
-    <%= messages.error %> 
-<% } %> 
-<form action="/login" method="POST">
-    <div>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <button type="submit">Login</button>
-</form>
+<style>
+    .login {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: auto;
+    }
+
+    .login input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .login input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+
+<div class="login">
+    <form>
+        <h1 class="h1 text-center pb-3">Make-It-All</h1>
+
+        <% if (messages.error) { %>
+            <div class="alert alert-danger">
+                <%= messages.error %>
+            </div>
+        <% } %>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="username">
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password">
+            <label for="password">Password</label>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100" type="submit">Log in</button>
+    </form>
+</div>
