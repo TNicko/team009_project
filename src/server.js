@@ -73,11 +73,7 @@ app.post('/login', passport.authenticate('local', {
 // ------------------------------------
 
 const index = require('./controllers/indexController');
-const user = require('./controllers/userController');
-// const login = require('./controllers/loginController');
 app.use('/', index);
-app.use('/user', user);
-// app.use('/login', login);
 
 var port = process.env.PORT;
 app.listen(port, () => {
