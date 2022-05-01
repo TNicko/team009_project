@@ -6,8 +6,6 @@ const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
 
 router.get('/', checkAuthenticated, async (req, res) => {
-    let result = await Ticket.getAll(conn, 0, 100);
-
     let user = await User.getById(conn, req.user.id);
 
     if (user.type === 'admin') {
@@ -30,6 +28,9 @@ router.get('/admin', async (req, res) => {
 })
 router.get('/analyst', async (req, res) => {
     res.render('./index/analyst', {username: req.user.username});
+})
+router.get('/specialist', async (req, res) => {
+    res.render('./index/specialist', {username: req.user.username});
 })
 router.get('/ext_specialist', async (req, res) => {
     res.render('./index/ext_specialist', {username: req.user.username});
