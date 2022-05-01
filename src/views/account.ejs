@@ -1,87 +1,53 @@
 <%- include('./partials/spec_navbar.ejs') %>
 
-<div class="main_section">
-    <div class="main_container">
-        <div class="information_section">
-            <div class="information_wrapper">
-                <h1>Account</h1>
-                <div class="all_info">
-                    <div class="info-section basic-info-section">
-                        <div class="info-top">
-                            <div class="info-title">
-                                Basic info
-                            </div>
-                        </div>
-                        <div class="info-rows-section">
-                            <div class="info-row">
-                                <div class="info-label">
-                                    <p>Username</p>
-                                </div>
-                                <p class="info-tag">wijdiwdj</p>
-                            </div>
-                            <div class="info-row">
-                                <div class="info-label">
-                                    <p>Name</p>
-                                </div>
-                                <p class="info-tag">wijdiwdj</p>
-                            </div>
-                            <div class="info-row">
-                                <div class="info-label">
-                                    <p>User ID</p>
-                                </div>
-                                <p class="info-tag">wijdiwdj</p>
-                            </div>
-                            <div class="info-row">
-                                <div class="info-label">
-                                    <p>Job Title</p>
-                                </div>
-                                <p class="info-tag">wijdiwdj</p>
-                            </div>
-                            <div class="info-row">
-                                <div class="info-label">
-                                    <p>Account type</p>
-                                </div>
-                                <p class="info-tag">wijdiwdj</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="info-section contact-info-section">
-                        <div class="info-top">
-                            <div class="info-title">
-                                Contact info
-                            </div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">
-                                <p>Phone Number</p>
-                            </div>
-                            <p class="info-tag">wijdiwdj</p>
-                        </div>
+<div class="container">
+    <div class="m-4 p-4 bg-white rounded-3">
+        <h1>Account</h1>
 
-                        <div class="info-row">
-                            <div class="info-label">
-                                <p>Department</p>
-                            </div>
-                            <p class="info-tag">wijdiwdj</p>
-                        </div>
-                    </div>
-                    <div class="info-section password-info-section"> 
-                        <div class="info-row password-info-row">
-                            <div class="info-label">
-                                <p>Password</p>
-                            </div>
-                            <div class="info-tag">
-                                <div class="changePassword_section" id="cp_section">
-                                    <a href="/" class="account-btn" id="changePassword-btn">Change Password</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="logout-area">
-                        <button class="account-btn" id="logout-btn">Logout</button>
-                    </div>
-                </div>
-            </div>
-        </div> 
+        <h3 class="my-3">Information</h3>
+
+        <table class="table table-light">
+            <tbody>
+            <tr>
+                <th>Username</th>
+                <td>username123</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>First Last</td>
+            </tr>
+            <tr>
+                <th>User ID</th>
+                <td>31423</td>
+            </tr>
+            <tr>
+                <th>Job Title</th>
+                <td>Manager</td>
+            </tr>
+            <tr>
+                <th>Account Type</th>
+                <td>User</td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>0123456789</td>
+            </tr>
+            <tr>
+                <th>Department</th>
+                <td>Accounting</td>
+            </tr>
+            <tr>
+                <th class="align-middle">Password</th>
+                <td>
+                    <button class="btn btn-outline-secondary" id="logout-btn">
+                        Change password
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <button class="btn btn-outline-danger my-3" id="logout-btn">Logout</button>
     </div>
 </div>

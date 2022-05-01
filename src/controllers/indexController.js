@@ -3,6 +3,7 @@ const router = express.Router();
 const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
 const User = require("../models/userModel");
+const Hardware = require("../models/hardwareModel");
 
 router.get('/', checkAuthenticated, async (req, res) => {
     let result = await Ticket.getAll(conn, 0, 100);
@@ -39,7 +40,8 @@ router.get('/user', async (req, res) => {
 
 // Tables
 router.get('/hardware', async (req, res) => {
-    res.render('./tables/hardware', { username: req.user.username});
+    let hardwares = await Hardware.getAll(conn, 0, 100);
+    res.render('./tables/hardware', {username: req.user.username, hardwares: hardwares});
 })
 router.get('/software', async (req, res) => {
     res.render('./tables/software', { username: req.user.username});

@@ -1,5 +1,5 @@
 @import 'variables.css';
-    
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -30,7 +30,7 @@ button {
 
 .nav {
     background: var(--navColor);
-    background-image: linear-gradient(to right, var(--navColor2) , var(--navColor));
+    background-image: linear-gradient(to right, var(--navColor2), var(--navColor));
     color: var(--white);
     height: 60px;
     display: flex;
@@ -73,18 +73,19 @@ button {
 
 .menu_item ul {
     position: absolute;
-    min-width: 180px; 
+    min-width: 180px;
     top: 100%;
     left: 0;
     display: none;
     background-color: var(--navColor);
-    padding-bottom:  5px;
+    padding-bottom: 5px;
 }
 
 li a {
     width: 100%;
     height: 100%;
 }
+
 li a:hover {
     background-color: var(--navLight);
 }
@@ -126,7 +127,7 @@ li a:hover {
     flex-direction: column;
 }
 
-.search_item ::placeholder{
+.search_item ::placeholder {
     color: var(--navText);
 }
 
@@ -186,7 +187,6 @@ li a:hover {
     0 0 1px var(--tableHeaderShade),
     0 0 1px var(--tableHeaderShade),
     0 0 6px var(--tableHeaderShade);
-    margin: 30px;
 }
 
 .main_container {
@@ -206,10 +206,8 @@ li a:hover {
 }
 
 .ticket_table {
-    border-collapse:collapse;
-    border-spacing: -200px 0;
+    border-collapse: collapse;
     margin: 0;
-    margin-top: 0px;
     font-size: 0.9rem;
     table-layout: fixed;
     z-index: 2;
@@ -223,7 +221,7 @@ li a:hover {
 .ticket_table thead tr {
     text-align: left;
     font-weight: bold;
-    color:var(--grey);
+    color: var(--grey);
     font-size: 75%;
     border-bottom: 1px solid var(--tableHeaderShade);
     text-transform: uppercase;
@@ -237,9 +235,8 @@ li a:hover {
 .ticket-body tr:hover {
     /* border-bottom: solid 3px var(--mainColor);
     border-top: solid 3px var(--mainColor); */
-    box-shadow: 0 0px 6px rgb(0 0 0 / 20%),
+    box-shadow: 0 0 6px rgb(0 0 0 / 20%),
     0 2px 2px rgb(0 0 0 / 20%);
-    background-color: var(--tableBodyHover); 
     cursor: pointer;
 }
 
@@ -251,7 +248,7 @@ li a:hover {
     vertical-align: middle;
 }
 
-.table_top{
+.table_top {
     padding: 20px;
     display: flex;
     justify-content: space-between;
@@ -302,12 +299,11 @@ li a:hover {
     height: 40px;
     background-color: transparent;
     border-radius: 8px;
-    color: var(--buttonTextColor);
     border: none;
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .2s;
 }
 
@@ -326,6 +322,7 @@ li a:hover {
     opacity: 0.5;
     pointer-events: none;
 }
+
 .t-button-right {
     margin-left: 12px;
     opacity: 1;
@@ -345,7 +342,7 @@ li a:hover {
 
 /* Account Page */
 .information_wrapper {
-    padding:60px;
+    padding: 60px;
 }
 
 .all_info {
@@ -356,9 +353,10 @@ li a:hover {
 }
 
 .info-section {
-    display: flex;
+    padding: 1.3rem;
     flex-direction: column;
-    margin: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border-radius: 10px;
     border: 1px solid #dadce0;
 }
@@ -380,11 +378,11 @@ li a:hover {
 .info-tag {
     position: absolute;
     left: 40%;
-    padding: 0px;
+    padding: 0;
     border: none;
 }
 
-input.info-tag{
+input.info-tag {
     border-bottom: 1px solid #dadce0;
 }
 
@@ -429,11 +427,6 @@ input.info-tag{
 .submit-btn {
     padding: 5px;
     margin-top: 15px;
-}
-
-.password-info-section {
-    padding-top: 20px;
-    padding-bottom: 20px;
 }
 
 .password-info-row {
@@ -543,7 +536,7 @@ input.info-tag{
 
 .pt_input_field {
     padding: 5px;
-    
+
 }
 
 .hardware_input_sec {
@@ -561,7 +554,6 @@ input.info-tag{
     display: block;
     position: relative;
     padding-left: 35px;
-    margin-bottom: 12px;
     cursor: pointer;
     font-size: 12px;
     -webkit-user-select: none;
@@ -569,69 +561,67 @@ input.info-tag{
     -ms-user-select: none;
     user-select: none;
     margin-bottom: 20px;
-  }
-  
-  .checkbox_p {
+}
+
+.checkbox_p {
     font-size: 12px;
     padding-bottom: 20px;
     color: var(--navColor);
-  }
+}
 
-  /* Hide the browser's default checkbox */
-  .chb_container input {
+/* Hide the browser's default checkbox */
+.chb_container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
+}
+
+/* Create a custom checkbox */
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
     height: 16px;
     width: 16px;
     background-color: #eee;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .chb_container:hover input ~ .checkmark {
+}
+
+/* On mouse-over, add a grey background color */
+.chb_container:hover input ~ .checkmark {
     background-color: #ccc;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .chb_container input:checked ~ .checkmark {
+}
+
+/* When the checkbox is checked, add a blue background */
+.chb_container input:checked ~ .checkmark {
     background-color: #2196F3;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .chb_container input:checked ~ .checkmark:after {
+}
+
+/* Show the checkmark when checked */
+.chb_container input:checked ~ .checkmark:after {
     display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .chb_container .checkmark:after {
+}
+
+/* Style the checkmark/indicator */
+.chb_container .checkmark:after {
     left: 6px;
     top: 3px;
     width: 3px;
     height: 5px;
     border: solid white;
     border-width: 0 1px 1px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
 
-  /* Admin View  */
+/* Admin View  */
 
 #admin_section {
     display: flex;
@@ -648,8 +638,7 @@ input.info-tag{
 }
 
 .admin_panel {
-    padding:40px 120px;
-    margin-bottom: 20px;
+    padding: 40px 120px;
     margin: 10px;
     background-color: var(--white);
     border-radius: 10px 10px 10px 10px;
@@ -668,26 +657,46 @@ input.info-tag{
     position: absolute;
     padding: 3px;
     top: -8px;
-    right:0;
+    right: 0;
     left: 10px;
     width: 2px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    height: 60%; 
+    height: 60%;
     transform: rotate(45deg);
 }
 
-.sl1{ background: var(--panelYellow); }
-.pi1{color: var(--panelYellow);}
+.sl1 {
+    background: var(--panelYellow);
+}
 
-.sl2{ background: var(--panelGreen); }
-.pi2{ color: var(--panelGreen);}
+.pi1 {
+    color: var(--panelYellow);
+}
 
-.sl3{ background: var(--panelRed); }
-.pi3{ color: var(--panelRed);}
+.sl2 {
+    background: var(--panelGreen);
+}
 
-.sl4{ background: var(--panelBlue); }
-.pi4{ color: var(--panelBlue);}
+.pi2 {
+    color: var(--panelGreen);
+}
+
+.sl3 {
+    background: var(--panelRed);
+}
+
+.pi3 {
+    color: var(--panelRed);
+}
+
+.sl4 {
+    background: var(--panelBlue);
+}
+
+.pi4 {
+    color: var(--panelBlue);
+}
 
 .panel_info {
     position: absolute;
