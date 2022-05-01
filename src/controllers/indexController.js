@@ -10,16 +10,16 @@ router.get('/', checkAuthenticated, async (req, res) => {
 
     let user = await User.getById(conn, req.user.id);
 
-    if (user.type == 'admin') {
+    if (user.type === 'admin') {
         res.render('./index/admin', {username: req.user.username});
     }
-    if (user.type == 'user') {
+    if (user.type === 'user') {
         res.render('./index/user', {username: req.user.username});
     }
-    if (user.type == 'specialist') {
+    if (user.type === 'specialist') {
         res.render('./index/specialist', {username: req.user.username});
     }
-    if (user.type == 'analyst') {
+    if (user.type === 'analyst') {
         res.render('./index/analyst', {username: req.user.username});
     }
 })
