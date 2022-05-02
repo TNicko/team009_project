@@ -18,5 +18,46 @@ class Feedback {
             row => new Feedback(row.id, id, row.dateTime, row.feedback, row.userId)
         );
     }
+
+    static async createForTicket(conn, ticketId, feedback, userId){
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds;
+        var dateTime = date+' '+time;
+
+        let queryString =
+            "INSERT INTO feedback VALUES (?, ?, ?, ?)";
+        let queryParams = [ticketId, dateTime, feedback, userId];
+
+        await conn.query(queryString, queryParams);
+    }
+
+    static async updateById(conn, feedbackId, ticketId = null, feedback = null, userId = null){
+        const allParams = {'ticket_id': ticketId, 'feedback': feedback, 'user_id' : userId};
+        let queryString = "";
+        let queryParams = [];
+
+        const addToQuery = (param, name) => {
+            if(param != null){
+                queryString += `,${name} = ? `;
+                queryParams.push(param);
+            }
+        }
+
+        for (const [name, param] of Object.entries(allParams)) {
+            if(param != null && !queryParams.length){
+                queryString += `UPDATE feedback SET ${name} = ?`;
+                queryParams.push(param);
+            }else{
+                addToQuery(param,name);
+            }
+        }
+
+        if(queryParams.length){
+            queryString += "WHERE feedback_id = ?";
+            queryParams.push(feedbackId)
+            await conn.query(queryString, queryParams);
+        }
+    }
 }
 module.exports = Feedback;
