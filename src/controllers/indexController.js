@@ -4,6 +4,7 @@ const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
+const Account = require('../models/accountModel.js');
 
 router.get('/', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
@@ -19,8 +20,6 @@ router.get('/', checkAuthenticated, async (req, res) => {
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
-        console.log(spec_tickets);
-        console.log(open_tickets);
 
         res.render('./index/specialist', {
             username: req.user.username,
@@ -32,7 +31,6 @@ router.get('/', checkAuthenticated, async (req, res) => {
 
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
-        console.log(spec_tickets);
 
         res.render('./index/ext_specialist', {
             username: req.user.username,
@@ -88,6 +86,20 @@ router.get('/all_tickets', async (req, res) => {
 })
 router.get('/users', async (req, res) => {
     res.render('./users', {username: req.user.username});
+})
+
+// External Spec pages
+router.get('/ext-account', async (req, res) => {
+
+    let user = await User.getById(conn, req.user.id);
+    console.log(user);
+    res.render('./ext_spec/ext_account', {
+        username: req.user.username,
+        user: user
+    });
+})
+router.get('/ext-ticket-information', async (req, res) => {
+    res.render('./ext_spec/ext_ticket_info', {username: req.user.username});
 })
 
 // Redirects to login if not authenticated
