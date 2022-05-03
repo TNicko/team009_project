@@ -81,8 +81,12 @@ class Ticket {
         let queryParams = [];
 
         if (filterColumn !== null) {
-            queryString += `\n WHERE ? = ?`;
-            queryParams.push(filterColumn, filterValue);
+            if (filterValue !== null) {
+                queryString += `\n WHERE ${filterColumn} = ?`;
+                queryParams.push(filterValue);
+            } else {
+                queryString += `\n WHERE ${filterColumn} IS NULL`;
+            }
         }
 
         if (sortColumn !== null)
@@ -136,8 +140,7 @@ class Ticket {
         let queryParams = [ticketId];
 
         const addToQuery = (param, name) => {
-            if (param != null)
-            {
+            if (param != null) {
                 queryString += `, ${name} = ? `;
                 queryParams.push(param)
             }

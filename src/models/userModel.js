@@ -26,14 +26,14 @@ class User {
 
         // If filterColumn is not null, it means that the SQL query needs to filter the results.
         // This is done with a WHERE
+        // The \n just means new line.
         if (filterColumn !== null) {
-            // Notice that we have 2 question marks. Instead of putting the filterColumn and
-            // filterValue directly in the query string, we put them in queryParams.
-            // The MySQL module will automatically substitute in our actual data from
-            // queryParams into the question marks whenever the SQL query is run.
-            // The \n just means new line.
-            queryString += `\n WHERE ? = ?`;
-            queryParams.push(filterColumn, filterValue);
+            if (filterValue !== null) {
+                queryString += `\n WHERE ${filterColumn} = ?`;
+                queryParams.push(filterValue);
+            } else {
+                queryString += `\n WHERE ${filterColumn} IS NULL`;
+            }
         }
 
         // If sortColumn is not null, it means that the SQL query needs to sort the results.
@@ -50,6 +50,10 @@ class User {
         // etc.
         // Notice that we don't check if skip or limit are null before doing the query.
         // This is because pagination should be forced.
+        // Notice that we have 2 question marks. Instead of putting the skip and
+        // limit directly in the query string, we put them in queryParams.
+        // The MySQL module will automatically substitute in our actual data from
+        // queryParams into the question marks whenever the SQL query is run.
         queryString += `\n LIMIT ?, ?`;
         queryParams.push(skip, limit);
 
