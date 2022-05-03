@@ -61,8 +61,9 @@ router.get('/account', async (req, res) => {
 router.get('/submit_problem', async (req, res) => {
     res.render('./submit_problem', {username: req.user.username});
 })
-router.get('/all_tickets', async (req, res) => {
-    res.render('./submit_problem', {username: req.user.username});
+router.get('/ticket_table', async (req, res) => {
+    let tickets = await Ticket.getAll(conn, 0, 100);
+    res.render('./partials/ticket_table', {username: req.user.username, tickets:tickets});
 })
 router.get('/users', async (req, res) => {
     res.render('./users', {username: req.user.username});

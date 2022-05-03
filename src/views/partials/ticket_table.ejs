@@ -36,56 +36,15 @@
         </thead>
 
         <tbody class="ticket-body op-ticket-body">
-
+        <% tickets.forEach(function(ticket){ %>
         <tr class="overdue">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
+            <td class="active"> <%= ticket.status %></td>
+            <td> <%= ticket.ticketId %></td>
+            <td> <%= ticket.name %></td>
+            <td> <%= ticket.description %></td>
+            <td> <%= ticket.name %></td>
         </tr>
-        <tr class="overdue">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
+        <% }); %>
         </tbody>
     </table>
 </div>
