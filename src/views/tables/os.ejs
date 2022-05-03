@@ -5,7 +5,10 @@
         <div class="table_top">
             <div class="table_title_container">
                 <h1 class="table_title">Operating Systems</h1>
-                <p class="table_title_info">Total 4</p>
+                <p class="table_title_info">
+                    Total:
+                    <%= os.length %>
+                </p>
             </div>
 
             <div class="table_options_container">
@@ -46,34 +49,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
+                <% os.forEach(function(o_s){ %>
+                    <tr>
+                        <td>
+                            <%= o_s.serial %>
+                        </td>
+                        <td>
+                            <%= o_s.name %>
+                        </td>
+                        <td class="col-edit">
+                            <a href="#"><i class="fa-solid fa-pen"></i></a>
+                        </td>
+                    </tr>
+                <% }); %>
                 </tbody>
             </table>
         </div>
