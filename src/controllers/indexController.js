@@ -68,6 +68,33 @@ router.get('/users', async (req, res) => {
     res.render('./users', {username: req.user.username});
 })
 
+// Get ticket last updated date
+async function getLastUpdatedDate (ticketId) {
+    let ticket_logs = await TicketLog.getAllForTicketId(conn, ticketId);
+    let solutions = await Solution.getAllForTicketId(conn, ticketId);
+    let feedbacks = await Feedback.getAllForTicketId(conn, ticketId);
+
+    const arr = [];
+
+    if (solutions[0] != null) {
+        arr.push(solutions[0].dateTime);
+    }
+    if (feedbacks[0] != null) {
+        arr.push(feedbacks[0].dateTime);
+    }
+    if (ticket_logs[0] != null) {
+        arr.push(ticket_logs[0].updateDate);
+    }
+
+    if (arr.length != 0) {
+        const max = new Date(Math.max(...arr));
+        return max.toLocaleDateString();
+    } else {
+        // Get date created here 
+        return "[creation date]";
+    }
+}
+
 // Redirects to login if not authenticated
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
