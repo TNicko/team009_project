@@ -80,6 +80,9 @@ class Ticket {
              FROM ticket`;
         let queryParams = [];
 
+        console.log(filterColumn);
+        console.log(filterValue);
+
         if (filterColumn !== null) {
             queryString += `\n WHERE ? = ?`;
             queryParams.push(filterColumn, filterValue);

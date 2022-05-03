@@ -1,1 +1,12 @@
-<%- include('../partials/extspec_navbar.ejs') %>
+<%- include('../partials/ext_spec_navbar.ejs') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col m-3 main_spec_container">
+            <%- include('../partials/ticket_table.ejs', {tickets: spec_tickets}) %>
+        </div>
+
+    </div>
+</div>
+
+<script src="scripts/index.js" type="text/javascript"></script>

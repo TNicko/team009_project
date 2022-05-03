@@ -15,7 +15,29 @@ router.get('/', checkAuthenticated, async (req, res) => {
         res.render('./index/user', {username: req.user.username});
     }
     if (user.type === 'specialist') {
-        res.render('./index/specialist', {username: req.user.username});
+    
+        let handlerId = 'handler_id';
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
+        console.log(spec_tickets);
+        console.log(open_tickets);
+
+        res.render('./index/specialist', {
+            username: req.user.username,
+            spec_tickets: spec_tickets,
+            open_tickets: open_tickets
+        });
+    }
+    if (user.type === 'external specialist') {
+
+        let handlerId = 'handler_id';
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        console.log(spec_tickets);
+
+        res.render('./index/ext_specialist', {
+            username: req.user.username,
+            spec_tickets: spec_tickets
+        });
     }
     if (user.type === 'analyst') {
         res.render('./index/analyst', {username: req.user.username});
