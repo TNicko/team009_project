@@ -46,34 +46,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
+                <% softwares.forEach(function(software){ %>
+                    <tr>
+                        <td>
+                            <%= software.serial %>
+                        </td>
+                        <td>
+                            <%= software.name %>
+                        </td>
+                        <td class="col-edit">
+                            <a href="#"><i class="fa-solid fa-pen"></i></a>
+                        </td>
+                    </tr>
+                <% }); %>
                 </tbody>
             </table>
         </div>

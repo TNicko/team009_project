@@ -4,6 +4,7 @@ const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
+const Software = require("../models/softwareModel");
 
 router.get('/', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
@@ -45,7 +46,8 @@ router.get('/hardware', async (req, res) => {
     res.render('./tables/hardware', {username: req.user.username, hardwares: hardwares});
 })
 router.get('/software', async (req, res) => {
-    res.render('./tables/software', {username: req.user.username});
+    let softwares = await Software.getAll(conn, 0, 100);
+    res.render('./tables/software', {username: req.user.username, softwares : softwares});
 })
 router.get('/os', async (req, res) => {
     res.render('./tables/os', {username: req.user.username});
