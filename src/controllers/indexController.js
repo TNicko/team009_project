@@ -5,8 +5,15 @@ const Ticket = require("../models/ticketModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
 const Account = require('../models/accountModel.js');
+const TicketLog = require('../models/ticketLogModel.js');
+const Solution = require('../models/solutionModel');
+const Feedback = require('../models/feedbackModel');
 
 router.get('/', checkAuthenticated, async (req, res) => {
+
+    update_date = await getLastUpdatedDate(5);
+    console.log(update_date);
+
     let user = await User.getById(conn, req.user.id);
 
     if (user.type === 'admin') {
@@ -101,6 +108,35 @@ router.get('/ext-account', async (req, res) => {
 router.get('/ext-ticket-information', async (req, res) => {
     res.render('./ext_spec/ext_ticket_info', {username: req.user.username});
 })
+
+// Get ticket last updated date
+async function getLastUpdatedDate (ticketId) {
+    let ticket_logs = await TicketLog.getAllForTicketId(conn, ticketId);
+    let solutions = await Solution.getAllForTicketId(conn, ticketId);
+    let feedbacks = await Feedback.getAllForTicketId(conn, ticketId);
+
+    const arr = [];
+
+    if (solutions[0] != null) {
+        arr.push(solutions[0].dateTime);
+    }
+    if (feedbacks[0] != null) {
+        arr.push(feedbacks[0].dateTime);
+    }
+    if (ticket_logs[0] != null) {
+        arr.push(ticket_logs[0].updateDate);
+    }
+
+    if (arr.length != 0) {
+        const max = new Date(Math.max(...arr));
+        return max.toLocaleDateString();
+    } else {
+        // Get date created here 
+        return "[creation date]";
+
+    }
+
+}
 
 // Redirects to login if not authenticated
 function checkAuthenticated(req, res, next) {
