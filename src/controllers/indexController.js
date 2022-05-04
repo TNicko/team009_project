@@ -56,10 +56,10 @@ router.get('/os', async (req, res) => {
 
 // Other
 router.get('/ticket/:id', async (req, res) => {
-    let currentUserType = (await User.getById(conn, req.user.id)).type;
     let ticketId = req.params.id;
     let ticket = await Ticket.getById(conn, ticketId);
     let user = await User.getById(conn, ticket.userId);
+    let currentUser = await User.getById(conn, req.user.id);
 
     // Redirect user to home page if ticket is not theirs
     // TODO: Uncomment this when testing is finished
@@ -74,7 +74,7 @@ router.get('/ticket/:id', async (req, res) => {
 
     let data = {
         username: req.user.username,
-        currentUserType: currentUserType,
+        currentUserType: currentUser.type,
         ticket: ticket,
         user: user,
         logs: logs,
