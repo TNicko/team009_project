@@ -7,12 +7,12 @@ const Hardware = require("../models/hardwareModel");
 
 router.get('/', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
-
+    let tickets = await Ticket.getAll(conn, 0, 1000);
     if (user.type === 'admin') {
-        res.render('./index/admin', {username: req.user.username});
+        res.render('./index/admin', {username: req.user.username, tickets: tickets, usertype:user.type});
     }
     if (user.type === 'user') {
-        res.render('./index/user', {username: req.user.username});
+        res.render('./index/user', {username: req.user.username, tickets: tickets, usertype:user.type});
     }
     if (user.type === 'specialist') {
         res.render('./index/specialist', {username: req.user.username});
@@ -60,10 +60,6 @@ router.get('/account', async (req, res) => {
 })
 router.get('/submit_problem', async (req, res) => {
     res.render('./submit_problem', {username: req.user.username});
-})
-router.get('/ticket_table', async (req, res) => {
-    let tickets = await Ticket.getAll(conn, 0, 100);
-    res.render('./partials/ticket_table', {username: req.user.username, tickets:tickets});
 })
 router.get('/users', async (req, res) => {
     res.render('./users', {username: req.user.username});
