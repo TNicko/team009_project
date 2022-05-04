@@ -63,31 +63,7 @@ router.get('/ticket/:id', async (req, res) => {
     let logs = await TicketLog.getAllForTicketId(conn, ticketId);
     let solutions = await Solution.getAllForTicketId(conn, ticketId);
     let feedbacks = await Feedback.getAllForTicketId(conn, ticketId);
-
-    let solutionsAndFeedbacks = [];
-    let solCounter = 0;
-    let feedCounter = 0;
-    while (solCounter < solutions.length || feedCounter < feedbacks.length) {
-        if (solCounter === solutions.length) {
-            for (let i = feedCounter; i < feedbacks.length; i++)
-                solutionsAndFeedbacks.push(["Feedback", feedbacks[i]]);
-            break;
-        }
-        if (feedCounter === feedbacks.length) {
-            for (let i = solCounter; i < solutions.length; i++)
-                solutionsAndFeedbacks.push(["Solution", solutions[i]]);
-            break;
-        }
-
-        let [currentSolution, currentFeedback] = [solutions[solCounter], feedbacks[feedCounter]];
-        if (currentSolution.dateTime > currentFeedback.dateTime) {
-            solCounter++;
-            solutionsAndFeedbacks.push(["Solution", currentSolution]);
-        } else {
-            feedCounter++;
-            solutionsAndFeedbacks.push(["Feedback", currentFeedback]);
-        }
-    }
+    let combined = combineSolutionsAndFeedbacks(solutions, feedbacks);
 
     let data = {
         username: req.user.username,
@@ -95,9 +71,8 @@ router.get('/ticket/:id', async (req, res) => {
         ticket: ticket,
         user: user,
         logs: logs,
-        solutionsAndFeedbacks: solutionsAndFeedbacks
+        solutionsAndFeedbacks: combined
     };
-
 
     res.render('./ticket-information', data);
 })
@@ -139,6 +114,35 @@ async function getLastUpdatedDate(ticketId) {
         // Get date created here 
         return "[creation date]";
     }
+}
+
+function combineSolutionsAndFeedbacks(solutions, feedbacks) {
+    let solutionsAndFeedbacks = [];
+    let solCounter = 0;
+    let feedCounter = 0;
+    while (solCounter < solutions.length || feedCounter < feedbacks.length) {
+        if (solCounter === solutions.length) {
+            for (let i = feedCounter; i < feedbacks.length; i++)
+                solutionsAndFeedbacks.push(["Feedback", feedbacks[i]]);
+            break;
+        }
+        if (feedCounter === feedbacks.length) {
+            for (let i = solCounter; i < solutions.length; i++)
+                solutionsAndFeedbacks.push(["Solution", solutions[i]]);
+            break;
+        }
+
+        let [currentSolution, currentFeedback] = [solutions[solCounter], feedbacks[feedCounter]];
+        if (currentSolution.dateTime > currentFeedback.dateTime) {
+            solCounter++;
+            solutionsAndFeedbacks.push(["Solution", currentSolution]);
+        } else {
+            feedCounter++;
+            solutionsAndFeedbacks.push(["Feedback", currentFeedback]);
+        }
+    }
+
+    return solutionsAndFeedbacks;
 }
 
 // Redirects to login if not authenticated
