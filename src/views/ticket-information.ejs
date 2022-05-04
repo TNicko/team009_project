@@ -2,7 +2,12 @@
 
 <div class="container">
     <div class="m-4 p-4 bg-white rounded-3">
-        <h1>Ticket Information</h1>
+        <h1 class="d-flex align-items-center">
+            <span class="badge rounded-pill bg-secondary me-2">
+                <%= ticket.status %>
+            </span>
+            Ticket #<%= ticket.ticketId %>
+        </h1>
 
         <div class="info-section">
             <h3>Employee</h3>
@@ -10,23 +15,23 @@
                 <tbody>
                 <tr>
                     <th style="width: 30%">Name</th>
-                    <td>First Last</td>
+                    <td><%= user.name %></td>
                 </tr>
                 <tr>
                     <th>User ID</th>
-                    <td>31423</td>
+                    <td><%= user.id %></td>
                 </tr>
                 <tr>
                     <th>Job Title</th>
-                    <td>Manager</td>
+                    <td><%= user.job %></td>
                 </tr>
                 <tr>
                     <th>Department</th>
-                    <td>Accounting</td>
+                    <td><%= user.department %></td>
                 </tr>
                 <tr>
                     <th>Phone Number</th>
-                    <td>0123456789</td>
+                    <td><%= user.telephone %></td>
                 </tr>
                 </tbody>
             </table>
@@ -42,46 +47,94 @@
                 <tbody>
                 <tr>
                     <th style="width: 30%">Date Created</th>
-                    <td>15:33 12-03-2022</td>
+                    <td>PLACEHOLDER VALUE</td>
                 </tr>
                 <tr>
                     <th>Last Updated</th>
-                    <td>16:18 15-04-2022</td>
+                    <td>PLACEHOLDER VALUE</td>
                 </tr>
                 <tr>
                     <th>Hardware</th>
-                    <td>Computer - G4G69-RJHCP-N3IZ3</td>
+                    <td>
+                        <ul class="list-group">
+                            <% if (ticket.hardwares.length === 0) { %>
+                                <li class="list-group-item">None</li>
+                            <% } else { %>
+                                <% ticket.hardwares.forEach(hardware => { %>
+                                    <li class="list-group-item">
+                                        <%= hardware.name %> - <%= hardware.serial %>
+                                    </li>
+                                <% }); %>
+                        </ul>
+                        <% } %>
+                    </td>
                 </tr>
                 <tr>
                     <th>Software</th>
-                    <td>Photoshop - G4G69-RJHCP-N3IZ3</td>
+                    <td>
+                        <ul class="list-group">
+                            <% if (ticket.softwares.length === 0) { %>
+                                <li class="list-group-item">None</li>
+                            <% } else { %>
+                                <% ticket.softwares.forEach(software => { %>
+                                    <li class="list-group-item">
+                                        <%= software.name %> - <%= software.serial %>
+                                    </li>
+                                <% }); %>
+                        </ul>
+                        <% } %>
+                    </td>
                 </tr>
                 <tr>
                     <th>Operating System</th>
-                    <td>Windows - G4G69-RJHCP-N3IZ3</td>
+                    <td>
+                        <ul class="list-group">
+                            <% if (ticket.oses.length === 0) { %>
+                                <li class="list-group-item">None</li>
+                            <% } else { %>
+                                <% ticket.oses.forEach(os => { %>
+                                    <li class="list-group-item">
+                                        <%= os.name %> - <%= os.serial %>
+                                    </li>
+                                <% }); %>
+                        </ul>
+                        <% } %>
+                    </td>
                 </tr>
                 <tr>
-                    <th>Problem Type</th>
-                    <td>Software</td>
+                    <th>Problem Types</th>
+                    <td>
+                        <ul class="list-group">
+                            <% if (ticket.expertises.length === 0) { %>
+                                <li class="list-group-item">None</li>
+                            <% } else { %>
+                                <% ticket.expertises.forEach(expertise => { %>
+                                    <li class="list-group-item">
+                                        <%= expertise %>
+                                    </li>
+                                <% }); %>
+                        </ul>
+                        <% } %>
+                    </td>
                 </tr>
                 <tr>
                     <th>Description</th>
                     <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu felis, egestas semper elit at,
-                        mollis tincidunt lectus. Cras eleifend accumsan nibh, in tincidunt tortor facilisis non.
-                        Curabitur egestas urna eget iaculis iaculis. Fusce dignissim sem at facilisis posuere. Praesent
-                        condimentum lacus ac consequat maximus. Aliquam lorem tellus, tincidunt a volutpat id, vehicula
-                        tincidunt justo. Phasellus convallis odio ac nisl tempor, eu facilisis augue mollis.
+                        <% if (ticket.description != null) { %>
+                            <%= ticket.description %>
+                        <% } else { %>
+                            None
+                        <% } %>
                     </td>
                 </tr>
                 <tr>
                     <th>Notes</th>
                     <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu felis, egestas semper elit at,
-                        mollis tincidunt lectus. Cras eleifend accumsan nibh, in tincidunt tortor facilisis non.
-                        Curabitur egestas urna eget iaculis iaculis. Fusce dignissim sem at facilisis posuere. Praesent
-                        condimentum lacus ac consequat maximus. Aliquam lorem tellus, tincidunt a volutpat id, vehicula
-                        tincidunt justo. Phasellus convallis odio ac nisl tempor, eu facilisis augue mollis.
+                        <% if (ticket.notes != null) { %>
+                            <%= ticket.notes %>
+                        <% } else { %>
+                            None
+                        <% } %>
                     </td>
                 </tr>
                 </tbody>
@@ -93,35 +146,34 @@
             <div class="accordion" id="ticketAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ticketLog">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ticketLog">
                             Show log
                         </button>
                     </h2>
                     <div id="ticketLog" class="accordion-collapse collapse" data-bs-parent="#ticketAccordion">
-                        <div>
+                        <% if (logs.length === 0) { %>
+                            <p class="m-3">No changes yet</p>
+                        <% } else { %>
                             <table class="table table-light">
                                 <thead>
-                                    <tr>
-                                        <th>Time</th>
-                                        <th>Change</th>
-                                    </tr>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Type</th>
+                                    <th>New value</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>24-04-2022</td>
-                                        <td>Changed Operating System to "Windows - G4G69-RJHCP-N3IZ3"</td>
-                                    </tr>
-                                    <tr>
-                                        <td>16-04-2022</td>
-                                        <td>Changed description</td>
-                                    </tr>
-                                    <tr>
-                                        <td>12-04-2022</td>
-                                        <td>Added "Software" to Problem Type</td>
-                                    </tr>
+                                <tr>
+                                    <% logs.forEach(log => { %>
+                                        <th><%= log.updateDate %></th>
+                                        <th><%= log.updateType %></th>
+                                        <th><%= log.updateValue %></th>
+                                    <% }); %>
+                                </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -132,7 +184,8 @@
             <div class="accordion" id="solutionAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#solutionHistory">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#solutionHistory">
                             Show history
                         </button>
                     </h2>
@@ -143,45 +196,28 @@
                                 <tr>
                                     <th style="width: 10%">Time</th>
                                     <th>Solution</th>
+                                    <th>Feedback</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>24-04-2022</td>
-                                    <td>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam condimentum eros
-                                        arcu, nec vestibulum urna pharetra sed. Aenean non tortor quis ex lacinia
-                                        imperdiet at nec mi. Nam pharetra interdum blandit. Donec ornare aliquet augue
-                                        eu gravida. Integer turpis lacus, pharetra ac ex vitae, blandit varius dui.
-                                        Praesent eu efficitur magna. Sed aliquam, neque sed consectetur ultrices, quam
-                                        lectus elementum lacus, ac tincidunt ligula nibh a leo. Nullam malesuada aliquam
-                                        ante quis bibendum.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>16-04-2022</td>
-                                    <td>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam condimentum eros
-                                        arcu, nec vestibulum urna pharetra sed. Aenean non tortor quis ex lacinia
-                                        imperdiet at nec mi. Nam pharetra interdum blandit. Donec ornare aliquet augue
-                                        eu gravida. Integer turpis lacus, pharetra ac ex vitae, blandit varius dui.
-                                        Praesent eu efficitur magna. Sed aliquam, neque sed consectetur ultrices, quam
-                                        lectus elementum lacus, ac tincidunt ligula nibh a leo. Nullam malesuada aliquam
-                                        ante quis bibendum.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>12-04-2022</td>
-                                    <td>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam condimentum eros
-                                        arcu, nec vestibulum urna pharetra sed. Aenean non tortor quis ex lacinia
-                                        imperdiet at nec mi. Nam pharetra interdum blandit. Donec ornare aliquet augue
-                                        eu gravida. Integer turpis lacus, pharetra ac ex vitae, blandit varius dui.
-                                        Praesent eu efficitur magna. Sed aliquam, neque sed consectetur ultrices, quam
-                                        lectus elementum lacus, ac tincidunt ligula nibh a leo. Nullam malesuada aliquam
-                                        ante quis bibendum.
-                                    </td>
-                                </tr>
+                                <% solutions.forEach(solution => { %>
+                                    <tr>
+                                        <td>
+                                            <%= solution.dateTime.toLocaleString(
+                                                    "en-GB",
+                                                    {
+                                                        day: "numeric",
+                                                        month: "numeric",
+                                                        year: "numeric",
+                                                        hour: "numeric",
+                                                        minute: "numeric"
+                                                    }
+                                            ) %>
+                                        </td>
+                                        <td><%= solution.solution %></td>
+                                        <td>Feedback to solution here</td>
+                                    </tr>
+                                <% }); %>
                                 </tbody>
                             </table>
                         </div>
@@ -190,15 +226,28 @@
             </div>
         </div>
 
-        <div class="info-section">
-            <h3>Solution</h3>
-
-            <form>
-                <textarea class="form-control" placeholder="Add a solution" rows="8"></textarea>
-                <button type="submit" class="btn btn-primary">Submit solution</button>
-            </form>
-        </div>
-
+        <%
+        let specialistCanSubmit = ticket.status === "active" || ticket.status === "unsuccessful";
+        let userCanSubmit = ticket.status === "submitted";
+        if (specialistCanSubmit && currentUserType === "specialist") { %>
+            <div class="info-section">
+                <h3>Solution</h3>
+                <form>
+                    <textarea class="form-control mb-3" placeholder="Add a solution" rows="8"></textarea>
+                    <button type="submit" class="btn btn-primary">Submit solution</button>
+                    <button type="submit" class="btn btn-danger">Close ticket</button>
+                </form>
+            </div>
+        <% } else if (userCanSubmit && currentUserType === "user") { %>
+            <div class="info-section">
+                <h3>Feedback</h3>
+                <form>
+                    <textarea class="form-control mb-3" placeholder="Add feedback" rows="8"></textarea>
+                    <button type="submit" class="btn btn-primary">Submit feedback</button>
+                    <button type="submit" class="btn btn-danger">Close ticket</button>
+                </form>
+            </div>
+        <% } %>
     </div>
 
 </div>

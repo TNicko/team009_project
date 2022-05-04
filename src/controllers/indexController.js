@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
+const TicketLog = require("../models/ticketLogModel");
+const Solution = require("../models/solutionModel");
+const Feedback = require("../models/feedbackModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
 
@@ -52,8 +55,27 @@ router.get('/os', async (req, res) => {
 })
 
 // Other
-router.get('/ticket-information', async (req, res) => {
-    res.render('./ticket-information', {username: req.user.username});
+router.get('/ticket/:id', async (req, res) => {
+    let currentUserType = (await User.getById(conn, req.user.id)).type;
+    let ticketId = req.params.id;
+    let ticket = await Ticket.getById(conn, ticketId);
+    let user = await User.getById(conn, ticket.userId);
+    let logs = await TicketLog.getAllForTicketId(conn, ticketId);
+    let solutions = await Solution.getAllForTicketId(conn, ticketId);
+    let feedbacks = await Feedback.getAllForTicketId(conn, ticketId);
+
+    let data = {
+        username: req.user.username,
+        currentUserType: currentUserType,
+        ticket: ticket,
+        user: user,
+        logs: logs,
+        solutions: solutions,
+        feedbacks: feedbacks
+    };
+
+
+    res.render('./ticket-information', data);
 })
 router.get('/account', async (req, res) => {
     res.render('./account', {username: req.user.username});
