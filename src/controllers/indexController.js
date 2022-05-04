@@ -60,6 +60,13 @@ router.get('/ticket/:id', async (req, res) => {
     let ticketId = req.params.id;
     let ticket = await Ticket.getById(conn, ticketId);
     let user = await User.getById(conn, ticket.userId);
+
+    // Redirect user to home page if ticket is not theirs
+    // TODO: Uncomment this when testing is finished
+    // if (currentUserType === "user")
+    //     if (user.id !== req.user.id)
+    //         res.redirect('/');
+
     let logs = await TicketLog.getAllForTicketId(conn, ticketId);
     let solutions = await Solution.getAllForTicketId(conn, ticketId);
     let feedbacks = await Feedback.getAllForTicketId(conn, ticketId);
