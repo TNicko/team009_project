@@ -180,7 +180,7 @@
         </div>
 
         <div class="info-section">
-            <h3>Solution History</h3>
+            <h3>Solutions and Feedback</h3>
             <div class="accordion" id="solutionAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
@@ -194,16 +194,19 @@
                             <table class="table table-light">
                                 <thead>
                                 <tr>
+                                    <th style="width: 10%">Type</th>
                                     <th style="width: 10%">Time</th>
-                                    <th>Solution</th>
-                                    <th>Feedback</th>
+                                    <th>Solution/Feedback</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% solutions.forEach(solution => { %>
+                                <% solutionsAndFeedbacks.forEach(sf => { %>
                                     <tr>
                                         <td>
-                                            <%= solution.dateTime.toLocaleString(
+                                            <%= sf[0] %>
+                                        </td>
+                                        <td>
+                                            <%= sf[1].dateTime.toLocaleString(
                                                     "en-GB",
                                                     {
                                                         day: "numeric",
@@ -214,8 +217,13 @@
                                                     }
                                             ) %>
                                         </td>
-                                        <td><%= solution.solution %></td>
-                                        <td>Feedback to solution here</td>
+                                        <td>
+                                            <% if (sf[0] === "Solution") { %>
+                                                <%= sf[1].solution %>
+                                            <% } else { %>
+                                                <%= sf[1].feedback %>
+                                            <% } %>
+                                        </td>
                                     </tr>
                                 <% }); %>
                                 </tbody>
