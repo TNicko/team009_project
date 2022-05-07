@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const {check, validationResult} = require('express-validator');
+const bcrypt = require('bcrypt');
 const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
 const TicketLog = require("../models/ticketLogModel");
@@ -123,6 +125,37 @@ router.get('/all_tickets',checkAuthenticated, async (req, res) => {
 router.get('/users',checkAuthenticated, async (req, res) => {
     res.render('./users', {username: req.user.username});
 })
+router.get('/change_password', checkAuthenticated, async (req, res) => {
+    let account = await Account.getById(conn, req.user.id);
+    
+    res.render('./change_password', {
+        username: req.user.username,
+        errors: null
+    });
+})
+// Change Password validation
+router.post('/change_password', checkAuthenticated,
+    check('confirm_password')
+        .isLength({min: 5})
+        .withMessage('Password must be at least 5 characters')
+        .custom(async (confirmPassword, {req}) => {
+            const password = req.body.password;
+            if(password !== confirmPassword) {
+                throw new Error('Passwords must be the same')
+            }
+        }), 
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render('change_password', {errors: errors.array()});
+        } else {
+            console.log("Changing password...");
+            const password = req.body.password;
+            const hashedPassword = await hashPassword(password);
+            Account.updatePasswordById(conn, req.user.id, hashedPassword);
+            res.redirect("/login");
+        }
+});
 
 // Get ticket last updated date
 async function getLastUpdatedDate(ticketId) {
@@ -150,6 +183,12 @@ async function getLastUpdatedDate(ticketId) {
         return "[creation date]";
 
     }
+}
+
+// Hash password
+async function hashPassword(password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return hashedPassword;
 }
 
 // Redirects to login if not authenticated

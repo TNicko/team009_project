@@ -51,6 +51,12 @@ class Account {
         }
 
     }
+
+    static async updatePasswordById(conn, userId, password) {
+        let queryString = "UPDATE account SET password = ? WHERE user_id = ?";
+        let queryParams = [password, userId];
+        await conn.query(queryString, queryParams);
+    }
 }
 
 module.exports = Account;
