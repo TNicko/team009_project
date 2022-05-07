@@ -27,6 +27,42 @@ class Software{
             software => new Software(software.name, software.serial)
         );
     }
-}
+
+    static async add(conn, serial, name){
+        let queryString = `INSERT INTO software (software_serial, name) \n VALUES (?,?)`;
+        await conn.query(queryString, [serial, name]);
+    }
+
+    static async addToTicket(conn, serial, ticket_id){
+        let queryString = `INSERT INTO ticket_software (software_serial, ticket_id) \n VALUES (?,?)`;
+        await conn.query(queryString, [serial, ticket_id]);
+    }
+
+    static async deleteFromTicket(conn, serial, ticket_id){
+        let queryString = `DELETE FROM ticket_software WHERE ticket_id = ? AND software_serial = ?`;
+        await conn.query(queryString, [ticket_id, serial]);
+    }
+
+    static async update(conn, serial, newSerial = null, name = null){
+        let queryString = `UPDATE hardware \n SET`;
+        let queryParams = []
+
+        if(newSerial !== null){
+            queryString += ` software_serial = ?`;
+            queryParams.push(newSerial)
+        }
+
+        if(name !== null){
+            queryString += ` name = ?`;
+            queryParams.push(name)
+        }
+
+        queryString += `\n WHERE software_serial = ?`;
+        queryParams.push(serial)
+
+        await conn.query(queryString, queryParams)
+    }
+
+}   
 
 module.exports = Software
