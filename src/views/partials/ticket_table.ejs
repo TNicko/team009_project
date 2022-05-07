@@ -37,55 +37,26 @@
 
         <tbody class="ticket-body op-ticket-body">
 
-        <tr class="overdue">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr class="overdue">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
-        <tr data-href="">
-            <td class="active">Active</td>
-            <td>3</td>
-            <td>Software</td>
-            <td>Broken Computer</td>
-            <td>20/03/27</td>
-        </tr>
+            <% tickets.forEach(function(ticket){ %>
+                <tr>
+                    <td>
+                        <%= ticket.status %>
+                    </td>
+                    <td>
+                        <%= ticket.ticketId %>
+                    </td>
+                    <td>
+                        <%= ticket.expertises %>
+                    </td>
+                    <td>
+                        <%= ticket.description %>
+                    </td>
+                    <td>
+                       [date]
+                    </td>
+                    
+                </tr>
+            <% }); %>
         </tbody>
     </table>
 </div>

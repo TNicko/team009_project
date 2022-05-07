@@ -31,6 +31,9 @@ VALUES (1565, 'Joey Smith', 'Admin', 'IT', '0123456789', 'admin'),
        (5247, 'Tom Smith', 'Specialist', 'IT', '0123456789', 'specialist'),
        (5280, 'Joey John', 'Specialist', 'IT', '0123456789', 'specialist'),
        (1911, 'Arky Arek', 'Specialist', 'Hardware', '0909898976', 'specialist'),
+       
+       (3851, 'Keene Leni', 'External Specialist', null, '0134578998', 'external specialist'),
+       (8850, 'Alex Myer', 'External Specialist', null, '0134578998', 'external specialist'),
 
        (4135, 'Jacob Smith', 'Analyst', 'Data Analysis', '2341879094', 'analyst'),
        (4100, 'Nickolai Johnson', 'Analyst', 'Data Analysis', '2341879094', 'analyst'),
@@ -43,6 +46,7 @@ VALUES (1565, 'Joey Smith', 'Admin', 'IT', '0123456789', 'admin'),
        (1111, 'Jay Abro', 'Project Manager', 'Operating', '1287987623', 'user'),
        (2222, 'Joe Gimson', 'Project Manager', 'Operating', '1287987623', 'user'),
        (3267, 'Jemimah Thompson', 'Project Management', 'Operating', '1287987623', 'user');
+
 
 -- (1000, 'Mike James','Database Expert', 'Databases', '0123456789'),
 -- (1011, 'Stevie Jam','HR Manager', 'HR','0123456789'),
@@ -69,8 +73,8 @@ VALUES (1565, 'admin1', '$2a$09$IRpqJiQa4zBdNxO25k5GV.QgO6qpLk/R2PC6Xszad3MtOpJk
         (5280, 'specialist2', '$2a$09$jDbiHX9HRt12DeMP8hPlqOrrm6ArkztYlqaD90/tPug...RVmUcqW'),
         (1911, 'specialist3', '$2a$09$vrnsXDPHH3ATEzKv/v.P..So6wafbwzzaULQAXp5TXvKdLAMchvGS'),
 
-#        (3851, 'ex_specialist1', '$2a$09$OBC.dRIsO9npg6o9yWTE1eH2DUwoO1UFprug2dL1gUw8W5BsRLQVW'),
-#        (8850, 'ex_specialist2', '$2a$09$2ADZ2yYvnNM6VXOhsH0E8eOfhjEofgGiAiT6iwtxLiBdY4EK8grLC'),
+        (3851, 'ex_specialist1', '$2a$09$OBC.dRIsO9npg6o9yWTE1eH2DUwoO1UFprug2dL1gUw8W5BsRLQVW'),
+        (8850, 'ex_specialist2', '$2a$09$2ADZ2yYvnNM6VXOhsH0E8eOfhjEofgGiAiT6iwtxLiBdY4EK8grLC'),
 
        (4135, 'analyst1', '$2a$09$EqQqvdcXEZ6OOa288Rs0G.Lv1RfquEN7OWrqTxty.eAntxqrR8T6m'),
        (4100, 'analyst2', '$2a$09$zriKgaOdjWW9kHugqpfCFeSUxq5sOU/4q/GPXRz7kjV58hWBxYPtS'),
