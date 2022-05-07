@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS account (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     PRIMARY KEY (user_id),
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS expertise (
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS expertise (
 CREATE TABLE IF NOT EXISTS handler_expertise (
     handler_id INT UNSIGNED,
     expertise_id INT UNSIGNED,
-    FOREIGN KEY (expertise_id) REFERENCES expertise(expertise_id),
-    FOREIGN KEY (handler_id) REFERENCES user(user_id)
+    FOREIGN KEY (expertise_id) REFERENCES expertise(expertise_id) ON UPDATE CASCADE,
+    FOREIGN KEY (handler_id) REFERENCES user(user_id) ON UPDATE CASCADE
 );
 
 
@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS ticket (
     notes VARCHAR(1000),
     handler_id INT UNSIGNED,
     PRIMARY KEY (ticket_id),
-    FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (handler_id) REFERENCES user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON UPDATE CASCADE,
+    FOREIGN KEY (handler_id) REFERENCES user(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ticket_log(
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS ticket_log(
     update_type VARCHAR(100) NOT NULL,
     update_value VARCHAR(1000) NOT NULL,
     PRIMARY KEY (log_id),
-    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
+    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS feedback(
@@ -88,8 +88,8 @@ CREATE TABLE IF NOT EXISTS feedback(
     feedback VARCHAR(1000) NOT NULL,
     user_id INT UNSIGNED,
     PRIMARY KEY (feedback_id),
-    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id),
-    FOREIGN KEY (user_id) REFERENCES ticket(user_id)
+    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id) ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES ticket(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS solution(
@@ -100,34 +100,34 @@ CREATE TABLE IF NOT EXISTS solution(
     handler_id INT UNSIGNED,
     solution VARCHAR(1000) NOT NULL,
     PRIMARY KEY (solution_id),
-    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id),
-    FOREIGN KEY (handler_id) REFERENCES user(user_id)
+    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id) ON UPDATE CASCADE,
+    FOREIGN KEY (handler_id) REFERENCES user(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ticket_expertise (
     expertise_id INT UNSIGNED,
     ticket_id INT UNSIGNED,
-    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id),
-    FOREIGN KEY (expertise_id) REFERENCES expertise(expertise_id)
+    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id) ON UPDATE CASCADE,
+    FOREIGN KEY (expertise_id) REFERENCES expertise(expertise_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ticket_hardware (
     hardware_serial VARCHAR(50),
     ticket_id INT UNSIGNED,
-    FOREIGN KEY (hardware_serial) REFERENCES hardware(hardware_serial),
-    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
+    FOREIGN KEY (hardware_serial) REFERENCES hardware(hardware_serial) ON UPDATE CASCADE,
+    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ticket_software (
     software_serial VARCHAR(50),
     ticket_id INT UNSIGNED,
-    FOREIGN KEY (software_serial) REFERENCES software(software_serial),
-    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
+    FOREIGN KEY (software_serial) REFERENCES software(software_serial) ON UPDATE CASCADE,
+    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ticket_os (
     os_serial VARCHAR(50),
     ticket_id INT UNSIGNED,
-    FOREIGN KEY (os_serial) REFERENCES os(os_serial),
-    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id)
+    FOREIGN KEY (os_serial) REFERENCES os(os_serial) ON UPDATE CASCADE,
+    FOREIGN KEY (ticket_id) REFERENCES ticket(ticket_id) ON UPDATE CASCADE
 );
