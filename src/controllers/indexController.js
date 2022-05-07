@@ -10,6 +10,8 @@ const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
 const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
+const Software = require("../models/softwareModel");
+const OS = require("../models/osModel");
 
 router.get('/', checkAuthenticated, async (req, res) => {
 
@@ -26,7 +28,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
         res.render('./index/user', {username: req.user.username, tickets: tickets});
     }
     if (user.type === 'specialist') {
-    
+
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
@@ -70,19 +72,21 @@ router.get('/', checkAuthenticated, async (req, res) => {
 // })
 
 // Tables
-router.get('/hardware',checkAuthenticated, async (req, res) => {
+router.get('/hardware', checkAuthenticated, async (req, res) => {
     let hardwares = await Hardware.getAll(conn, 0, 100);
     res.render('./tables/hardware', {username: req.user.username, hardwares: hardwares});
-})
-router.get('/software',checkAuthenticated, async (req, res) => {
-    res.render('./tables/software', {username: req.user.username});
-})
-router.get('/os',checkAuthenticated, async (req, res) => {
-    res.render('./tables/os', {username: req.user.username});
-})
+});
+router.get('/software', checkAuthenticated, async (req, res) => {
+    let softwares = await Software.getAll(conn, 0, 100);
+    res.render('./tables/software', {username: req.user.username, softwares: softwares});
+});
+router.get('/os', checkAuthenticated, async (req, res) => {
+    let os = await OS.getAll(conn, 0, 100);
+    res.render('./tables/os', {username: req.user.username, os: os});
+});
 
 // Other
-router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
+router.get('/ticket/:id', checkAuthenticated, async (req, res) => {
     let ticketId = req.params.id;
     let ticket = await Ticket.getById(conn, ticketId);
     let user = await User.getById(conn, ticket.userId);
@@ -110,25 +114,25 @@ router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
 
     res.render('./ticket-information', data);
 })
-router.get('/account',checkAuthenticated, async (req, res) => {
+router.get('/account', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./account', {
         username: req.user.username,
         user: user
     });
 })
-router.get('/submit_problem',checkAuthenticated, async (req, res) => {
+router.get('/submit_problem', checkAuthenticated, async (req, res) => {
     res.render('./submit_problem', {username: req.user.username});
 })
-router.get('/all_tickets',checkAuthenticated, async (req, res) => {
+router.get('/all_tickets', checkAuthenticated, async (req, res) => {
     res.render('./submit_problem', {username: req.user.username});
 })
-router.get('/users',checkAuthenticated, async (req, res) => {
+router.get('/users', checkAuthenticated, async (req, res) => {
     res.render('./users', {username: req.user.username});
 })
 router.get('/change_password', checkAuthenticated, async (req, res) => {
     let account = await Account.getById(conn, req.user.id);
-    
+
     res.render('./change_password', {
         username: req.user.username,
         errors: null
@@ -141,10 +145,10 @@ router.post('/change_password', checkAuthenticated,
         .withMessage('Password must be at least 5 characters')
         .custom(async (confirmPassword, {req}) => {
             const password = req.body.password;
-            if(password !== confirmPassword) {
+            if (password !== confirmPassword) {
                 throw new Error('Passwords must be the same')
             }
-        }), 
+        }),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -156,7 +160,7 @@ router.post('/change_password', checkAuthenticated,
             Account.updatePasswordById(conn, req.user.id, hashedPassword);
             res.redirect("/login");
         }
-});
+    });
 
 // Get ticket last updated date
 async function getLastUpdatedDate(ticketId) {
@@ -180,7 +184,7 @@ async function getLastUpdatedDate(ticketId) {
         const max = new Date(Math.max(...arr));
         return max.toLocaleDateString();
     } else {
-        // Get date created here 
+        // Get date created here
         return "[creation date]";
 
     }
