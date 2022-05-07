@@ -4,12 +4,9 @@ const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
 const TicketLog = require("../models/ticketLogModel");
 const Solution = require("../models/solutionModel");
-const Feedback = require("../models/feedbackModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
 const Account = require('../models/accountModel.js');
-const TicketLog = require('../models/ticketLogModel.js');
-const Solution = require('../models/solutionModel');
 const Feedback = require('../models/feedbackModel');
 
 router.get('/', checkAuthenticated, async (req, res) => {
@@ -53,36 +50,36 @@ router.get('/', checkAuthenticated, async (req, res) => {
 })
 
 // INDEX PAGES
-router.get('/admin', async (req, res) => {
-    res.render('./index/admin', {username: req.user.username});
-})
-router.get('/analyst', async (req, res) => {
-    res.render('./index/analyst', {username: req.user.username});
-})
-router.get('/specialist', async (req, res) => {
-    res.render('./index/specialist', {username: req.user.username});
-})
-router.get('/ext_specialist', async (req, res) => {
-    res.render('./index/ext_specialist', {username: req.user.username});
-})
-router.get('/user', async (req, res) => {
-    res.render('./index/user', {username: req.user});
-})
+// router.get('/admin', async (req, res) => {
+//     res.render('./index/admin', {username: req.user.username});
+// })
+// router.get('/analyst', async (req, res) => {
+//     res.render('./index/analyst', {username: req.user.username});
+// })
+// router.get('/specialist', async (req, res) => {
+//     res.render('./index/specialist', {username: req.user.username});
+// })
+// router.get('/ext_specialist', async (req, res) => {
+//     res.render('./index/ext_specialist', {username: req.user.username});
+// })
+// router.get('/user', async (req, res) => {
+//     res.render('./index/user', {username: req.user});
+// })
 
 // Tables
-router.get('/hardware', async (req, res) => {
+router.get('/hardware',checkAuthenticated, async (req, res) => {
     let hardwares = await Hardware.getAll(conn, 0, 100);
     res.render('./tables/hardware', {username: req.user.username, hardwares: hardwares});
 })
-router.get('/software', async (req, res) => {
+router.get('/software',checkAuthenticated, async (req, res) => {
     res.render('./tables/software', {username: req.user.username});
 })
-router.get('/os', async (req, res) => {
+router.get('/os',checkAuthenticated, async (req, res) => {
     res.render('./tables/os', {username: req.user.username});
 })
 
 // Other
-router.get('/ticket/:id', async (req, res) => {
+router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
     let ticketId = req.params.id;
     let ticket = await Ticket.getById(conn, ticketId);
     let user = await User.getById(conn, ticket.userId);
@@ -110,31 +107,21 @@ router.get('/ticket/:id', async (req, res) => {
 
     res.render('./ticket-information', data);
 })
-router.get('/account', async (req, res) => {
-    res.render('./account', {username: req.user.username});
-})
-router.get('/submit_problem', async (req, res) => {
-    res.render('./submit_problem', {username: req.user.username});
-})
-router.get('/all_tickets', async (req, res) => {
-    res.render('./submit_problem', {username: req.user.username});
-})
-router.get('/users', async (req, res) => {
-    res.render('./users', {username: req.user.username});
-})
-
-// External Spec pages
-router.get('/ext-account', async (req, res) => {
-
+router.get('/account',checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
-    console.log(user);
-    res.render('./ext_spec/ext_account', {
+    res.render('./account', {
         username: req.user.username,
         user: user
     });
 })
-router.get('/ext-ticket-information', async (req, res) => {
-    res.render('./ext_spec/ext_ticket_info', {username: req.user.username});
+router.get('/submit_problem',checkAuthenticated, async (req, res) => {
+    res.render('./submit_problem', {username: req.user.username});
+})
+router.get('/all_tickets',checkAuthenticated, async (req, res) => {
+    res.render('./submit_problem', {username: req.user.username});
+})
+router.get('/users',checkAuthenticated, async (req, res) => {
+    res.render('./users', {username: req.user.username});
 })
 
 // Get ticket last updated date
