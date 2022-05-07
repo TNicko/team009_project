@@ -17,12 +17,13 @@ router.get('/', checkAuthenticated, async (req, res) => {
     console.log(update_date);
 
     let user = await User.getById(conn, req.user.id);
+    let tickets = await Ticket.getAll(conn, 0, 1000);
 
     if (user.type === 'admin') {
         res.render('./index/admin', {username: req.user.username});
     }
     if (user.type === 'user') {
-        res.render('./index/user', {username: req.user.username});
+        res.render('./index/user', {username: req.user.username, tickets: tickets});
     }
     if (user.type === 'specialist') {
     
