@@ -21,10 +21,10 @@ router.get('/', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
     if (user.type === 'admin') {
-        res.render('./index/admin', {username: req.user.username, tickets: tickets, usertype:user.type});
+        res.render('./index/admin', {username: req.user.username, tickets: tickets, usertype: user.type});
     }
     if (user.type === 'user') {
-        res.render('./index/user', {username: req.user.username, tickets: tickets, usertype:user.type});
+        res.render('./index/user', {username: req.user.username, tickets: tickets, usertype: user.type});
     }
     if (user.type === 'specialist') {
 
@@ -71,17 +71,17 @@ router.get('/', checkAuthenticated, async (req, res) => {
 // })
 
 // Tables
-router.get('/hardware',checkAuthenticated, async (req, res) => {
+router.get('/hardware', checkAuthenticated, async (req, res) => {
     let hardwares = await Hardware.getAll(conn, 0, 100);
     res.render('./tables/hardware', {username: req.user.username, hardwares: hardwares});
 })
-router.get('/software',checkAuthenticated, async (req, res) => {
+router.get('/software', checkAuthenticated, async (req, res) => {
     let softwares = await Software.getAll(conn, 0, 100);
-    res.render('./tables/software', {username: req.user.username, softwares : softwares});
+    res.render('./tables/software', {username: req.user.username, softwares: softwares});
 })
-router.get('/os',checkAuthenticated, async (req, res) => {
+router.get('/os', checkAuthenticated, async (req, res) => {
     let os = await OS.getAll(conn, 0, 100);
-    res.render('./tables/os', {username: req.user.username, os : os});
+    res.render('./tables/os', {username: req.user.username, os: os});
 })
 router.post('/hardware', checkAuthenticated, async (req, res) => {
     let body = req.body;
@@ -100,7 +100,7 @@ router.post('/os', checkAuthenticated, async (req, res) => {
 });
 
 // Other
-router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
+router.get('/ticket/:id', checkAuthenticated, async (req, res) => {
     let ticketId = req.params.id;
     let ticket = await Ticket.getById(conn, ticketId);
     let user = await User.getById(conn, ticket.userId);
@@ -128,20 +128,20 @@ router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
 
     res.render('./ticket-information', data);
 })
-router.get('/account',checkAuthenticated, async (req, res) => {
+router.get('/account', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./account', {
         username: req.user.username,
         user: user
     });
 })
-router.get('/submit_problem',checkAuthenticated, async (req, res) => {
+router.get('/submit_problem', checkAuthenticated, async (req, res) => {
     res.render('./submit_problem', {username: req.user.username});
 })
-router.get('/all_tickets',checkAuthenticated, async (req, res) => {
+router.get('/all_tickets', checkAuthenticated, async (req, res) => {
     res.render('./submit_problem', {username: req.user.username});
 })
-router.get('/users',checkAuthenticated, async (req, res) => {
+router.get('/users', checkAuthenticated, async (req, res) => {
     res.render('./users', {username: req.user.username});
 })
 router.get('/change_password', checkAuthenticated, async (req, res) => {
@@ -159,7 +159,7 @@ router.post('/change_password', checkAuthenticated,
         .withMessage('Password must be at least 5 characters')
         .custom(async (confirmPassword, {req}) => {
             const password = req.body.password;
-            if(password !== confirmPassword) {
+            if (password !== confirmPassword) {
                 throw new Error('Passwords must be the same')
             }
         }),
@@ -174,7 +174,7 @@ router.post('/change_password', checkAuthenticated,
             Account.updatePasswordById(conn, req.user.id, hashedPassword);
             res.redirect("/login");
         }
-});
+    });
 
 // Get ticket last updated date
 async function getLastUpdatedDate(ticketId) {

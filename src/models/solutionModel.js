@@ -20,11 +20,11 @@ class Solution {
         );
     }
 
-    static async createForTicket(conn, ticketId, status, handlerId, solution){
+    static async createForTicket(conn, ticketId, status, handlerId, solution) {
         var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds;
-        var dateTime = date+' '+time;
+        var dateTime = date + ' ' + time;
 
         let queryString =
             "INSERT INTO solution VALUES (?, ?, ?, ?, ?)";
@@ -33,32 +33,39 @@ class Solution {
         await conn.query(queryString, queryParams);
     }
 
-    static async updateById(conn, solutionId, ticketId = null, status = null, handlerId = null, solution = null){
-        const allParams = {'ticket_id': ticketId, 'solution_status': status, 'handler_id' : handlerId, 'solution' : solution};
+    static async updateById(conn, solutionId, ticketId = null, status = null, handlerId = null, solution = null) {
+        const allParams = {
+            'ticket_id': ticketId,
+            'solution_status': status,
+            'handler_id': handlerId,
+            'solution': solution
+        };
         let queryString = "";
         let queryParams = [];
 
         const addToQuery = (param, name) => {
-            if(param != null){
+            if (param != null) {
                 queryString += `,${name} = ? `;
                 queryParams.push(param);
             }
         }
 
         for (const [name, param] of Object.entries(allParams)) {
-            if(param != null && !queryParams.length){
-                queryString += `UPDATE solution SET ${name} = ?`;
+            if (param != null && !queryParams.length) {
+                queryString += `UPDATE solution
+                                SET ${name} = ?`;
                 queryParams.push(param);
-            }else{
-                addToQuery(param,name);
+            } else {
+                addToQuery(param, name);
             }
         }
 
-        if(queryParams.length){
+        if (queryParams.length) {
             queryString += "WHERE solution_id = ?";
             queryParams.push(solutionId)
             await conn.query(queryString, queryParams);
         }
     }
 }
+
 module.exports = Solution;

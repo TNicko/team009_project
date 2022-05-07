@@ -9,12 +9,12 @@ class Account {
     static async getByName(conn, name) {
 
         let accountResult = await conn.query(
-            `SELECT user_id AS id,username,password
-                FROM account
-                WHERE username = ?`,
+            `SELECT user_id AS id, username, password
+             FROM account
+             WHERE username = ?`,
             [name]
         );
-        
+
         let account = accountResult[0];
 
         if (account) {
@@ -22,7 +22,7 @@ class Account {
                 account.id,
                 account.username,
                 account.password,
-            ); 
+            );
         } else {
             return null;
         }
@@ -32,12 +32,12 @@ class Account {
     static async getById(conn, id) {
 
         let accountResult = await conn.query(
-            `SELECT user_id AS id,username,password
-                FROM account
-                WHERE user_id = ?`,
+            `SELECT user_id AS id, username, password
+             FROM account
+             WHERE user_id = ?`,
             [id]
         );
-        
+
         let account = accountResult[0];
 
         if (account) {
@@ -45,7 +45,7 @@ class Account {
                 account.id,
                 account.username,
                 account.password,
-            ); 
+            );
         } else {
             return null;
         }

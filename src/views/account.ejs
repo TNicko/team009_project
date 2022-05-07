@@ -7,38 +7,38 @@
         <h3 class="my-3">Information</h3>
 
         <table class="table table-light">
-            <tbody> 
-                <tr>
-                    <th>Username</th>
-                    <td><%= username %></td>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <td><%= user.name %></td>
-                </tr>
-                <tr>
-                    <th>User ID</th>
-                    <td><%= user.id %></td>
-                </tr>
-                <tr>
-                    <th>Account Type</th>
-                    <td><%= user.type %></td>
-                </tr>
-                <tr>
-                    <th>Phone Number</th>
-                    <td><%= user.telephone %></td>
-                </tr>
+            <tbody>
+            <tr>
+                <th>Username</th>
+                <td><%= username %></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td><%= user.name %></td>
+            </tr>
+            <tr>
+                <th>User ID</th>
+                <td><%= user.id %></td>
+            </tr>
+            <tr>
+                <th>Account Type</th>
+                <td><%= user.type %></td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td><%= user.telephone %></td>
+            </tr>
 
-                <% if (user.type != "external specialist") { %>
-                    <tr>
-                        <th>Job Title</th>
-                        <td><%= user.job %></td>
-                    </tr>
-                    <tr>
-                        <th>Department</th>
-                        <td><%= user.department %></td>
-                    </tr>
-                <% } %>   
+            <% if (user.type != "external specialist") { %>
+                <tr>
+                    <th>Job Title</th>
+                    <td><%= user.job %></td>
+                </tr>
+                <tr>
+                    <th>Department</th>
+                    <td><%= user.department %></td>
+                </tr>
+            <% } %>
 
             <tr>
                 <th class="align-middle">Password</th>

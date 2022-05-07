@@ -4,7 +4,7 @@
     <div class="admin_top">
         <div class="admin_panel">
             <div class="strike_line sl1">
-    
+
             </div>
             <div class="panel_info">
                 <div class="panel_icon pi1">
@@ -14,14 +14,14 @@
                     <p>Unassigned</p>
                     <p>5</p>
                 </div>
-                    
+
             </div>
-    
-    
+
+
         </div>
         <div class="admin_panel">
             <div class="strike_line sl2">
-    
+
             </div>
             <div class="panel_info">
                 <div class="panel_icon pi2">
@@ -31,13 +31,13 @@
                     <p>Assigned</p>
                     <p>23</p>
                 </div>
-                    
+
             </div>
-            
+
         </div>
         <div class="admin_panel">
             <div class="strike_line sl3">
-    
+
             </div>
             <div class="panel_info">
                 <div class="panel_icon pi3">
@@ -47,35 +47,35 @@
                     <p>Overdue</p>
                     <p>1</p>
                 </div>
-                    
+
             </div>
-            
+
         </div>
         <div class="admin_panel">
             <div class="strike_line sl4">
-    
+
             </div>
             <div class="panel_info">
                 <div class="panel_icon pi4">
                     <i class="fa-solid fa-gear"></i>
                 </div>
                 <div class="panel_title">
-                   <p>Other</p>
-                   <p>02093</p>
+                    <p>Other</p>
+                    <p>02093</p>
                 </div>
-                    
+
             </div>
-            
+
         </div>
-        
+
     </div>
-    
+
     <div class="container">
         <div class="row">
             <div class="col m-3 main_spec_container">
                 <%- include('../partials/ticket_table.ejs', {tickets: spec_tickets, usertype: 'specialist'}) %>
             </div>
-    
+
             <div class="col m-3 main_spec_container">
                 <div class="table_section">
                     <div class="table_top">
@@ -96,26 +96,26 @@
                             <th>Last Updated</th>
                         </tr>
                         </thead>
-    
+
                         <tbody class="ticket-body op-ticket-body">
-    
-                            <% open_tickets.forEach(function(ticket){ %>
-                                <tr>
-                                    <td>
-                                        <%= ticket.ticketId %>
-                                    </td>
-                                    <td>
-                                        <%= ticket.expertises %>
-                                    </td>
-                                    <td>
-                                        <%= ticket.description %>
-                                    </td>
-                                    <td>
-                                       [date]
-                                    </td>
-                                    
-                                </tr>
-                            <% }); %>
+
+                        <% open_tickets.forEach(function(ticket){ %>
+                            <tr>
+                                <td>
+                                    <%= ticket.ticketId %>
+                                </td>
+                                <td>
+                                    <%= ticket.expertises %>
+                                </td>
+                                <td>
+                                    <%= ticket.description %>
+                                </td>
+                                <td>
+                                    [date]
+                                </td>
+
+                            </tr>
+                        <% }); %>
 
                         </tbody>
                     </table>
