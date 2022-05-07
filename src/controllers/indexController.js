@@ -8,6 +8,8 @@ const TicketLog = require("../models/ticketLogModel");
 const Solution = require("../models/solutionModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
+const Software = require("../models/softwareModel");
+const OS = require("../models/osModel");
 const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
 
@@ -25,7 +27,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
         res.render('./index/user', {username: req.user.username});
     }
     if (user.type === 'specialist') {
-    
+
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
@@ -74,10 +76,12 @@ router.get('/hardware',checkAuthenticated, async (req, res) => {
     res.render('./tables/hardware', {username: req.user.username, hardwares: hardwares});
 })
 router.get('/software',checkAuthenticated, async (req, res) => {
-    res.render('./tables/software', {username: req.user.username});
+    let softwares = await Software.getAll(conn, 0, 100);
+    res.render('./tables/software', {username: req.user.username, softwares : softwares});
 })
 router.get('/os',checkAuthenticated, async (req, res) => {
-    res.render('./tables/os', {username: req.user.username});
+    let os = await OS.getAll(conn, 0, 100);
+    res.render('./tables/os', {username: req.user.username, os : os});
 })
 
 // Other
@@ -127,7 +131,7 @@ router.get('/users',checkAuthenticated, async (req, res) => {
 })
 router.get('/change_password', checkAuthenticated, async (req, res) => {
     let account = await Account.getById(conn, req.user.id);
-    
+
     res.render('./change_password', {
         username: req.user.username,
         errors: null
@@ -143,7 +147,7 @@ router.post('/change_password', checkAuthenticated,
             if(password !== confirmPassword) {
                 throw new Error('Passwords must be the same')
             }
-        }), 
+        }),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -179,7 +183,7 @@ async function getLastUpdatedDate(ticketId) {
         const max = new Date(Math.max(...arr));
         return max.toLocaleDateString();
     } else {
-        // Get date created here 
+        // Get date created here
         return "[creation date]";
 
     }
