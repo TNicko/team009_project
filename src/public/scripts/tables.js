@@ -18,14 +18,16 @@ function saveRow(btn, serial, endpoint) {
     btn.innerHTML = "Edit";
 
     let data = {
-        oldSerial: serial,
-        newSerial: row.children[0].children[0].value,
-        newName: row.children[1].children[0].value,
+        oldSerial: serial.trim(),
+        newSerial: row.children[0].children[0].value.trim(),
+        newName: row.children[1].children[0].value.trim(),
     }
 
-    fetch(
-        endpoint,
-        {method: "POST", body: JSON.stringify(data)}
-    ).then(res => console.log(res));
-
+    fetch(endpoint, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    }).then(res => {
+        location.reload();
+    });
 }
