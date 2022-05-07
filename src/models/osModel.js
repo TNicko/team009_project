@@ -53,6 +53,8 @@ class Os{
         }
         
         if(name !== null){
+            if (queryParams.length !== 0)
+                queryString += `,`;
             queryString += ` name = ?`;
             queryParams.push(name)
         }
