@@ -52,13 +52,15 @@
                 <% os.forEach(function(o_s){ %>
                     <tr>
                         <td>
-                            <%= o_s.serial %>
+                            <input class="form-control" type="text" value="<%= o_s.serial %>" disabled>
                         </td>
                         <td>
-                            <%= o_s.name %>
+                            <input class="form-control" type="text" value="<%= o_s.name %>" disabled>
                         </td>
                         <td class="col-edit">
-                            <a href="#"><i class="fa-solid fa-pen"></i></a>
+                            <button class="btn btn-primary" onclick="editRow(this, '<%= o_s.serial %>', '/os')">
+                                Edit
+                            </button>
                         </td>
                     </tr>
                 <% }); %>
@@ -67,3 +69,5 @@
         </div>
     </div>
 </div>
+
+<script src="scripts/tables.js" crossorigin="anonymous"></script>

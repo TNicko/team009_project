@@ -83,9 +83,19 @@ router.get('/os',checkAuthenticated, async (req, res) => {
     let os = await OS.getAll(conn, 0, 100);
     res.render('./tables/os', {username: req.user.username, os : os});
 })
-router.post('/hardware', async (req, res) => {
+router.post('/hardware', checkAuthenticated, async (req, res) => {
     let body = req.body;
     await Hardware.update(conn, body.oldSerial, body.newSerial, body.newName);
+    res.sendStatus(200)
+});
+router.post('/software', checkAuthenticated, async (req, res) => {
+    let body = req.body;
+    await Software.update(conn, body.oldSerial, body.newSerial, body.newName);
+    res.sendStatus(200)
+});
+router.post('/os', checkAuthenticated, async (req, res) => {
+    let body = req.body;
+    await OS.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)
 });
 
