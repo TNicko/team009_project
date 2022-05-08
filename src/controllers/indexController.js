@@ -4,7 +4,7 @@ const conn = require("../db/dbconfig.js");
 const Ticket = require("../models/ticketModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
-
+const Solution = require("../models/solutionModel");
 router.get('/', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
@@ -63,6 +63,14 @@ router.get('/submit_problem', async (req, res) => {
 })
 router.get('/users', async (req, res) => {
     res.render('./users', {username: req.user.username});
+})
+router.get('/solution_history', async (req, res) => {
+    let tickets = await Ticket.getAll(conn, 0, 1000);
+    // for each ticket if there is solution,create a solution
+    tickets.forEach(function(ticket){
+            ticket.solution= Solution.getAllForTicketId(conn, ticket.id);
+    });
+    res.render('./solution_history', {username: req.user.username, tickets:tickets});
 })
 
 // Redirects to login if not authenticated
