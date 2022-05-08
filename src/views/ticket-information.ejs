@@ -1,4 +1,4 @@
-<%- include('./partials/spec_navbar.ejs') %>
+<%- include('./partials/navbar.ejs') %>
 
 <div class="container">
     <div class="m-4 p-4 bg-white rounded-3">
@@ -239,7 +239,7 @@
         <%
         let specialistCanSubmit = ticket.status === "active" || ticket.status === "unsuccessful";
         let userCanSubmit = ticket.status === "submitted";
-        if (specialistCanSubmit && currentUserType === "specialist") { %>
+        if (specialistCanSubmit && usertype === "specialist") { %>
             <div class="info-section">
                 <h3>Solution</h3>
                 <form>
@@ -248,7 +248,7 @@
                     <button type="submit" class="btn btn-danger">Close ticket</button>
                 </form>
             </div>
-        <% } else if (userCanSubmit && currentUserType === "user") { %>
+        <% } else if (userCanSubmit && usertype === "user") { %>
             <div class="info-section">
                 <h3>Feedback</h3>
                 <form>
