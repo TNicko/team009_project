@@ -12,7 +12,7 @@ const Software = require("../models/softwareModel");
 const OS = require("../models/osModel");
 const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
-
+   
 router.get('/', checkAuthenticated, async (req, res) => {
 
     update_date = await getLastUpdatedDate(5);
@@ -37,7 +37,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
             spec_tickets: spec_tickets,
             open_tickets: open_tickets
         });
-    }
+    } 
     if (user.type === 'external specialist') {
 
         let handlerId = 'handler_id';
