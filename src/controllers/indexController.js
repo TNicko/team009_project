@@ -141,7 +141,14 @@ router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => 
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
-    let tickets = await Ticket.getAll(conn, 0, 50);
+    let tickets = await Ticket.getAll(conn, 0, 50, null, null,
+        `CASE status
+            WHEN 'unsuccessful' THEN 1
+            WHEN 'submitted' THEN 2
+            WHEN 'active' THEN 3
+            WHEN 'closed' THEN 4
+            ELSE 5
+        END`, '');
     res.render('./all_tickets', {
         username: req.user.username,
         usertype: user.type,
