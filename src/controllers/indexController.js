@@ -212,7 +212,8 @@ async function getLastUpdatedDate(ticketId) {
         return max.toLocaleDateString();
     } else {
         // Get date created here
-        return "[creation date]";
+        let ticket = await Ticket.getById(conn, ticketId);
+        return ticket.createdAt;
 
     }
 }
