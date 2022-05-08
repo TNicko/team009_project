@@ -32,25 +32,25 @@
             <th>Problem Type</th>
             <th>Title</th>
             <th>Last Updated</th>
-            <% if (usertype==='admin'){ %>
-                 <th>Handler ID</th>
-            <%} %>
+            <% if (usertype === 'admin'){ %>
+                <th>Handler ID</th>
+            <% } %>
         </tr>
         </thead>
 
         <tbody class="ticket-body op-ticket-body">
         <% tickets.forEach(function(ticket){ %>
-        <tr class="overdue">
-            <td class="active"> <%= ticket.status %></td>
-            <td> <%= ticket.ticketId %></td>
-            <td> <%= ticket.expertises %></td>
-            <td> <%= ticket.description %></td>
-            <td> <%= ticket.name %></td>
-            <% if (usertype==='admin'){ %>
-                <td> <%= ticket.handlerId %></td>
-           <%} %>
+            <tr class="overdue">
+                <td class="active"> <%= ticket.status %></td>
+                <td> <%= ticket.ticketId %></td>
+                <td> <%= ticket.expertises %></td>
+                <td> <%= ticket.description %></td>
+                <td> <%= ticket.name %></td>
+                <% if (usertype === 'admin'){ %>
+                    <td> <%= ticket.handlerId %></td>
+                <% } %>
 
-        </tr>
+            </tr>
         <% }); %>
         </tbody>
     </table>

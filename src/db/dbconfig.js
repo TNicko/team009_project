@@ -27,5 +27,5 @@ conn.connect(function (error) {
 // of the architecture would become prone to callback-hell. We use the native
 // util.promisify so that it's generally easier to work with the mysql client.
 const query = util.promisify(conn.query).bind(conn);
-module.exports = { query: query };
+module.exports = {query: query};
 

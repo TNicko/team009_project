@@ -6,7 +6,7 @@ class User {
         this.department = department;
         this.telephone = telephone;
         this.type = type;
-    }   
+    }
 
     // This is an example function so that you can understand what models are
     // supposed to do in an MVC architecture.
@@ -74,18 +74,19 @@ class User {
         // reminder to not write this many obvious comments for your actual code unless you
         // want to get beaten up by me
     }
-    static async getById(conn, id){
+
+    static async getById(conn, id) {
 
         let query = 'SELECT user_id AS id, name, job, department, telephone, account_type AS type FROM user WHERE user_id = ?';
         let params = [id];
         let result = await conn.query(query, params);
         let user = result[0];
-        
+
         return new User(
             user.id,
             user.name,
             user.job,
-            user.department, 
+            user.department,
             user.telephone,
             user.type
         );

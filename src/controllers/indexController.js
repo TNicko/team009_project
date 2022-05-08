@@ -21,10 +21,16 @@ router.get('/', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
     if (user.type === 'admin') {
-        res.render('./index/admin', {username: req.user.username, tickets: tickets, usertype:user.type});
+        res.render('./index/admin', {
+            username: req.user.username, 
+            tickets: tickets, 
+            usertype: user.type});
     }
     if (user.type === 'user') {
-        res.render('./index/user', {username: req.user.username, tickets: tickets, usertype:user.type});
+        res.render('./index/user', {
+            username: req.user.username, 
+            tickets: tickets, 
+            usertype: user.type});
     }
     if (user.type === 'specialist') {
 
@@ -34,58 +40,68 @@ router.get('/', checkAuthenticated, async (req, res) => {
 
         res.render('./index/specialist', {
             username: req.user.username,
+            usertype: user.type,
             spec_tickets: spec_tickets,
-            open_tickets: open_tickets
-        });
-    } 
+            open_tickets: open_tickets});
+    }
     if (user.type === 'external specialist') {
-
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
-
         res.render('./index/ext_specialist', {
             username: req.user.username,
-            spec_tickets: spec_tickets
-        });
+            usertype: user.type,
+            spec_tickets: spec_tickets});
     }
     if (user.type === 'analyst') {
-        res.render('./index/analyst', {username: req.user.username});
+        res.render('./index/analyst', {
+            username: req.user.username,
+            usertype: user.type});
     }
 })
 
-// INDEX PAGES
-// router.get('/admin', async (req, res) => {
-//     res.render('./index/admin', {username: req.user.username});
-// })
-// router.get('/analyst', async (req, res) => {
-//     res.render('./index/analyst', {username: req.user.username});
-// })
-// router.get('/specialist', async (req, res) => {
-//     res.render('./index/specialist', {username: req.user.username});
-// })
-// router.get('/ext_specialist', async (req, res) => {
-//     res.render('./index/ext_specialist', {username: req.user.username});
-// })
-// router.get('/user', async (req, res) => {
-//     res.render('./index/user', {username: req.user});
-// })
-
 // Tables
-router.get('/hardware',checkAuthenticated, async (req, res) => {
+router.get('/hardware', checkAuthenticated, async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
     let hardwares = await Hardware.getAll(conn, 0, 100);
-    res.render('./tables/hardware', {username: req.user.username, hardwares: hardwares});
+    res.render('./tables/hardware', {
+        username: req.user.username, 
+        usertype: user.type,
+        hardwares: hardwares});
 })
-router.get('/software',checkAuthenticated, async (req, res) => {
+router.get('/software', checkAuthenticated, async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
     let softwares = await Software.getAll(conn, 0, 100);
-    res.render('./tables/software', {username: req.user.username, softwares : softwares});
+    res.render('./tables/software', {
+        username: req.user.username, 
+        usertype: user.type,
+        softwares: softwares});
 })
-router.get('/os',checkAuthenticated, async (req, res) => {
+router.get('/os', checkAuthenticated, async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
     let os = await OS.getAll(conn, 0, 100);
-    res.render('./tables/os', {username: req.user.username, os : os});
+    res.render('./tables/os', {
+        username: req.user.username,
+        usertype: user.type, 
+        os: os});
 })
+router.post('/hardware', checkAuthenticated, async (req, res) => {
+    let body = req.body;
+    await Hardware.update(conn, body.oldSerial, body.newSerial, body.newName);
+    res.sendStatus(200)
+});
+router.post('/software', checkAuthenticated, async (req, res) => {
+    let body = req.body;
+    await Software.update(conn, body.oldSerial, body.newSerial, body.newName);
+    res.sendStatus(200)
+});
+router.post('/os', checkAuthenticated, async (req, res) => {
+    let body = req.body;
+    await OS.update(conn, body.oldSerial, body.newSerial, body.newName);
+    res.sendStatus(200)
+});
 
 // Other
-router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
+router.get('/ticket/:id', checkAuthenticated, async (req, res) => {
     let ticketId = req.params.id;
     let ticket = await Ticket.getById(conn, ticketId);
     let user = await User.getById(conn, ticket.userId);
@@ -93,7 +109,7 @@ router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
 
     // Redirect user to home page if ticket is not theirs
     // TODO: Uncomment this when testing is finished
-    // if (currentUserType === "user")
+    // if (usertype === "user")
     //     if (user.id !== req.user.id)
     //         res.redirect('/');
 
@@ -104,7 +120,7 @@ router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
 
     let data = {
         username: req.user.username,
-        currentUserType: currentUser.type,
+        usertype: currentUser.type,
         ticket: ticket,
         user: user,
         logs: logs,
@@ -113,29 +129,35 @@ router.get('/ticket/:id',checkAuthenticated, async (req, res) => {
 
     res.render('./ticket-information', data);
 })
-router.get('/account',checkAuthenticated, async (req, res) => {
+router.get('/account', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./account', {
         username: req.user.username,
-        user: user
-    });
+        usertype: user.type,
+        user: user});
 })
-router.get('/submit_problem',checkAuthenticated, async (req, res) => {
-    res.render('./submit_problem', {username: req.user.username});
+router.get('/submit_problem', checkAuthenticated, async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
+    res.render('./submit_problem', {
+        username: req.user.username,
+        usertype: user.type});
 })
-router.get('/all_tickets',checkAuthenticated, async (req, res) => {
-    res.render('./submit_problem', {username: req.user.username});
+router.get('/all_tickets', checkAuthenticated, async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
+    res.render('./all_tickets', {
+        username: req.user.username,
+        usertype: user.type});
 })
-router.get('/users',checkAuthenticated, async (req, res) => {
-    res.render('./users', {username: req.user.username});
+router.get('/users', checkAuthenticated, async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
+    res.render('./users', {
+        username: req.user.username,
+        usertype: user.type});
 })
 router.get('/change_password', checkAuthenticated, async (req, res) => {
-    let account = await Account.getById(conn, req.user.id);
-
     res.render('./change_password', {
         username: req.user.username,
-        errors: null
-    });
+        errors: null});
 })
 // Change Password validation
 router.post('/change_password', checkAuthenticated,
@@ -144,7 +166,7 @@ router.post('/change_password', checkAuthenticated,
         .withMessage('Password must be at least 5 characters')
         .custom(async (confirmPassword, {req}) => {
             const password = req.body.password;
-            if(password !== confirmPassword) {
+            if (password !== confirmPassword) {
                 throw new Error('Passwords must be the same')
             }
         }),
@@ -159,7 +181,7 @@ router.post('/change_password', checkAuthenticated,
             Account.updatePasswordById(conn, req.user.id, hashedPassword);
             res.redirect("/login");
         }
-});
+    });
 
 // Get ticket last updated date
 async function getLastUpdatedDate(ticketId) {

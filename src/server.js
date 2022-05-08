@@ -50,7 +50,7 @@ const initializePassport = require('./passport-config')
 
 initializePassport(passport)
 
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({extended: false}))
 app.use(flash())
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -59,6 +59,8 @@ app.use(session({
 }));
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(express.json());
 
 app.get('/login', (req, res) => {
     res.render('login');

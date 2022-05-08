@@ -20,6 +20,10 @@ button {
     cursor: pointer;
 }
 
+.table input.form-control:disabled {
+    background-color: white;
+}
+
 .top_section {
     display: flex;
     flex-direction: column;

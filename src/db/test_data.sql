@@ -31,9 +31,9 @@ VALUES (1565, 'Joey Smith', 'Admin', 'IT', '0123456789', 'admin'),
        (5247, 'Tom Smith', 'Specialist', 'IT', '0123456789', 'specialist'),
        (5280, 'Joey John', 'Specialist', 'IT', '0123456789', 'specialist'),
        (1911, 'Arky Arek', 'Specialist', 'Hardware', '0909898976', 'specialist'),
-       
-       (3851, 'Keene Leni', 'External Specialist', null, '0134578998', 'external specialist'),
-       (8850, 'Alex Myer', 'External Specialist', null, '0134578998', 'external specialist'),
+
+       (3851, 'Keene Leni', 'External Specialist', NULL, '0134578998', 'external specialist'),
+       (8850, 'Alex Myer', 'External Specialist', NULL, '0134578998', 'external specialist'),
 
        (4135, 'Jacob Smith', 'Analyst', 'Data Analysis', '2341879094', 'analyst'),
        (4100, 'Nickolai Johnson', 'Analyst', 'Data Analysis', '2341879094', 'analyst'),
@@ -67,14 +67,14 @@ VALUES (1565, 'Joey Smith', 'Admin', 'IT', '0123456789', 'admin'),
 -- BCRYPT HASH NEEDED FOR PASSWORD
 INSERT INTO account
 VALUES (1565, 'admin1', '$2a$09$IRpqJiQa4zBdNxO25k5GV.QgO6qpLk/R2PC6Xszad3MtOpJkI5m1e'),
-        (2341, 'admin2', '$2a$09$wnJaFVyuqjNzo2fbMkOQle3CtKJ5db7nURPLATgwBK3HjvOU0gfy.'),
-        
-        (5247, 'specialist1', '$2a$09$FJgzCpLWoJd8aS9FT9pLg.QoM2nh1Sb8bS0C78cwG.PM3rj84yW5K'),
-        (5280, 'specialist2', '$2a$09$jDbiHX9HRt12DeMP8hPlqOrrm6ArkztYlqaD90/tPug...RVmUcqW'),
-        (1911, 'specialist3', '$2a$09$vrnsXDPHH3ATEzKv/v.P..So6wafbwzzaULQAXp5TXvKdLAMchvGS'),
+       (2341, 'admin2', '$2a$09$wnJaFVyuqjNzo2fbMkOQle3CtKJ5db7nURPLATgwBK3HjvOU0gfy.'),
 
-        (3851, 'ex_specialist1', '$2a$09$OBC.dRIsO9npg6o9yWTE1eH2DUwoO1UFprug2dL1gUw8W5BsRLQVW'),
-        (8850, 'ex_specialist2', '$2a$09$2ADZ2yYvnNM6VXOhsH0E8eOfhjEofgGiAiT6iwtxLiBdY4EK8grLC'),
+       (5247, 'specialist1', '$2a$09$FJgzCpLWoJd8aS9FT9pLg.QoM2nh1Sb8bS0C78cwG.PM3rj84yW5K'),
+       (5280, 'specialist2', '$2a$09$jDbiHX9HRt12DeMP8hPlqOrrm6ArkztYlqaD90/tPug...RVmUcqW'),
+       (1911, 'specialist3', '$2a$09$vrnsXDPHH3ATEzKv/v.P..So6wafbwzzaULQAXp5TXvKdLAMchvGS'),
+
+       (3851, 'ex_specialist1', '$2a$09$OBC.dRIsO9npg6o9yWTE1eH2DUwoO1UFprug2dL1gUw8W5BsRLQVW'),
+       (8850, 'ex_specialist2', '$2a$09$2ADZ2yYvnNM6VXOhsH0E8eOfhjEofgGiAiT6iwtxLiBdY4EK8grLC'),
 
        (4135, 'analyst1', '$2a$09$EqQqvdcXEZ6OOa288Rs0G.Lv1RfquEN7OWrqTxty.eAntxqrR8T6m'),
        (4100, 'analyst2', '$2a$09$zriKgaOdjWW9kHugqpfCFeSUxq5sOU/4q/GPXRz7kjV58hWBxYPtS'),

@@ -1,4 +1,4 @@
-<%- include('../partials/spec_navbar.ejs') %>
+<%- include('../partials/navbar.ejs') %>
 
 <div class="main_section">
     <div class="main_container">
@@ -45,17 +45,20 @@
                     <th>Edit</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-middle">
                 <% hardwares.forEach(function(hardware){ %>
                     <tr>
                         <td>
-                            <%= hardware.serial %>
+                            <input class="form-control" type="text" value="<%= hardware.serial %>" disabled>
                         </td>
                         <td>
-                            <%= hardware.name %>
+                            <input class="form-control" type="text" value="<%= hardware.name %>" disabled>
                         </td>
                         <td class="col-edit">
-                            <a href="#"><i class="fa-solid fa-pen"></i></a>
+                            <button class="btn btn-primary"
+                                    onclick="editRow(this, '<%= hardware.serial %>', '/hardware')">
+                                Edit
+                            </button>
                         </td>
                     </tr>
                 <% }); %>
@@ -64,3 +67,5 @@
         </div>
     </div>
 </div>
+
+<script src="scripts/tables.js" crossorigin="anonymous"></script>

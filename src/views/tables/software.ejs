@@ -1,4 +1,4 @@
-<%- include('../partials/spec_navbar.ejs') %>
+<%- include('../partials/navbar.ejs') %>
 
 <div class="main_section">
     <div class="main_container">
@@ -52,13 +52,16 @@
                 <% softwares.forEach(function(software){ %>
                     <tr>
                         <td>
-                            <%= software.serial %>
+                            <input class="form-control" type="text" value="<%= software.serial %>" disabled>
                         </td>
                         <td>
-                            <%= software.name %>
+                            <input class="form-control" type="text" value="<%= software.name %>" disabled>
                         </td>
                         <td class="col-edit">
-                            <a href="#"><i class="fa-solid fa-pen"></i></a>
+                            <button class="btn btn-primary"
+                                    onclick="editRow(this, '<%= software.serial %>', '/software')">
+                                Edit
+                            </button>
                         </td>
                     </tr>
                 <% }); %>
@@ -67,3 +70,5 @@
         </div>
     </div>
 </div>
+
+<script src="scripts/tables.js" crossorigin="anonymous"></script>
