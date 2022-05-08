@@ -65,12 +65,8 @@ router.get('/users', async (req, res) => {
     res.render('./users', {username: req.user.username});
 })
 router.get('/solution_history', async (req, res) => {
-    let tickets = await Ticket.getAll(conn, 0, 1000);
-    // for each ticket if there is solution,create a solution
-    tickets.forEach(function(ticket){
-            ticket.solution= Solution.getAllForTicketId(conn, ticket.id);
-    });
-    res.render('./solution_history', {username: req.user.username, tickets:tickets});
+    let solutions = await Solution.getAllSuccessSolution(conn);
+    res.render('./solution_history', {username: req.user.username, solutions: solutions});
 })
 
 // Redirects to login if not authenticated

@@ -6,7 +6,7 @@
             <div class="table_top">
                 <div class="table_title_container">
                     <h1 class="table_title">Your Tickets</h1>
-                    <p class="table_title_info">Total <%= tickets.length %></p>
+                    <p class="table_title_info">Total </p>
                 </div>
                 <div class="table_options_container">
                     <!-- Searchbar -->
@@ -31,9 +31,9 @@
             <table class="ticket_table">
         
                 <tbody class="ticket-body op-ticket-body">
-                <% tickets.forEach(function(ticket){ %>
+                <% solutions.forEach(function(solution){ %>
                 <tr class="overdue">
-                    <p>Title: |Description: |Notes:</p>
+                    <p>Description: <%= solution.description %>|Notes:</p>
                     <p>Solution: |Status: </p>
                 </tr>
                 <% }); %>

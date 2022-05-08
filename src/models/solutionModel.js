@@ -8,6 +8,17 @@ class Solution {
         this.solution = solution;
     }
 
+    static async getAllSuccessSolution(conn) {
+        let queryString =
+            "SELECT solution.solution_id AS id, solution.datetime AS dateTime, solution.solution as solution, ticket.description as description, ticket.notes as notes FROM solution LEFT JOIN ticket ON solution.ticket_id = ticket.ticket_id WHERE solution.solution_status = 'successful' ORDER BY datetime DESC";
+
+        let results = await conn.query(queryString);
+
+        return results.map(
+            row => new Solution(row.id, row.dateTime, row.status, row.handlerId, row.solution, row.desciption, row.notes)
+        );
+    }
+
     static async getAllForTicketId(conn, id) {
         let queryString =
             "SELECT solution_id AS id, datetime AS dateTime, solution_status AS status, handler_id AS handlerId, solution FROM solution WHERE ticket_id = ? ORDER BY datetime DESC";
