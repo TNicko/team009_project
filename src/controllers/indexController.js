@@ -218,6 +218,7 @@ async function hashPassword(password) {
 }
 
 // Redirects to login if not authenticated
+// Redirects to home if user does not have access to page
 function checkAuthenticated(userTypes){
     return async (req, res, next) => {
         if (req.isAuthenticated()) {
@@ -232,12 +233,6 @@ function checkAuthenticated(userTypes){
         }
     }
 }
-// function checkAuthenticated(req, res) {
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     res.redirect('/login')
-// }
 
 // Redirects to homepage if user authenticated
 function checkNoAuthenticated(req, res, next) {
