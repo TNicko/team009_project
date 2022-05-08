@@ -1,9 +1,74 @@
 <%- include('./partials/admin_navbar.ejs') %>
 
 
-<div class="main_section">
-    <div class="main_container">
-
-
+<div class="container">
+    <div class="m-4 p-4 bg-white rounded-3">
+        <h1>User Management</h1>
+        <div class="info-section">
+            <h3>Specialist Management</h3>
+            <div class="accordion" id="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ext">
+                            Create external specialist
+                        </button>
+                    </h2>
+                    <div id="ext" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                        <div class="accordion-body">
+                            <form action="/admin/ext/create" method="POST">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="telephone" class="form-label">Telephone</label>
+                                    <input type="tel" class="form-control" id="telephone">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#assign">
+                            Assign ticket to specialist
+                        </button>
+                    </h2>
+                    <div id="assign" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                        <div class="accordion-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="specialist" class="form-label">Specialist</label>
+                                    <select id="specialist" class="form-select">
+                                        <option selected>Select a specialist</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ticket" class="form-label">Ticket ID</label>
+                                    <input type="number" class="form-control" id="ticket">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Assign</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script src="scripts/users.js" crossorigin="anonymous"></script>
