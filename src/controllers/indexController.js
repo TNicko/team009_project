@@ -144,7 +144,7 @@ router.get('/submit_problem', checkAuthenticated, async (req, res) => {
 })
 router.get('/all_tickets', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
-    res.render('./submit_problem', {
+    res.render('./all_tickets', {
         username: req.user.username,
         usertype: user.type});
 })
