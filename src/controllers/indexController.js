@@ -13,7 +13,7 @@ const OS = require("../models/osModel");
 const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
 
-router.get('/', checkAuthenticated, async (req, res) => {
+router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
     update_date = await getLastUpdatedDate(5);
     console.log(update_date);
@@ -60,7 +60,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
 })
 
 // Tables
-router.get('/hardware', checkAuthenticated, async (req, res) => {
+router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let hardwares = await Hardware.getAll(conn, 0, 100);
     res.render('./tables/hardware', {
@@ -68,7 +68,7 @@ router.get('/hardware', checkAuthenticated, async (req, res) => {
         usertype: user.type,
         hardwares: hardwares});
 })
-router.get('/software', checkAuthenticated, async (req, res) => {
+router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let softwares = await Software.getAll(conn, 0, 100);
     res.render('./tables/software', {
@@ -76,7 +76,7 @@ router.get('/software', checkAuthenticated, async (req, res) => {
         usertype: user.type,
         softwares: softwares});
 })
-router.get('/os', checkAuthenticated, async (req, res) => {
+router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let os = await OS.getAll(conn, 0, 100);
     res.render('./tables/os', {
@@ -84,24 +84,24 @@ router.get('/os', checkAuthenticated, async (req, res) => {
         usertype: user.type, 
         os: os});
 })
-router.post('/hardware', checkAuthenticated, async (req, res) => {
+router.post('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let body = req.body;
     await Hardware.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)
 });
-router.post('/software', checkAuthenticated, async (req, res) => {
+router.post('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let body = req.body;
     await Software.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)
 });
-router.post('/os', checkAuthenticated, async (req, res) => {
+router.post('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let body = req.body;
     await OS.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)
 });
 
 // Other
-router.get('/ticket/:id', checkAuthenticated, async (req, res) => {
+router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     let ticketId = req.params.id;
     let ticket = await Ticket.getById(conn, ticketId);
     let user = await User.getById(conn, ticket.userId);
@@ -129,38 +129,38 @@ router.get('/ticket/:id', checkAuthenticated, async (req, res) => {
 
     res.render('./ticket-information', data);
 })
-router.get('/account', checkAuthenticated, async (req, res) => {
+router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./account', {
         username: req.user.username,
         usertype: user.type,
         user: user});
 })
-router.get('/submit_problem', checkAuthenticated, async (req, res) => {
+router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./submit_problem', {
         username: req.user.username,
         usertype: user.type});
 })
-router.get('/all_tickets', checkAuthenticated, async (req, res) => {
+router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./all_tickets', {
         username: req.user.username,
         usertype: user.type});
 })
-router.get('/users', checkAuthenticated, async (req, res) => {
+router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./users', {
         username: req.user.username,
         usertype: user.type});
 })
-router.get('/change_password', checkAuthenticated, async (req, res) => {
+router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     res.render('./change_password', {
         username: req.user.username,
         errors: null});
 })
 // Change Password validation
-router.post('/change_password', checkAuthenticated,
+router.post('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']),
     check('confirm_password')
         .isLength({min: 5})
         .withMessage('Password must be at least 5 characters')
@@ -218,12 +218,26 @@ async function hashPassword(password) {
 }
 
 // Redirects to login if not authenticated
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next()
+function checkAuthenticated(userTypes){
+    return async (req, res, next) => {
+        if (req.isAuthenticated()) {
+            let user = await User.getById(conn, req.user.id);
+            if (userTypes.includes(user.type)) {
+                return next();
+            } else {
+                res.redirect('/')
+            }
+        } else {
+            res.redirect('/login')
+        }
     }
-    res.redirect('/login')
 }
+// function checkAuthenticated(req, res) {
+//     if (req.isAuthenticated()) {
+//         return next();
+//     }
+//     res.redirect('/login')
+// }
 
 // Redirects to homepage if user authenticated
 function checkNoAuthenticated(req, res, next) {
