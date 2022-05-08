@@ -15,9 +15,6 @@ const Feedback = require('../models/feedbackModel');
 
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
-    update_date = await getLastUpdatedDate(5);
-    console.log(update_date);
-
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
     if (user.type === 'admin') {
@@ -144,9 +141,11 @@ router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => 
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
+    let tickets = await Ticket.getAll(conn, 0, 50);
     res.render('./all_tickets', {
         username: req.user.username,
-        usertype: user.type});
+        usertype: user.type,
+        tickets: tickets});
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
