@@ -226,4 +226,33 @@ function checkNoAuthenticated(req, res, next) {
     next()
 }
 
+function combineSolutionsAndFeedbacks(solutions, feedbacks) {
+    let solutionsAndFeedbacks = [];
+    let solCounter = 0;
+    let feedCounter = 0;
+    while (solCounter < solutions.length || feedCounter < feedbacks.length) {
+        if (solCounter === solutions.length) {
+            for (let i = feedCounter; i < feedbacks.length; i++)
+                solutionsAndFeedbacks.push(["Feedback", feedbacks[i]]);
+            break;
+        }
+        if (feedCounter === feedbacks.length) {
+            for (let i = solCounter; i < solutions.length; i++)
+                solutionsAndFeedbacks.push(["Solution", solutions[i]]);
+            break;
+        }
+
+        let [currentSolution, currentFeedback] = [solutions[solCounter], feedbacks[feedCounter]];
+        if (currentSolution.dateTime > currentFeedback.dateTime) {
+            solCounter++;
+            solutionsAndFeedbacks.push(["Solution", currentSolution]);
+        } else {
+            feedCounter++;
+            solutionsAndFeedbacks.push(["Feedback", currentFeedback]);
+        }
+    }
+
+    return solutionsAndFeedbacks;
+}
+
 module.exports = router;
