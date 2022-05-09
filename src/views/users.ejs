@@ -4,6 +4,7 @@
 <div class="container">
     <div class="m-4 p-4 bg-white rounded-3">
         <h1>User Management</h1>
+        <div class="alert alert-danger hide" id="error">Error</div>
         <div class="info-section">
             <h3>Specialist Management</h3>
             <div class="accordion" id="accordion">
@@ -16,24 +17,24 @@
                     </h2>
                     <div id="ext" class="accordion-collapse collapse" data-bs-parent="#accordion">
                         <div class="accordion-body">
-                            <form action="/admin/ext/create" method="POST">
+                            <form id="extForm">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name">
+                                    <input type="text" class="form-control" id="name" name="name">
                                 </div>
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username">
+                                    <input type="text" class="form-control" id="username" name="username">
                                 </div>
                                 <div class="mb-3">
                                     <label for="telephone" class="form-label">Telephone</label>
-                                    <input type="tel" class="form-control" id="telephone">
+                                    <input type="tel" class="form-control" id="telephone" name="telephone">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password">
+                                    <input type="password" class="form-control" id="password" name="password">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="button" onclick="createExtSpecialist()" class="btn btn-primary">Create</button>
                             </form>
                         </div>
                     </div>

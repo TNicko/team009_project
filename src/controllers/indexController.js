@@ -133,6 +133,20 @@ router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'ex
         usertype: user.type,
         user: user});
 })
+router.post('/users/create/ext', checkAuthenticated(["admin"]), async (req, res) => {
+    try {
+        let body = req.body;
+        let userId = await User.create(
+            conn, body.name,
+            "External Specialist", "External Specialist", body.telephone, "external specialist"
+        );
+        let hashedPassword = await hashPassword(body.password);
+        await Account.create(conn, userId, body.username, hashedPassword);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
+})
 router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./submit_problem', {
