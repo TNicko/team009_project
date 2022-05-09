@@ -97,7 +97,7 @@ class Ticket {
     static async getAll(conn,
                         skip, limit,
                         filterColumn = null, filterValue = null,
-                        sortColumn = null, sortType = null) {
+                        sortColumn = null, sortType = null, search = null) {
         let queryString =
             `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId, created_at AS createdAt
              FROM ticket`;
@@ -109,6 +109,11 @@ class Ticket {
                 queryParams.push(filterValue);
             } else {
                 queryString += `\n WHERE ${filterColumn} IS NULL`;
+            }
+
+            if(search !== null){
+                queryString += `AND (ticket_id LIKE '%${search}%' or user_id LIKE '%${search}%' or status LIKE '%${search}%' or 
+                description LIKE '%${search}%' or notes LIKE '%${search}%' or handler_id LIKE '%${search}%' or created_at LIKE '%${search}%')`;
             }
         }
 
