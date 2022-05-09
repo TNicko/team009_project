@@ -32,8 +32,8 @@ VALUES (1565, 'Joey Smith', 'Admin', 'IT', '0123456789', 'admin'),
        (5280, 'Joey John', 'Specialist', 'IT', '0123456789', 'specialist'),
        (1911, 'Arky Arek', 'Specialist', 'Hardware', '0909898976', 'specialist'),
 
-       (3851, 'Keene Leni', 'External Specialist', NULL, '0134578998', 'external specialist'),
-       (8850, 'Alex Myer', 'External Specialist', NULL, '0134578998', 'external specialist'),
+       (3851, 'Keene Leni', 'External Specialist', 'External Specialist', '0134578998', 'external specialist'),
+       (8850, 'Alex Myer', 'External Specialist', 'External Specialist', '0134578998', 'external specialist'),
 
        (4135, 'Jacob Smith', 'Analyst', 'Data Analysis', '2341879094', 'analyst'),
        (4100, 'Nickolai Johnson', 'Analyst', 'Data Analysis', '2341879094', 'analyst'),

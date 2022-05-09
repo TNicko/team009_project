@@ -34,7 +34,8 @@
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password">
                                 </div>
-                                <button type="button" onclick="createExtSpecialist()" class="btn btn-primary">Create</button>
+                                <button type="button" onclick="createExtSpecialist()" class="btn btn-primary">Create
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -48,21 +49,30 @@
                     </h2>
                     <div id="assign" class="accordion-collapse collapse" data-bs-parent="#accordion">
                         <div class="accordion-body">
-                            <form>
+                            <form id="assignForm">
                                 <div class="mb-3">
                                     <label for="specialist" class="form-label">Specialist</label>
-                                    <select id="specialist" class="form-select">
+                                    <select id="specialist" class="form-select" name="specialist">
                                         <option selected>Select a specialist</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <% specialists.forEach((s) => { %>
+                                            <option value="<%= s.id %>">
+                                                <%= s.name %> - <%= s.department %>
+                                            </option>
+                                        <% }) %>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="ticket" class="form-label">Ticket ID</label>
-                                    <input type="number" class="form-control" id="ticket">
+                                    <select id="ticket" class="form-select" name="ticket">
+                                        <option selected>Select a ticket</option>
+                                        <% tickets.forEach((t) => { %>
+                                            <option value="<%= t.ticketId %>">
+                                                <%= t.ticketId %> - <%= t.description %>
+                                            </option>
+                                        <% }) %>
+                                    </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Assign</button>
+                                <button type="button" onclick="assignTicket()" class="btn btn-primary">Assign</button>
                             </form>
                         </div>
                     </div>

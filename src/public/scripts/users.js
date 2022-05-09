@@ -1,12 +1,20 @@
 function createExtSpecialist() {
-    let form = document.querySelector("#extForm");
+    sendRequest("/users/create/ext", "extForm", "Unable to create external specialist");
+}
+
+function assignTicket() {
+    sendRequest("/ticket/assign", "assignForm", "Unable to assign ticket");
+}
+
+function sendRequest(endpoint, formId, errorMsg) {
+    let form = document.querySelector("#" + formId);
     let data = new FormData(form);
 
     let object = {};
     data.forEach((value, key) => object[key] = value);
     let json = JSON.stringify(object);
 
-    fetch("/users/create/ext", {
+    fetch(endpoint, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: json
@@ -15,7 +23,7 @@ function createExtSpecialist() {
             location.reload();
         else {
             let error = document.querySelector("#error");
-            error.innerHTML = "Unable to create external specialist";
+            error.innerHTML = errorMsg;
             error.classList.remove("hide");
         }
     });
