@@ -31,20 +31,19 @@
         
                 <tbody class="ticket-body op-ticket-body">
                 <% solutions.forEach(function(solution){ %>
-                <tr class="overdue">
-                    <div class="px-1">
-                    <%= solution.dateTime.getFullYear()%>-<%= solution.dateTime.getMonth() %>-<%= solution.dateTime.getDay() %> | <%= solution.name %>
-                    <% console.log(solution) %>
-                    
-                        <br>
+                <tr><td>
+                    <div class="tag-row">
+                    <div class="tag"><%= solution.dateTime.getFullYear()%>-<%= solution.dateTime.getMonth()+1 %>-<%= solution.dateTime.getDate() %></div><div class="tag"> <%= solution.name %></div>
+                    </div>
+                    <div class="inner-text">
                         Description: <%= solution.description %> 
                         <br>
                         Solution: <%= solution.solution %>
                         
                 
                     
-                    <div>
-                </tr>
+                    </div>
+                </td></tr>
                 <% })%>
                         
                 </tbody>
