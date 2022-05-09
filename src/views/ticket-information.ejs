@@ -49,11 +49,31 @@
                 <tbody>
                 <tr>
                     <th style="width: 30%">Date Created</th>
-                    <td>PLACEHOLDER VALUE</td>
+                    <td>
+                        <%=
+                        ticket.createdAt.toLocaleString(
+                                "en-GB",
+                                {
+                                    day: "numeric",
+                                    month: "numeric",
+                                    year: "numeric"
+                                }
+                        )
+                        %>
+                    </td>
                 </tr>
                 <tr>
                     <th>Last Updated</th>
-                    <td>PLACEHOLDER VALUE</td>
+                    <td>
+                        <%= lastUpdated.toLocaleString(
+                                "en-GB",
+                                {
+                                    day: "numeric",
+                                    month: "numeric",
+                                    year: "numeric"
+                                }
+                        ) %>
+                    </td>
                 </tr>
                 <tr>
                     <th>Hardware</th>
@@ -245,7 +265,7 @@
                 <form>
                     <textarea class="form-control mb-3" placeholder="Add a solution" rows="8"></textarea>
                     <button type="submit" class="btn btn-primary">Submit solution</button>
-                    <button type="submit" class="btn btn-danger">Close ticket</button>
+                    <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close ticket</button>
                 </form>
             </div>
         <% } else if (userCanSubmit && usertype === "user") { %>
@@ -254,10 +274,12 @@
                 <form>
                     <textarea class="form-control mb-3" placeholder="Add feedback" rows="8"></textarea>
                     <button type="submit" class="btn btn-primary">Submit feedback</button>
-                    <button type="submit" class="btn btn-danger">Close ticket</button>
+                    <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close ticket</button>
                 </form>
             </div>
         <% } %>
     </div>
 
 </div>
+
+<script src="../scripts/ticket.js"></script>

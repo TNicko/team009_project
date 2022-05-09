@@ -91,6 +91,17 @@ class User {
             user.type
         );
     }
+
+    static async create(conn, name, job, department, telephone, type) {
+        let queryString = `
+            INSERT INTO user (name, job, department, telephone, account_type)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        let queryParams = [name, job, department, telephone, type];
+
+        let result = await conn.query(queryString, queryParams);
+        return result.insertId;
+    }
 }
 
 module.exports = User;

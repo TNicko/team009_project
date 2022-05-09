@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS account
     user_id  INT UNSIGNED AUTO_INCREMENT,
     username VARCHAR(50)  NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
+    disabled BOOLEAN      NOT NULL DEFAULT FALSE,
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE
 );
@@ -74,6 +75,7 @@ CREATE TABLE IF NOT EXISTS ticket
     description VARCHAR(300)                                           NOT NULL,
     notes       VARCHAR(1000),
     handler_id  INT UNSIGNED,
+    created_at  DATETIME                                               NOT NULL,
     PRIMARY KEY (ticket_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE,
     FOREIGN KEY (handler_id) REFERENCES user (user_id) ON UPDATE CASCADE
