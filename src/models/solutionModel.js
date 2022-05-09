@@ -23,11 +23,11 @@ class Solution {
     static async createForTicket(conn, ticketId, status, handlerId, solution) {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds;
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date + ' ' + time;
 
         let queryString =
-            "INSERT INTO solution VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO solution (ticket_id, datetime, solution_status, handler_id, solution) VALUES (?, ?, ?, ?, ?)";
         let queryParams = [ticketId, dateTime, status, handlerId, solution];
 
         await conn.query(queryString, queryParams);

@@ -20,35 +20,37 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     let ticket_total = await Ticket.getCount(conn);
     if (user.type === 'admin') {
         res.render('./index/admin', {
-            username: req.user.username, 
-            tickets: tickets, 
+            username: req.user.username,
+            tickets: tickets,
             usertype: user.type,
-            ticket_total: ticket_total});
+            ticket_total: ticket_total
+        });
     }
     if (user.type === 'user') {
         res.render('./index/user', {
-            username: req.user.username, 
-            tickets: tickets, 
-            usertype: user.type});
+            username: req.user.username,
+            tickets: tickets,
+            usertype: user.type
+        });
     }
     if (user.type === 'specialist') {
 
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
-        let ticket_total = await Ticket.getCount(conn, 
-            [handlerId], 
-            [user.id], 
+        let ticket_total = await Ticket.getCount(conn,
+            [handlerId],
+            [user.id],
             ['']);
-        let assigned_total = await Ticket.getCount(conn, 
-            [handlerId, 'status', 'status', 'status'], 
-            [user.id, 'active', 'unsuccessful', 'submitted'], 
+        let assigned_total = await Ticket.getCount(conn,
+            [handlerId, 'status', 'status', 'status'],
+            [user.id, 'active', 'unsuccessful', 'submitted'],
             ['AND (', 'OR', 'OR', ')']);
         let open_total = await Ticket.getCount(conn,
             [handlerId],
             [null],
-            [''])    
-        console.log(assigned_total);    
+            [''])
+        console.log(assigned_total);
         res.render('./index/specialist', {
             username: req.user.username,
             usertype: user.type,
@@ -56,7 +58,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             open_tickets: open_tickets,
             ticket_total: ticket_total,
             assigned_total: assigned_total,
-            open_total: open_total});
+            open_total: open_total
+        });
     }
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
@@ -64,7 +67,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         res.render('./index/ext_specialist', {
             username: req.user.username,
             usertype: user.type,
-            spec_tickets: spec_tickets});
+            spec_tickets: spec_tickets
+        });
     }
     if (user.type === 'analyst') {
         // passes list of software, list of users and and the count for each software and users
@@ -108,7 +112,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
             countPerSoftware[software.name] = softwareCount;
         })
-        
+         
         res.render('./index/analyst', {
             username: req.user.username,
             usertype: user.type,
@@ -124,25 +128,28 @@ router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), 
     let user = await User.getById(conn, req.user.id);
     let hardwares = await Hardware.getAll(conn, 0, 100);
     res.render('./tables/hardware', {
-        username: req.user.username, 
+        username: req.user.username,
         usertype: user.type,
-        hardwares: hardwares});
+        hardwares: hardwares
+    });
 })
 router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let softwares = await Software.getAll(conn, 0, 100);
     res.render('./tables/software', {
-        username: req.user.username, 
+        username: req.user.username,
         usertype: user.type,
-        softwares: softwares});
+        softwares: softwares
+    });
 })
 router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let os = await OS.getAll(conn, 0, 100);
     res.render('./tables/os', {
         username: req.user.username,
-        usertype: user.type, 
-        os: os});
+        usertype: user.type,
+        os: os
+    });
 })
 router.post('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let body = req.body;
@@ -200,6 +207,29 @@ router.post('/ticket/:id/close', checkAuthenticated(['specialist', 'admin', 'ext
         res.sendStatus(500);
     }
 })
+router.post('/ticket/:id/feedback', checkAuthenticated(['user']), async (req, res) => {
+    let ticketId = req.params.id;
+    let body = req.body;
+    try {
+        await Feedback.createForTicket(conn, ticketId, body.feedback, req.user.id);
+        await Ticket.updateById(conn, ticketId, null, "unsuccessful");
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
+})
+router.post('/ticket/:id/solution', checkAuthenticated(['specialist']), async (req, res) => {
+    let ticketId = req.params.id;
+    let body = req.body;
+    try {
+        await Solution.createForTicket(conn, ticketId, "pending", req.user.id, body.solution);
+        await Ticket.updateById(conn, ticketId, null, "submitted");
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500);
+    }
+})
 router.post('/ticket/assign', checkAuthenticated(['admin']), async (req, res) => {
     try {
         let body = req.body;
@@ -214,7 +244,8 @@ router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'ex
     res.render('./account', {
         username: req.user.username,
         usertype: user.type,
-        user: user});
+        user: user
+    });
 })
 router.post('/users/create/ext', checkAuthenticated(["admin"]), async (req, res) => {
     try {
@@ -234,7 +265,8 @@ router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => 
     let user = await User.getById(conn, req.user.id);
     res.render('./submit_problem', {
         username: req.user.username,
-        usertype: user.type});
+        usertype: user.type
+    });
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
@@ -249,7 +281,8 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
     res.render('./all_tickets', {
         username: req.user.username,
         usertype: user.type,
-        tickets: tickets});
+        tickets: tickets
+    });
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
@@ -267,7 +300,8 @@ router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
 router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     res.render('./change_password', {
         username: req.user.username,
-        errors: null});
+        errors: null
+    });
 })
 // Change Password validation
 router.post('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']),
@@ -329,7 +363,7 @@ async function hashPassword(password) {
 
 // Redirects to login if not authenticated
 // Redirects to home if user does not have access to page
-function checkAuthenticated(userTypes){
+function checkAuthenticated(userTypes) {
     return async (req, res, next) => {
         if (req.isAuthenticated()) {
             let user = await User.getById(conn, req.user.id);
