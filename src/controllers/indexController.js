@@ -17,6 +17,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
+    let solutions = await Solution.getAllSuccessSolution(conn);
     let ticket_total = await Ticket.getCount(conn);
     if (user.type === 'admin') {
         res.render('./index/admin', {
@@ -27,11 +28,20 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         });
     }
     if (user.type === 'user') {
+        let ticket_total = await Ticket.getCount(conn);
         res.render('./index/user', {
+<<<<<<< HEAD
             username: req.user.username,
             tickets: tickets,
             usertype: user.type
         });
+=======
+            username: req.user.username, 
+            tickets: tickets, 
+            usertype: user.type,
+            solutions:solutions,
+            ticket_total: ticket_total});
+>>>>>>> user_home_page_controller
     }
     if (user.type === 'specialist') {
 
@@ -257,6 +267,10 @@ router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analy
         username: req.user.username,
         errors: null
     });
+})
+router.get('/solution_history', checkAuthenticated(['user']), async (req, res) => {
+    let solutions = await Solution.getAllSuccessSolution(conn);
+    res.render('./solution_history', {username: req.user.username, solutions: solutions});
 })
 // Change Password validation
 router.post('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']),
