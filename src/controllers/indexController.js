@@ -124,6 +124,7 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
     let solutions = await Solution.getAllForTicketId(conn, ticketId);
     let feedbacks = await Feedback.getAllForTicketId(conn, ticketId);
     let combined = combineSolutionsAndFeedbacks(solutions, feedbacks);
+    let lastUpdated = await getLastUpdatedDate(ticketId);
 
     let data = {
         username: req.user.username,
@@ -131,7 +132,8 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
         ticket: ticket,
         user: user,
         logs: logs,
-        solutionsAndFeedbacks: combined
+        solutionsAndFeedbacks: combined,
+        lastUpdated: lastUpdated
     };
 
     res.render('./ticket-information', data);
@@ -249,12 +251,11 @@ async function getLastUpdatedDate(ticketId) {
 
     if (arr.length != 0) {
         const max = new Date(Math.max(...arr));
-        return max.toLocaleDateString();
+        return max;
     } else {
         // Get date created here
         let ticket = await Ticket.getById(conn, ticketId);
         return ticket.createdAt;
-
     }
 }
 

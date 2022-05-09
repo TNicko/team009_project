@@ -49,11 +49,31 @@
                 <tbody>
                 <tr>
                     <th style="width: 30%">Date Created</th>
-                    <td>PLACEHOLDER VALUE</td>
+                    <td>
+                        <%=
+                        ticket.createdAt.toLocaleString(
+                                "en-GB",
+                                {
+                                    day: "numeric",
+                                    month: "numeric",
+                                    year: "numeric"
+                                }
+                        )
+                        %>
+                    </td>
                 </tr>
                 <tr>
                     <th>Last Updated</th>
-                    <td>PLACEHOLDER VALUE</td>
+                    <td>
+                        <%= lastUpdated.toLocaleString(
+                                "en-GB",
+                                {
+                                    day: "numeric",
+                                    month: "numeric",
+                                    year: "numeric"
+                                }
+                        ) %>
+                    </td>
                 </tr>
                 <tr>
                     <th>Hardware</th>
