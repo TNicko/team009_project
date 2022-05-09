@@ -17,11 +17,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
+    let ticket_total = await Ticket.getCount(conn);
     if (user.type === 'admin') {
         res.render('./index/admin', {
             username: req.user.username, 
             tickets: tickets, 
-            usertype: user.type});
+            usertype: user.type,
+            ticket_total: ticket_total});
     }
     if (user.type === 'user') {
         res.render('./index/user', {
