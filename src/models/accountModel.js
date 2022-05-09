@@ -57,6 +57,17 @@ class Account {
         let queryParams = [password, userId];
         await conn.query(queryString, queryParams);
     }
+
+    static async create(conn, userId, username, password) {
+        let queryString = `
+            INSERT INTO account (user_id, username, password)
+            VALUES (?, ?, ?)
+        `;
+        let queryParams = [userId, username, password];
+
+        let result = await conn.query(queryString, queryParams);
+        return result.insertId;
+    }
 }
 
 module.exports = Account;

@@ -17,11 +17,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
+    let ticket_total = await Ticket.getCount(conn);
     if (user.type === 'admin') {
         res.render('./index/admin', {
             username: req.user.username, 
             tickets: tickets, 
-            usertype: user.type});
+            usertype: user.type,
+            ticket_total: ticket_total});
     }
     if (user.type === 'user') {
         res.render('./index/user', {
@@ -34,13 +36,27 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
-        let ticket_total = await Ticket.getCount(conn, handlerId, user.id);
+        let ticket_total = await Ticket.getCount(conn, 
+            [handlerId], 
+            [user.id], 
+            ['']);
+        let assigned_total = await Ticket.getCount(conn, 
+            [handlerId, 'status', 'status', 'status'], 
+            [user.id, 'active', 'unsuccessful', 'submitted'], 
+            ['AND (', 'OR', 'OR', ')']);
+        let open_total = await Ticket.getCount(conn,
+            [handlerId],
+            [null],
+            [''])    
+        console.log(assigned_total);    
         res.render('./index/specialist', {
             username: req.user.username,
             usertype: user.type,
             spec_tickets: spec_tickets,
             open_tickets: open_tickets,
-            ticket_total: ticket_total});
+            ticket_total: ticket_total,
+            assigned_total: assigned_total,
+            open_total: open_total});
     }
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
@@ -115,6 +131,7 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
     let solutions = await Solution.getAllForTicketId(conn, ticketId);
     let feedbacks = await Feedback.getAllForTicketId(conn, ticketId);
     let combined = combineSolutionsAndFeedbacks(solutions, feedbacks);
+    let lastUpdated = await getLastUpdatedDate(ticketId);
 
     let data = {
         username: req.user.username,
@@ -122,10 +139,29 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
         ticket: ticket,
         user: user,
         logs: logs,
-        solutionsAndFeedbacks: combined
+        solutionsAndFeedbacks: combined,
+        lastUpdated: lastUpdated
     };
 
     res.render('./ticket-information', data);
+})
+router.post('/ticket/:id/close', checkAuthenticated(['specialist', 'admin', 'external specialist', 'user']), async (req, res) => {
+    let ticketId = req.params.id;
+    try {
+        await Ticket.updateById(conn, ticketId, null, "closed");
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
+})
+router.post('/ticket/assign', checkAuthenticated(['admin']), async (req, res) => {
+    try {
+        let body = req.body;
+        await Ticket.updateById(conn, body.ticket, null, null, null, null, body.specialist);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
 })
 router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
@@ -133,6 +169,20 @@ router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'ex
         username: req.user.username,
         usertype: user.type,
         user: user});
+})
+router.post('/users/create/ext', checkAuthenticated(["admin"]), async (req, res) => {
+    try {
+        let body = req.body;
+        let userId = await User.create(
+            conn, body.name,
+            "External Specialist", "External Specialist", body.telephone, "external specialist"
+        );
+        let hashedPassword = await hashPassword(body.password);
+        await Account.create(conn, userId, body.username, hashedPassword);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
 })
 router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
@@ -157,9 +207,16 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
+    let specialists = await User.getAll(conn, 0, 100, "account_type", "specialist");
+    let extSpecialists = await User.getAll(conn, 0, 100, "account_type", "external specialist");
+    let tickets = await Ticket.getAll(conn, 0, 100, "status", "active");
+
     res.render('./users', {
         username: req.user.username,
-        usertype: user.type});
+        usertype: user.type,
+        specialists: [...specialists, ...extSpecialists],
+        tickets: tickets
+    });
 })
 router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     res.render('./change_password', {
@@ -210,12 +267,11 @@ async function getLastUpdatedDate(ticketId) {
 
     if (arr.length != 0) {
         const max = new Date(Math.max(...arr));
-        return max.toLocaleDateString();
+        return max;
     } else {
         // Get date created here
         let ticket = await Ticket.getById(conn, ticketId);
         return ticket.createdAt;
-
     }
 }
 
@@ -248,6 +304,35 @@ function checkNoAuthenticated(req, res, next) {
         res.redirect('/')
     }
     next()
+}
+
+function combineSolutionsAndFeedbacks(solutions, feedbacks) {
+    let solutionsAndFeedbacks = [];
+    let solCounter = 0;
+    let feedCounter = 0;
+    while (solCounter < solutions.length || feedCounter < feedbacks.length) {
+        if (solCounter === solutions.length) {
+            for (let i = feedCounter; i < feedbacks.length; i++)
+                solutionsAndFeedbacks.push(["Feedback", feedbacks[i]]);
+            break;
+        }
+        if (feedCounter === feedbacks.length) {
+            for (let i = solCounter; i < solutions.length; i++)
+                solutionsAndFeedbacks.push(["Solution", solutions[i]]);
+            break;
+        }
+
+        let [currentSolution, currentFeedback] = [solutions[solCounter], feedbacks[feedCounter]];
+        if (currentSolution.dateTime > currentFeedback.dateTime) {
+            solCounter++;
+            solutionsAndFeedbacks.push(["Solution", currentSolution]);
+        } else {
+            feedCounter++;
+            solutionsAndFeedbacks.push(["Feedback", currentFeedback]);
+        }
+    }
+
+    return solutionsAndFeedbacks;
 }
 
 module.exports = router;

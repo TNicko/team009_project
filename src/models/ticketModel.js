@@ -73,17 +73,21 @@ class Ticket {
         );
     }
 
-    static async getCount(conn, filterColumn = null, filterValue = null) {
+    static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
         let queryString = `SELECT COUNT(ticket_id) AS count FROM ticket`
         let queryParams = [];
 
-        if (filterColumn !== null) {
-            if (filterValue !== null) {
-                queryString += `\n WHERE ${filterColumn} = ?`;
-                queryParams.push(filterValue);
-            } else {
-                queryString += `\n WHERE ${filterColumn} IS NULL`;
-            }
+        if (filterColumns.length != 0) {
+            console.log('wddd');
+            queryString += ` WHERE`;
+            filterColumns.forEach((filter, i) => {
+                if (filterValues[i] !== null) {
+                    queryString += ` ${filter} = ? ${filterOperator[i]}`;
+                    queryParams.push(filterValues[i]);
+                } else {
+                    queryString += ` ${filter} IS NULL ${filterOperator[i]}`;
+                }
+            });
         }
 
         let tickets = await conn.query(queryString, queryParams);
