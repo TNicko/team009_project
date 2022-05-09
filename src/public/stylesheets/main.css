@@ -20,6 +20,10 @@ button {
     cursor: pointer;
 }
 
+.hide {
+    display: none;
+}
+
 .table input.form-control:disabled {
     background-color: white;
 }

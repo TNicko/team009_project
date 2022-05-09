@@ -136,12 +136,35 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
 
     res.render('./ticket-information', data);
 })
+router.post('/ticket/assign', checkAuthenticated(['admin']), async (req, res) => {
+    try {
+        let body = req.body;
+        await Ticket.updateById(conn, body.ticket, null, null, null, null, body.specialist);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
+})
 router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./account', {
         username: req.user.username,
         usertype: user.type,
         user: user});
+})
+router.post('/users/create/ext', checkAuthenticated(["admin"]), async (req, res) => {
+    try {
+        let body = req.body;
+        let userId = await User.create(
+            conn, body.name,
+            "External Specialist", "External Specialist", body.telephone, "external specialist"
+        );
+        let hashedPassword = await hashPassword(body.password);
+        await Account.create(conn, userId, body.username, hashedPassword);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
 })
 router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
@@ -166,9 +189,16 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
+    let specialists = await User.getAll(conn, 0, 100, "account_type", "specialist");
+    let extSpecialists = await User.getAll(conn, 0, 100, "account_type", "external specialist");
+    let tickets = await Ticket.getAll(conn, 0, 100, "status", "active");
+
     res.render('./users', {
         username: req.user.username,
-        usertype: user.type});
+        usertype: user.type,
+        specialists: [...specialists, ...extSpecialists],
+        tickets: tickets
+    });
 })
 router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     res.render('./change_password', {
@@ -257,6 +287,35 @@ function checkNoAuthenticated(req, res, next) {
         res.redirect('/')
     }
     next()
+}
+
+function combineSolutionsAndFeedbacks(solutions, feedbacks) {
+    let solutionsAndFeedbacks = [];
+    let solCounter = 0;
+    let feedCounter = 0;
+    while (solCounter < solutions.length || feedCounter < feedbacks.length) {
+        if (solCounter === solutions.length) {
+            for (let i = feedCounter; i < feedbacks.length; i++)
+                solutionsAndFeedbacks.push(["Feedback", feedbacks[i]]);
+            break;
+        }
+        if (feedCounter === feedbacks.length) {
+            for (let i = solCounter; i < solutions.length; i++)
+                solutionsAndFeedbacks.push(["Solution", solutions[i]]);
+            break;
+        }
+
+        let [currentSolution, currentFeedback] = [solutions[solCounter], feedbacks[feedCounter]];
+        if (currentSolution.dateTime > currentFeedback.dateTime) {
+            solCounter++;
+            solutionsAndFeedbacks.push(["Solution", currentSolution]);
+        } else {
+            feedCounter++;
+            solutionsAndFeedbacks.push(["Feedback", currentFeedback]);
+        }
+    }
+
+    return solutionsAndFeedbacks;
 }
 
 module.exports = router;
