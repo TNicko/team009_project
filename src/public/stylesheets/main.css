@@ -20,6 +20,14 @@ button {
     cursor: pointer;
 }
 
+.hide {
+    display: none;
+}
+
+.table input.form-control:disabled {
+    background-color: white;
+}
+
 .top_section {
     display: flex;
     flex-direction: column;
@@ -713,6 +721,10 @@ input.info-tag {
 
 .panel_title {
     padding-left: 10px;
+}
+
+.panel_title p {
+    margin-bottom: 0px;
 }
 
 .panel_title p:first-of-type {

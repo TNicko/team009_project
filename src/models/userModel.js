@@ -6,7 +6,7 @@ class User {
         this.department = department;
         this.telephone = telephone;
         this.type = type;
-    }   
+    }
 
     // This is an example function so that you can understand what models are
     // supposed to do in an MVC architecture.
@@ -26,14 +26,14 @@ class User {
 
         // If filterColumn is not null, it means that the SQL query needs to filter the results.
         // This is done with a WHERE
+        // The \n just means new line.
         if (filterColumn !== null) {
-            // Notice that we have 2 question marks. Instead of putting the filterColumn and
-            // filterValue directly in the query string, we put them in queryParams.
-            // The MySQL module will automatically substitute in our actual data from
-            // queryParams into the question marks whenever the SQL query is run.
-            // The \n just means new line.
-            queryString += `\n WHERE ? = ?`;
-            queryParams.push(filterColumn, filterValue);
+            if (filterValue !== null) {
+                queryString += `\n WHERE ${filterColumn} = ?`;
+                queryParams.push(filterValue);
+            } else {
+                queryString += `\n WHERE ${filterColumn} IS NULL`;
+            }
         }
 
         // If sortColumn is not null, it means that the SQL query needs to sort the results.
@@ -50,6 +50,10 @@ class User {
         // etc.
         // Notice that we don't check if skip or limit are null before doing the query.
         // This is because pagination should be forced.
+        // Notice that we have 2 question marks. Instead of putting the skip and
+        // limit directly in the query string, we put them in queryParams.
+        // The MySQL module will automatically substitute in our actual data from
+        // queryParams into the question marks whenever the SQL query is run.
         queryString += `\n LIMIT ?, ?`;
         queryParams.push(skip, limit);
 
@@ -70,21 +74,33 @@ class User {
         // reminder to not write this many obvious comments for your actual code unless you
         // want to get beaten up by me
     }
-    static async getById(conn, id){
+
+    static async getById(conn, id) {
 
         let query = 'SELECT user_id AS id, name, job, department, telephone, account_type AS type FROM user WHERE user_id = ?';
         let params = [id];
         let result = await conn.query(query, params);
         let user = result[0];
-        
+
         return new User(
             user.id,
             user.name,
             user.job,
-            user.department, 
+            user.department,
             user.telephone,
             user.type
         );
+    }
+
+    static async create(conn, name, job, department, telephone, type) {
+        let queryString = `
+            INSERT INTO user (name, job, department, telephone, account_type)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        let queryParams = [name, job, department, telephone, type];
+
+        let result = await conn.query(queryString, queryParams);
+        return result.insertId;
     }
 }
 

@@ -1,13 +1,14 @@
 class Expertise {
-    constructor(id,name) {
+    constructor(id, name) {
         this.id = id;
         this.name = name;
     }
-    
+
     static async getBySpecialist(conn, SpecialistId) {
         let expertises = await conn.query(
-            `SELECT expertise.expertise_id, expertise.name 
-             From expertise INNER JOIN handler_expertise ON expertise.expertise_id = handler_expertise.expertise_id 
+            `SELECT expertise.expertise_id, expertise.name
+             FROM expertise
+                  INNER JOIN handler_expertise ON expertise.expertise_id = handler_expertise.expertise_id
              WHERE handler_id = ?`,
             [SpecialistId]
         );
@@ -25,13 +26,17 @@ class Expertise {
                         filterColumn = null, filterValue = null,
                         sortColumn = null, sortType = null) {
         let queryString =
-            `SELECT expertise_id,name
+            `SELECT expertise_id, name
              FROM expertise`;
         let queryParams = [];
 
         if (filterColumn !== null) {
-            queryString += `\n WHERE ? = ?`;
-            queryParams.push(filterColumn, filterValue);
+            if (filterValue !== null) {
+                queryString += `\n WHERE ${filterColumn} = ?`;
+                queryParams.push(filterValue);
+            } else {
+                queryString += `\n WHERE ${filterColumn} IS NULL`;
+            }
         }
 
         if (sortColumn !== null)

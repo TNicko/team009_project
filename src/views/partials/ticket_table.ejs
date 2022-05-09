@@ -1,8 +1,12 @@
 <div class="table_section">
     <div class="table_top">
         <div class="table_title_container">
-            <h1 class="table_title">Your Tickets</h1>
-            <p class="table_title_info">Total <%= tickets.length %></p>
+            <% if (usertype == 'admin') { %>
+                <h1 class="table_title">Tickets</h1>
+            <% } else { %>
+                <h1 class="table_title">Your Tickets</h1>
+            <% } %>        
+            <p class="table_title_info">Total <%= ticket_total %></p>
         </div>
         <div class="table_options_container">
             <!-- Searchbar -->
@@ -32,25 +36,25 @@
             <th>Problem Type</th>
             <th>Title</th>
             <th>Last Updated</th>
-            <% if (usertype==='admin'){ %>
-                 <th>Handler ID</th> 
-            <%} %>
+            <% if (usertype === 'admin'){ %>
+                <th>Handler ID</th>
+            <% } %>
         </tr>
         </thead>
 
         <tbody class="ticket-body op-ticket-body">
         <% tickets.forEach(function(ticket){ %>
-        <tr class="overdue">
-            <td class="active"> <%= ticket.status %></td>
-            <td> <%= ticket.ticketId %></td>
-            <td> <%= ticket.expertises %></td>
-            <td> <%= ticket.description %></td>
-            <td> <%= ticket.name %></td>
-            <% if (usertype==='admin'){ %>
-                <td> <%= ticket.handlerId %></td>
-           <%} %>
-            
-        </tr>
+            <tr class="overdue">
+                <td class="active"> <%= ticket.status %></td>
+                <td> <%= ticket.ticketId %></td>
+                <td> <%= ticket.expertises %></td>
+                <td> <%= ticket.description %></td>
+                <td> <%= ticket.name %></td>
+                <% if (usertype === 'admin'){ %>
+                    <td> <%= ticket.handlerId %></td>
+                <% } %>
+
+            </tr>
         <% }); %>
         </tbody>
     </table>

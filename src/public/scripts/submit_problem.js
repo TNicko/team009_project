@@ -1,6 +1,4 @@
-
-
-  $('.chb').click(function() {
+$('.chb').click(function () {
 
     var chb_type = $(this).attr('id')
 
@@ -8,36 +6,30 @@
     if ($(this).is(':checked')) {
         if (chb_type == "chb_hardware") {
             $("#hardware_input").css("display", "flex");
-        } 
-        else if (chb_type == "chb_software") {
+        } else if (chb_type == "chb_software") {
             $("#software_input").css("display", "flex");
-        }
-        else if (chb_type == "chb_network") {
-        
-        }
-        else if (chb_type == "chb_other") {
+        } else if (chb_type == "chb_network") {
+
+        } else if (chb_type == "chb_other") {
             $("#other_input").css("display", "flex");
         }
     }
     // uncheck
     if (!$(this).is(':checked')) {
         if (chb_type == "chb_hardware") {
-            
+
             $("#hardware_input").hide();
-        } 
-        else if (chb_type == "chb_software") {
+        } else if (chb_type == "chb_software") {
             $("#software_input").hide();
-        }
-        else if (chb_type == "chb_network") {
-        
-        }
-        else if (chb_type == "chb_other") {
+        } else if (chb_type == "chb_network") {
+
+        } else if (chb_type == "chb_other") {
             $("#other_input").hide();
         }
     }
 });
 
-$('#add_hardware_btn').click(function() {
+$('#add_hardware_btn').click(function () {
     const inputDiv = document.createElement("div");
     inputDiv.className = "hardware_input_sec";
     const input = document.createElement("input");
@@ -51,7 +43,7 @@ $('#add_hardware_btn').click(function() {
     btn.className = "delete_input_btn";
     btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
     // Delete button clicked -> delete input field
-    btn.addEventListener("click", function() {
+    btn.addEventListener("click", function () {
         $(this).parent().parent().remove();
     });
 
@@ -62,7 +54,7 @@ $('#add_hardware_btn').click(function() {
     $(inputDiv).insertAfter("#hardware_input .hardware_input_sec:last");
 });
 
-$('#add_software_btn').click(function() {
+$('#add_software_btn').click(function () {
     const inputDiv = document.createElement("div");
     inputDiv.className = "software_input_sec";
     const input = document.createElement("input");
@@ -76,7 +68,7 @@ $('#add_software_btn').click(function() {
     btn.className = "delete_input_btn";
     btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
     // Delete button clicked -> delete input field
-    btn.addEventListener("click", function() {
+    btn.addEventListener("click", function () {
         $(this).parent().parent().remove();
     });
 
@@ -88,6 +80,6 @@ $('#add_software_btn').click(function() {
 });
 
 
-$('#submit-problem-btn').click(function() {
+$('#submit-problem-btn').click(function () {
     console.log("CLICKED");
 }); 

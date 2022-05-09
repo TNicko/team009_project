@@ -1,11 +1,14 @@
-<%- include('../partials/spec_navbar.ejs') %>
+<%- include('../partials/navbar.ejs') %>
 
 <div class="main_section">
     <div class="main_container">
         <div class="table_top">
             <div class="table_title_container">
                 <h1 class="table_title">Operating Systems</h1>
-                <p class="table_title_info">Total 4</p>
+                <p class="table_title_info">
+                    Total:
+                    <%= os.length %>
+                </p>
             </div>
 
             <div class="table_options_container">
@@ -46,36 +49,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>G4G69-RJHCP-N3IZ3</td>
-                    <td>Computer</td>
-                    <td class="col-edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
-                </tr>
+                <% os.forEach(function(o_s){ %>
+                    <tr>
+                        <td>
+                            <input class="form-control" type="text" value="<%= o_s.serial %>" disabled>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" value="<%= o_s.name %>" disabled>
+                        </td>
+                        <td class="col-edit">
+                            <button class="btn btn-primary" onclick="editRow(this, '<%= o_s.serial %>', '/os')">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                <% }); %>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script src="scripts/tables.js" crossorigin="anonymous"></script>

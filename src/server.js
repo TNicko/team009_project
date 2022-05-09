@@ -20,45 +20,40 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 const Account = require('./models/accountModel');
 
-// dummy data -----
-// var password_names = ['specialist', 
-// 'specialist', 'specialist', 'ex_specialist', 
-// 'ex_specialist', 'analyst', 'analyst', 'analyst',
-// 'user', 'user', 'user', 'user', 'user', 'user', 'user']
-// var hPasswords = []
-// const hashPass = async () => {
-
-//     for (const password in password_names) {
-//         const hashedPassword = await bcrypt.hash(password, 10);
-//         hPasswords.push({
-//             password: password_names[password], 
-//             hPassword: hashedPassword   
-//         }) 
-//     }
-//     console.log(hPasswords);
-// }
-// hashPass()
-
-
-const initializePassport = require('./passport-config')
+const initializePassport = require('./passport-config');
 // initializePassport(passport, 
 //     username => accounts.find(user => user.username === username),
 //     id => accounts.find(user => user.id === id)
 // )
 
-initializePassport(passport)
+initializePassport(passport);
 
-app.use(express.urlencoded({ extended: false }))
-app.use(flash())
+app.use(express.urlencoded({extended: false}));
+app.use(flash());
+
+const host = process.env.DOCKER ? "mysql" : "localhost";
+const options = {
+    host: host,
+    user: 'teamb009',
+    password: '6TfmSlNpBt',
+    database: 'teamb009',
+};
+const sessionStore = new MySQLStore(options);
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
+    store: sessionStore,
     resave: false,
     saveUninitialized: false
 }));
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/login', (req, res) => {
     res.render('login');
@@ -69,6 +64,11 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
 }))
+app.get('/logout', (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect('/');
+})
 
 // ------------------------------------
 

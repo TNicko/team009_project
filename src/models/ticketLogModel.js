@@ -19,11 +19,11 @@ class TicketLog {
         );
     }
 
-    static async createForTicket(conn, id, type, value){
+    static async createForTicket(conn, id, type, value) {
         var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds;
-        var dateTime = date+' '+time;
+        var dateTime = date + ' ' + time;
 
         let queryString =
             "INSERT INTO ticket_log VALUES (?, ?, ?, ?)";
@@ -32,4 +32,5 @@ class TicketLog {
         await conn.query(queryString, queryParams);
     }
 }
+
 module.exports = TicketLog;
