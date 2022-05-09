@@ -10,10 +10,9 @@ class Solution {
 
     static async getAllSuccessSolution(conn) {
         let queryString =
-            "SELECT solution.solution_id AS id, solution.datetime AS dateTime, solution.solution as solution, ticket.description as description, ticket.notes as notes FROM solution LEFT JOIN ticket ON solution.ticket_id = ticket.ticket_id WHERE solution.solution_status = 'successful' ORDER BY datetime DESC";
-
+            "SELECT solution.solution_id AS id, solution.datetime AS dateTime, solution.solution as solution, ticket.description as description, expertise.name FROM ticket_expertise INNER JOIN expertise ON ticket_expertise.expertise_id = expertise.expertise_id LEFT JOIN ticket ON ticket_expertise.ticket_id = ticket.ticket_id LEFT JOIN solution ON solution.ticket_id = ticket.ticket_id WHERE solution.solution_status = 'successful' ORDER BY datetime DESC";
         let results = await conn.query(queryString);
-
+       
         return results;
     }
 

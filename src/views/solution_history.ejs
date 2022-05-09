@@ -1,5 +1,4 @@
-<%- include('partials/user_navbar.ejs') %>
-
+//need to add nav bar
 <div class="main_section">
     <div class="main_container">
         <div class="table_section">
@@ -32,14 +31,22 @@
         
                 <tbody class="ticket-body op-ticket-body">
                 <% solutions.forEach(function(solution){ %>
-                        <tr class="overdue"></tr>
+                <tr class="overdue">
+                    <div class="px-1">
+                    <%= solution.dateTime.getFullYear()%>-<%= solution.dateTime.getMonth() %>-<%= solution.dateTime.getDay() %> | <%= solution.name %>
                     <% console.log(solution) %>
-                    <p style="padding-left: 6px;">
-                    Description: <%= solution.description %> 
-                    <br>Solution: <%= solution.solution %></p>
+                    
+                        <br>
+                        Description: <%= solution.description %> 
+                        <br>
+                        Solution: <%= solution.solution %>
+                        
                 
+                    
+                    <div>
                 </tr>
                 <% })%>
+                        
                 </tbody>
             </table>
         </div>
