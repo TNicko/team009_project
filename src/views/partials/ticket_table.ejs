@@ -1,8 +1,12 @@
 <div class="table_section">
     <div class="table_top">
         <div class="table_title_container">
-            <h1 class="table_title">Your Tickets</h1>
-            <p class="table_title_info">Total <%= tickets.length %></p>
+            <% if (usertype == 'admin') { %>
+                <h1 class="table_title">Tickets</h1>
+            <% } else { %>
+                <h1 class="table_title">Your Tickets</h1>
+            <% } %>        
+            <p class="table_title_info">Total <%= ticket_total %></p>
         </div>
         <div class="table_options_container">
             <!-- Searchbar -->

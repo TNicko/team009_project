@@ -42,6 +42,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [handlerId, 'status', 'status', 'status'], 
             [user.id, 'active', 'unsuccessful', 'submitted'], 
             ['AND (', 'OR', 'OR', ')']);
+        let open_total = await Ticket.getCount(conn,
+            [handlerId],
+            [null],
+            [''])    
         console.log(assigned_total);    
         res.render('./index/specialist', {
             username: req.user.username,
@@ -49,7 +53,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             spec_tickets: spec_tickets,
             open_tickets: open_tickets,
             ticket_total: ticket_total,
-            assigned_total: assigned_total});
+            assigned_total: assigned_total,
+            open_total: open_total});
     }
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
