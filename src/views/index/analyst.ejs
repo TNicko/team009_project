@@ -1,27 +1,150 @@
 <%- include('../partials/navbar.ejs') %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function getRandomRGB(){
+        var num = Math.round(0xffffff * Math.random());
+        var r = num >> 16;
+        var g = num >> 8 & 255;
+        var b = num & 255;
+        return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+    }
+
+        document.addEventListener('DOMContentLoaded', function(){
+        const ctx = document.getElementById('firstGraph').getContext('2d');
+
+        const barGraph = document.getElementById('commonSoftware').getContext('2d');
+        
+        let use = <%- JSON.stringify(users) %>;
+        console.log(use);
+        let names = [];
+        let count = <%- JSON.stringify(counted) %>;
+        let counter = [];
+        let backgroundColor = [];
+        use.forEach(function(user){
+            names.push(user.name);
+            counter.push(count[user.name]);
+            var color = getRandomRGB();
+            while(backgroundColor.find(element => element > color))
+            {
+                color = getRandomRGB();
+            }
+
+            backgroundColor.push(color);
+        })
+
+        
+        
+        let assignedTicketsPerSpecialist = {
+            labels: names,
+            datasets: [{
+                label: 'Number of assigned tickets per specialist',
+                data: counter,
+                backgroundColor: backgroundColor,
+                hoverOffset: 4,
+            }]
+        }
+        // console.log(lables);
+        const assTickPerSpec = new Chart(ctx, {
+            type: 'pie',
+            data: assignedTicketsPerSpecialist,
+            options: {
+                responsive: true,
+                plugins:{
+                    legend:{
+                        position: 'top',
+                        labels:{
+                            font:{
+                                size: 15
+                            }
+                        }
+                    }
+                }
+            }
+        })
 
 
-<<<<<<< HEAD
+        let softwareList = <%- JSON.stringify(pureSoftwareList) %>;
+        let countPerSoftware = <%- JSON.stringify(softwareCount) %>;
+        let softwareCount = [];
+
+        softwareList.forEach(function(software){
+            softwareCount.push(countPerSoftware[software])
+        })
+        commonSoftData = {
+            labels: softwareList,
+            datasets: [{
+                label: 'Commonly Reported Software',
+                data: softwareCount,
+                borderWidth: 1
+            }]
+        }
+        console.log(countPerSoftware);
+        const commonSoft = new Chart(barGraph, {
+            type: 'bar',
+            data: commonSoftData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                    
+                },
+                plugins:{
+                    legend:{
+                        position: 'top',
+                        labels:{
+                            font:{
+                                size: 20
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        
+    })
+</script>
+
 <div class="main_section" style="height:80%;">
     <div class="main_container" style="height: 100%;">
         
-        <div class="table_section" style="height: 100%;">
+        <div class="table_section" style="height: 100%; overflow: hidden;">
             <div class="table_top">
                 <div class="table_title_container">
-                    <h1 class="table_title">Statistics</h1>
+                    <h1 class="graph_title">Statistics</h1>
                 </div>
-
-
-
-
+            </div>
+            <div class="grid">
+                <div class="NoAssinedTickets graphs">
+                    <div><h5 class="graph_title">Assigned Tickets Per Specialist</h5></div>
+                    <canvas id="firstGraph" class="graphCanvas"></canvas>
+                </div>
+                
+                <div class="commonSoftBar graphs">
+                    <canvas id="commonSoftware" class="barChart"></canvas>
+                </div>
+                <div class="graphs">
+                    3 
+                </div>
+                <div class="graphs">
+                    4
+                </div>
+                <div class="graphs">
+                    5
+                </div>
+                <div class="graphs">
+                    6
+                </div>
             </div>
         </div>
         
-=======
-<div class="main_section">
-    <div class="main_container">
-
-
->>>>>>> main
     </div>
 </div>

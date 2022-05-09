@@ -727,7 +727,122 @@ input.info-tag {
     flex-direction: column;
 }
 
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 350px;
+    gap: 10px;
+    height: 90%;
+    width: 100%;
+    overflow: scroll;
+}
+
+.graphs {
+    border-radius: 25px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    
+
+}
+
+.graphCanvas {
+    width: 70% !important;
+    height: 70% !important;
+    
+    
+}
+
+canvas {
+    margin: 0 auto;
+}
+
+.NoAssinedTickets {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    align-content: center;
+}
+
+.graph_title {
+    text-align: center;
+    font-family: 'Arial';
+    font-weight: bold;
+    color: #666;
+}
+
+.barChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.commonSoftBar {
+    grid-column-start: 2;
+    grid-column-end: 4;
+}
 
 
+@media only screen and (max-device-width: 1000px) {
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 350px;
+        gap: 10px;
+        height: 90%;
+        width: 100%;
+        overflow: scroll;
+    }
 
+    .commonSoftBar {
+        grid-column-start: 2;
+        grid-column-end: 2;
+    }
+
+    
+}
+
+@media only screen and (max-device-width: 750px) {
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 350px;
+        gap: 10px;
+        height: 90%;
+        width: 100%;
+    }
+
+    .commonSoftBar {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+    .NoAssinedTickets {
+        grid-row-start: 1;
+        grid-row-end: 3;
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+    
+}
+
+@media only screen and (max-device-width: 500px) {
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-auto-rows: 350px;
+        gap: 10px;
+        height: 90%;
+        width: 100%;
+        overflow: scroll;
+    }
+    .commonSoftBar {
+        grid-column-start: 1;
+        grid-column-end: 1;
+    }
+
+    .NoAssinedTickets {
+        grid-row-start: 1;
+        grid-row-end: 2;
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+}
 

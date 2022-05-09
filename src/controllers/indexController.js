@@ -12,7 +12,7 @@ const Software = require("../models/softwareModel");
 const OS = require("../models/osModel");
 const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
-   
+
 router.get('/', checkAuthenticated, async (req, res) => {
 
     update_date = await getLastUpdatedDate(5);
@@ -53,9 +53,57 @@ router.get('/', checkAuthenticated, async (req, res) => {
             spec_tickets: spec_tickets});
     }
     if (user.type === 'analyst') {
+        let countPerHandler = {};
+        let listOfTickets = await Ticket.getAll(conn, 0, 10000);
+        let listOfUsers = await User.getAll(conn, 0, 1000, "job", "specialist");
+        let softwareListGet = await Software.getAll(conn, 0, 10000);
+        let reportedCountSoft = {}
+        let softwareList = [];
+        let countPerSoftware = {};
+
+        softwareListGet.forEach(function(software){
+            softwareList.push(software.name);
+        })
+
+        listOfUsers.forEach(function(user){
+            let count = 0;
+            listOfTickets.forEach(function(ticket){
+                if(ticket.handlerId == user.id)
+                {
+                    count++;
+                }
+                
+            })
+
+            countPerHandler[user.name] = count;
+            
+        })
+
+        softwareListGet.forEach(function(software){
+            let softwareCount = 0;
+            listOfTickets.forEach(function(ticket){
+                ticket.softwares.forEach(function(list){
+                    if(list["name"] == software.name)
+                    {
+                        softwareCount++;
+                    }
+                })
+            })
+
+            countPerSoftware[software.name] = softwareCount;
+        })
+        
+        console.log(listOfTickets);
+        console.log(listOfTickets[5].softwares[0]["name"]);
+        // console.log(typeof(listOfTickets[5].software[0]["Adobe Photoshop"]));
+        // console.log(listOfTickets.software.includes())
         res.render('./index/analyst', {
             username: req.user.username,
-            usertype: user.type});
+            usertype: user.type,
+            users: listOfUsers,
+            counted: countPerHandler,
+            pureSoftwareList: softwareList,
+            softwareCount: countPerSoftware});
     }
 })
 
