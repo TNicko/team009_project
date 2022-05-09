@@ -48,7 +48,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             usertype: user.type,
             spec_tickets: spec_tickets,
             open_tickets: open_tickets,
-            ticket_total: ticket_total});
+            ticket_total: ticket_total,
+            assigned_total: assigned_total});
     }
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
