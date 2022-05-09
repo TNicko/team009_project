@@ -73,6 +73,23 @@ class Ticket {
         );
     }
 
+    static async getCount(conn, filterColumn = null, filterValue = null) {
+        let queryString = `SELECT COUNT(ticket_id) AS count FROM ticket`
+        let queryParams = [];
+
+        if (filterColumn !== null) {
+            if (filterValue !== null) {
+                queryString += `\n WHERE ${filterColumn} = ?`;
+                queryParams.push(filterValue);
+            } else {
+                queryString += `\n WHERE ${filterColumn} IS NULL`;
+            }
+        }
+
+        let tickets = await conn.query(queryString, queryParams);
+        return tickets[0].count;
+    }
+
     static async getAll(conn,
                         skip, limit,
                         filterColumn = null, filterValue = null,
@@ -81,9 +98,6 @@ class Ticket {
             `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId, created_at AS createdAt
              FROM ticket`;
         let queryParams = [];
-
-        console.log(filterColumn);
-        console.log(filterValue);
 
         if (filterColumn !== null) {
             if (filterValue !== null) {

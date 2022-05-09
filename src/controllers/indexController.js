@@ -34,12 +34,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
-
+        let ticket_total = await Ticket.getCount(conn, handlerId, user.id);
         res.render('./index/specialist', {
             username: req.user.username,
             usertype: user.type,
             spec_tickets: spec_tickets,
-            open_tickets: open_tickets});
+            open_tickets: open_tickets,
+            ticket_total: ticket_total});
     }
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
