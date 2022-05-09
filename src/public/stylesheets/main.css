@@ -719,6 +719,10 @@ input.info-tag {
     padding-left: 10px;
 }
 
+.panel_title p {
+    margin-bottom: 0px;
+}
+
 .panel_title p:first-of-type {
     text-transform: uppercase;
     color: var(--greyText);
