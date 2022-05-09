@@ -1,4 +1,4 @@
-<%- include('./partials/spec_navbar.ejs') %>
+<%- include('./partials/navbar.ejs') %>
 
 <div class="container">
     <div class="m-4 p-4 bg-white rounded-3">
@@ -9,33 +9,35 @@
             Ticket #<%= ticket.ticketId %>
         </h1>
 
-        <div class="info-section">
-            <h3>Employee</h3>
-            <table class="table table-light">
-                <tbody>
-                <tr>
-                    <th style="width: 30%">Name</th>
-                    <td><%= user.name %></td>
-                </tr>
-                <tr>
-                    <th>User ID</th>
-                    <td><%= user.id %></td>
-                </tr>
-                <tr>
-                    <th>Job Title</th>
-                    <td><%= user.job %></td>
-                </tr>
-                <tr>
-                    <th>Department</th>
-                    <td><%= user.department %></td>
-                </tr>
-                <tr>
-                    <th>Phone Number</th>
-                    <td><%= user.telephone %></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <% if (user.type !== 'external specialist') { %>
+            <div class="info-section">
+                <h3>Employee</h3>
+                <table class="table table-light">
+                    <tbody>
+                    <tr>
+                        <th style="width: 30%">Name</th>
+                        <td><%= user.name %></td>
+                    </tr>
+                    <tr>
+                        <th>User ID</th>
+                        <td><%= user.id %></td>
+                    </tr>
+                    <tr>
+                        <th>Job Title</th>
+                        <td><%= user.job %></td>
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td><%= user.department %></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td><%= user.telephone %></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
 
         <div class="info-section">
             <h3>
@@ -237,7 +239,7 @@
         <%
         let specialistCanSubmit = ticket.status === "active" || ticket.status === "unsuccessful";
         let userCanSubmit = ticket.status === "submitted";
-        if (specialistCanSubmit && currentUserType === "specialist") { %>
+        if (specialistCanSubmit && usertype === "specialist") { %>
             <div class="info-section">
                 <h3>Solution</h3>
                 <form>
@@ -246,7 +248,7 @@
                     <button type="submit" class="btn btn-danger">Close ticket</button>
                 </form>
             </div>
-        <% } else if (userCanSubmit && currentUserType === "user") { %>
+        <% } else if (userCanSubmit && usertype === "user") { %>
             <div class="info-section">
                 <h3>Feedback</h3>
                 <form>
