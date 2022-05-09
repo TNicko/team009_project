@@ -30,18 +30,11 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'user') {
         let ticket_total = await Ticket.getCount(conn);
         res.render('./index/user', {
-<<<<<<< HEAD
-            username: req.user.username,
-            tickets: tickets,
-            usertype: user.type
-        });
-=======
             username: req.user.username, 
             tickets: tickets, 
             usertype: user.type,
             solutions:solutions,
             ticket_total: ticket_total});
->>>>>>> user_home_page_controller
     }
     if (user.type === 'specialist') {
 
