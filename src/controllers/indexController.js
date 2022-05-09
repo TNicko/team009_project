@@ -107,10 +107,6 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             countPerSoftware[software.name] = softwareCount;
         })
         
-        console.log(listOfTickets);
-        console.log(listOfTickets[5].softwares[0]["name"]);
-        // console.log(typeof(listOfTickets[5].software[0]["Adobe Photoshop"]));
-        // console.log(listOfTickets.software.includes())
         res.render('./index/analyst', {
             username: req.user.username,
             usertype: user.type,
