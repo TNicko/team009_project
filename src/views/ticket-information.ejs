@@ -263,8 +263,8 @@
             <div class="info-section">
                 <h3>Solution</h3>
                 <form>
-                    <textarea class="form-control mb-3" placeholder="Add a solution" rows="8"></textarea>
-                    <button type="submit" class="btn btn-primary">Submit solution</button>
+                    <textarea class="form-control mb-3" placeholder="Add a solution" rows="8" id="solutionText"></textarea>
+                    <button type="button" onclick="sendSolution(<%= ticket.ticketId %>)" class="btn btn-primary">Submit solution</button>
                     <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close ticket</button>
                 </form>
             </div>
@@ -272,8 +272,8 @@
             <div class="info-section">
                 <h3>Feedback</h3>
                 <form>
-                    <textarea class="form-control mb-3" placeholder="Add feedback" rows="8"></textarea>
-                    <button type="submit" class="btn btn-primary">Submit feedback</button>
+                    <textarea class="form-control mb-3" placeholder="Add feedback" rows="8" id="feedbackText"></textarea>
+                    <button type="button" onclick="sendFeedback(<%= ticket.ticketId %>)" class="btn btn-primary">Submit feedback</button>
                     <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close ticket</button>
                 </form>
             </div>

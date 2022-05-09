@@ -26,7 +26,7 @@ class Feedback {
         var dateTime = date + ' ' + time;
 
         let queryString =
-            "INSERT INTO feedback VALUES (?, ?, ?, ?)";
+            "INSERT INTO feedback (ticket_id, datetime, feedback, user_id) VALUES (?, ?, ?, ?)";
         let queryParams = [ticketId, dateTime, feedback, userId];
 
         await conn.query(queryString, queryParams);
