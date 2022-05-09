@@ -32,11 +32,14 @@
         
                 <tbody class="ticket-body op-ticket-body">
                 <% solutions.forEach(function(solution){ %>
-                <tr class="overdue">
-                    <p>Description: <%= solution.description %>|Notes:</p>
-                    <p>Solution: |Status: </p>
+                        <tr class="overdue"></tr>
+                    <% console.log(solution) %>
+                    <p style="padding-left: 6px;">
+                    Description: <%= solution.description %> 
+                    <br>Solution: <%= solution.solution %></p>
+                
                 </tr>
-                <% }); %>
+                <% })%>
                 </tbody>
             </table>
         </div>

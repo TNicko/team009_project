@@ -5,14 +5,16 @@ const Ticket = require("../models/ticketModel");
 const User = require("../models/userModel");
 const Hardware = require("../models/hardwareModel");
 const Solution = require("../models/solutionModel");
+
 router.get('/', checkAuthenticated, async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
+    let solutions = await Solution.getAllSuccessSolution(conn);
     if (user.type === 'admin') {
         res.render('./index/admin', {username: req.user.username, tickets: tickets, usertype:user.type});
     }
     if (user.type === 'user') {
-        res.render('./index/user', {username: req.user.username, tickets: tickets, usertype:user.type});
+        res.render('./index/user', {username: req.user.username, tickets: tickets, usertype:user.type, solutions:solutions});
     }
     if (user.type === 'specialist') {
         res.render('./index/specialist', {username: req.user.username});

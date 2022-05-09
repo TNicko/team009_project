@@ -14,9 +14,7 @@ class Solution {
 
         let results = await conn.query(queryString);
 
-        return results.map(
-            row => new Solution(row.id, row.dateTime, row.status, row.handlerId, row.solution, row.desciption, row.notes)
-        );
+        return results;
     }
 
     static async getAllForTicketId(conn, id) {
