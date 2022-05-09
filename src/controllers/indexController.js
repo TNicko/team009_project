@@ -17,6 +17,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
     let user = await User.getById(conn, req.user.id);
     let tickets = await Ticket.getAll(conn, 0, 1000);
+    console.log(await Ticket.getAll(conn, 0, 1000, 'status', 'active', null, null, 'connect'));
     if (user.type === 'admin') {
         res.render('./index/admin', {
             username: req.user.username, 
