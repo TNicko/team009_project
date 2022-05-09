@@ -179,9 +179,16 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
+    let specialists = await User.getAll(conn, 0, 100, "account_type", "specialist");
+    let extSpecialists = await User.getAll(conn, 0, 100, "account_type", "external specialist");
+    let tickets = await Ticket.getAll(conn, 0, 100, "status", "active");
+
     res.render('./users', {
         username: req.user.username,
-        usertype: user.type});
+        usertype: user.type,
+        specialists: [...specialists, ...extSpecialists],
+        tickets: tickets
+    });
 })
 router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     res.render('./change_password', {
