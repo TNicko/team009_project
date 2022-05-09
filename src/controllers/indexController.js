@@ -27,11 +27,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ticket_total: ticket_total});
     }
     if (user.type === 'user') {
+        let ticket_total = await Ticket.getCount(conn);
         res.render('./index/user', {
             username: req.user.username, 
             tickets: tickets, 
             usertype: user.type,
-            solutions:solutions});
+            solutions:solutions,
+            ticket_total: ticket_total});
     }
     if (user.type === 'specialist') {
 
