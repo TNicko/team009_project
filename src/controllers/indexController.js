@@ -67,11 +67,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             spec_tickets: spec_tickets});
     }
     if (user.type === 'analyst') {
+        // passes list of software, list of users and and the count for each software and users
+        // the count for the software is to check how many times it has appeared on tickets and
+        // same with the users(handlers), counts how many tickets the handler has attached to them 
         let countPerHandler = {};
         let listOfTickets = await Ticket.getAll(conn, 0, 10000);
         let listOfUsers = await User.getAll(conn, 0, 1000, "job", "specialist");
         let softwareListGet = await Software.getAll(conn, 0, 10000);
-        let reportedCountSoft = {}
         let softwareList = [];
         let countPerSoftware = {};
 
