@@ -43,7 +43,6 @@
                 hoverOffset: 4,
             }]
         }
-        // console.log(lables);
         const assTickPerSpec = new Chart(ctx, {
             type: 'pie',
             data: assignedTicketsPerSpecialist,
@@ -66,15 +65,23 @@
         let softwareList = <%- JSON.stringify(pureSoftwareList) %>;
         let countPerSoftware = <%- JSON.stringify(softwareCount) %>;
         let softwareCount = [];
-
+        let softwareBackground = [];
         softwareList.forEach(function(software){
             softwareCount.push(countPerSoftware[software])
+            var color = getRandomRGB();
+            while(softwareBackground.find(element => element > color))
+            {
+                color = getRandomRGB();
+            }
+
+            softwareBackground.push(color);
         })
         commonSoftData = {
             labels: softwareList,
             datasets: [{
                 label: 'Commonly Reported Software',
                 data: softwareCount,
+                backgroundColor: softwareBackground,
                 borderWidth: 1
             }]
         }
@@ -93,12 +100,16 @@
                         }
                     },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks:{
+                            stepSize: 1
+                        }
                     }
                     
                 },
                 plugins:{
                     legend:{
+                        display: false,
                         position: 'top',
                         labels:{
                             font:{
@@ -109,11 +120,147 @@
                 }
             }
         })
+
+
+        let osList = <%- JSON.stringify(osList) %>;
+        let countPerOs = <%- JSON.stringify(osCount) %>;
+        let osCount = [];
+        let osBackground = [];
+        osList.forEach(function(os){
+            osCount.push(countPerOs[os]);
+            var color = getRandomRGB();
+            while(osBackground.find(element => element > color))
+            {
+                color = getRandomRGB();
+            }
+
+            osBackground.push(color);
+        })
+
+        reportOs = {
+            labels: osList,
+            datasets: [{
+                label: 'Reported Os',
+                data: osCount,
+                backgroundColor: osBackground,
+                borderWidth: 1
+            }]
+        }
+
+        const barOs = document.getElementById('reportOsBar').getContext('2d');
+        const commonReportedOs = new Chart(barOs, {
+            type: 'bar',
+            data: reportOs,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks:{
+                            stepSize: 1
+                        }
+                    }
+                    
+                },
+                plugins:{
+                    legend:{
+                        display: false,
+                        position: 'top',
+                        labels:{
+                            font:{
+                                size: 15
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        let statusList = <%- JSON.stringify(statuses) %>;
+        let countPerStatus = <%- JSON.stringify(statusCount) %>;
+        let statusCount = [];
+        let statusBackground = ["rgb(115, 115, 115)", "rgb(204, 153, 255)", "rgb(0, 230, 0)", "rgb(230, 0, 0)"];
         
+        statusList.forEach(function(status){
+            statusCount.push(countPerStatus[status]);
+        })
+
+        statusData = {
+            labels: statusList,
+            datasets: [{
+                label: 'status',
+                data: statusCount,
+                backgroundColor: statusBackground,
+                hoverOffset: 4
+            }]
+        }
+        const statusDo = document.getElementById('statusDough').getContext('2d');
+        const doghnutStatus = new Chart(statusDo,{
+            type: 'doughnut',
+            data: statusData,
+        })
+
+        let problemTypes = <%- JSON.stringify(problemTypes) %>;
+        let totalCounts = <%- JSON.stringify(totalCounts) %>;
+        let totalCountsTypes = [];
+        problemTypes.forEach(function(type){
+            totalCountsTypes.push(totalCounts[type]);
+        })
+
+        console.log(totalCountsTypes);
+        console.log(problemTypes);
+
+        let horiData = {
+            labels: problemTypes,
+            datasets: [
+                {
+
+                    data: totalCountsTypes,
+                    borderColor: "rgb(255, 102, 102)",
+                    backgroundColor: "rgb(255, 128, 128)",
+
+                }
+            ]
+        }
+
+        const horiBarProblem = document.getElementById('horiBarType').getContext('2d');
+
+        const horiBarTypeG = new Chart(horiBarProblem,{
+            type: 'bar',
+            data: horiData,
+            options: {
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'right',
+                    },
+                    title: {
+                        display: false,
+                        text: 'Problem Per Problem Type'
+                    }
+                }
+            }
+        })
+
     })
 </script>
 
-<div class="main_section" style="height:80%;">
+<div class="main_section" style="height:86%;">
     <div class="main_container" style="height: 100%;">
         
         <div class="table_section" style="height: 100%; overflow: hidden;">
@@ -129,19 +276,21 @@
                 </div>
                 
                 <div class="commonSoftBar graphs">
+                    <div><h5 class="graph_title">Commonly Reported Software</h5></div>
                     <canvas id="commonSoftware" class="barChart"></canvas>
                 </div>
-                <div class="graphs">
-                    3 
+                <div class="reportedOs graphs">
+                    <div><h5 class="graph_title">Reported OS</h5></div>
+                    <canvas id="reportOsBar" class="barChart"></canvas>
                 </div>
-                <div class="graphs">
-                    4
+                <div class="status graphs">
+                    <div>
+                        <h5 class="graph_title">Status</h5>
+                    </div>
+                    <canvas id="statusDough" class="graphCanvas"></canvas>
                 </div>
-                <div class="graphs">
-                    5
-                </div>
-                <div class="graphs">
-                    6
+                <div class="problemPerType graphs">
+                    <canvas class="horiBar" id="horiBarType"></canvas>
                 </div>
             </div>
         </div>

@@ -737,7 +737,7 @@ input.info-tag {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4,1fr);
     grid-auto-rows: 350px;
     gap: 10px;
     height: 90%;
@@ -755,8 +755,6 @@ input.info-tag {
 .graphCanvas {
     width: 70% !important;
     height: 70% !important;
-    
-    
 }
 
 canvas {
@@ -774,11 +772,12 @@ canvas {
     font-family: 'Arial';
     font-weight: bold;
     color: #666;
+    padding-top: 20px;
 }
 
 .barChart {
-    width: 100% !important;
-    height: 100% !important;
+    width: 90% !important;
+    height: 80% !important;
 }
 
 .commonSoftBar {
@@ -786,71 +785,144 @@ canvas {
     grid-column-end: 4;
 }
 
+.status {
+    grid-column-start: 4;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+.reportedOs {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 2;
+}
+
+.problemPerType {
+    grid-column-start: 3;
+    grid-column-end: 3;
+    align-content: center;
+}
+
+.horiBar {
+    margin: 0 auto;
+}
 
 @media only screen and (max-device-width: 1000px) {
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 350px;
-        gap: 10px;
-        height: 90%;
-        width: 100%;
-        overflow: scroll;
+    .reportedOs {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 3;
+        grid-row-end: 3;
+        height: 300px;
     }
-
     .commonSoftBar {
-        grid-column-start: 2;
-        grid-column-end: 2;
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 2;
+        grid-row-end: 2;
     }
 
+    .problemPerType {
+        grid-column-start: 4;
+        grid-column-end: 5;
+        height: 300px;
+    }
+
+    .status {
+        grid-column-start: 3;
+        grid-column-end: 6;
+        grid-row-start: 1;
+        grid-row-end: 1;
+    }
+
+    .NoAssinedTickets {
+        grid-row-start: 1;
+        grid-row-end: 1;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        align-content: center;
+    }
+    
     
 }
 
 @media only screen and (max-device-width: 750px) {
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 350px;
-        gap: 10px;
-        height: 90%;
-        width: 100%;
+    .reportedOs {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 3;
+        grid-row-end: 3;
+        height: 300px;
     }
-
     .commonSoftBar {
         grid-column-start: 1;
-        grid-column-end: 3;
+        grid-column-end: 5;
+        grid-row-start: 2;
+        grid-row-end: 2;
+    }
+
+    .problemPerType {
+        grid-column-start: 4;
+        grid-column-end: 5;
+        height: 300px;
+    }
+
+    .status {
+        grid-column-start: 4;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 1;
     }
 
     .NoAssinedTickets {
         grid-row-start: 1;
-        grid-row-end: 3;
+        grid-row-end: 1;
         grid-column-start: 1;
-        grid-column-end: 3;
+        grid-column-end: 4;
+        align-content: center;
     }
 
     
 }
 
-@media only screen and (max-device-width: 500px) {
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        grid-auto-rows: 350px;
-        gap: 10px;
-        height: 90%;
-        width: 100%;
-        overflow: scroll;
+@media only screen and (max-device-width: 630px) {
+    .reportedOs {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 4;
+        grid-row-end: 4;
+        height: 300px;
     }
     .commonSoftBar {
         grid-column-start: 1;
-        grid-column-end: 1;
+        grid-column-end: 5;
+        grid-row-start: 3;
+        grid-row-end: 3;
+    }
+
+    .problemPerType {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 5;
+        grid-row-end: 5;
+        height: 300px;
+    }
+
+    .status {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 2;
+        grid-row-end: 2;
     }
 
     .NoAssinedTickets {
         grid-row-start: 1;
-        grid-row-end: 2;
+        grid-row-end: 1;
         grid-column-start: 1;
-        grid-column-end: 2;
+        grid-column-end: 5;
+        align-content: center;
     }
 }
 

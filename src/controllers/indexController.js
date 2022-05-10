@@ -12,6 +12,7 @@ const Software = require("../models/softwareModel");
 const OS = require("../models/osModel");
 const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
+const Os = require('../models/osModel');
 
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
@@ -75,14 +76,66 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         // the count for the software is to check how many times it has appeared on tickets and
         // same with the users(handlers), counts how many tickets the handler has attached to them 
         let countPerHandler = {};
-        let listOfTickets = await Ticket.getAll(conn, 0, 10000);
+        let listOfTickets = await Ticket.getAll(conn, 0, 1000);
         let listOfUsers = await User.getAll(conn, 0, 1000, "job", "specialist");
-        let softwareListGet = await Software.getAll(conn, 0, 10000);
+        let softwareListGet = await Software.getAll(conn, 0, 1000);
         let softwareList = [];
         let countPerSoftware = {};
+        let listOfOsesGet = await Os.getAll(conn, 0, 1000);
+        let countPerOses = {};
+        let listOfOses = [];
+        let statuses = ["closed", "submitted", "active", "unsuccessful"];
+        let countPerStatus = {};
+        let listOfHardwareGet = await Hardware.getAll(conn, 0, 1000);
+        let hardwareList = [];
+        let countPerHardware = {};
+        let totalSoftware = 0;
+        let totalOs = 0;
+        let totalHardware = 0;
+        let problemTypes = ["software", "hardware", "os"];
+        let totalCounts = {};
+
+        listOfHardwareGet.forEach(function(hardware){
+            hardwareList.push(hardware.name);
+            let hardwareCount = 0;
+            listOfTickets.forEach(function(ticket){
+                ticket.hardwares.forEach(function(list){
+                    if(list["name"] == hardware.name)
+                    {
+                        hardwareCount++;
+                    }
+                })
+            })
+            countPerHardware[hardware.name] = hardwareCount;
+            
+        })
 
         softwareListGet.forEach(function(software){
             softwareList.push(software.name);
+            let softwareCount = 0;
+            listOfTickets.forEach(function(ticket){
+                ticket.softwares.forEach(function(list){
+                    if(list["name"] == software.name)
+                    {
+                        softwareCount++;
+                    }
+                })
+            })
+            countPerSoftware[software.name] = softwareCount;
+        })
+
+        listOfOsesGet.forEach(function(os){
+            listOfOses.push(os.name);
+            let osCount = 0;
+            listOfTickets.forEach(function(ticket){
+                ticket.oses.forEach(function(list){
+                    if(list["name"] == os.name)
+                    {
+                        osCount++;
+                    }
+                })
+            })
+            countPerOses[os.name] = osCount;
         })
 
         listOfUsers.forEach(function(user){
@@ -99,27 +152,55 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             
         })
 
-        softwareListGet.forEach(function(software){
-            let softwareCount = 0;
-            listOfTickets.forEach(function(ticket){
-                ticket.softwares.forEach(function(list){
-                    if(list["name"] == software.name)
-                    {
-                        softwareCount++;
-                    }
-                })
-            })
 
-            countPerSoftware[software.name] = softwareCount;
+
+        // console.log(listOfOses);
+
+        statuses.forEach(function(status){
+            let statusCount = 0;
+            listOfTickets.forEach(function(ticket){
+                if(ticket.status == status)
+                {
+                    statusCount++;
+                }
+            })
+            countPerStatus[status] = statusCount;
         })
-         
+
+        listOfTickets.forEach(function(ticket){
+            if(ticket.oses.length != 0)
+            {
+                totalOs++;
+            }
+            if(ticket.hardwares.length != 0)
+            {
+                totalHardware++;
+            }
+            if(ticket.softwares.length != 0)
+            {
+                totalSoftware++;
+            }
+        })
+
+        totalCounts["hardware"] = totalHardware;
+        totalCounts["software"] = totalSoftware;
+        totalCounts["os"] = totalOs;
+        console.log(listOfTickets);
         res.render('./index/analyst', {
             username: req.user.username,
             usertype: user.type,
             users: listOfUsers,
             counted: countPerHandler,
             pureSoftwareList: softwareList,
-            softwareCount: countPerSoftware});
+            softwareCount: countPerSoftware,
+            osCount: countPerOses,
+            osList: listOfOses,
+            statuses: statuses,
+            statusCount: countPerStatus,
+            hardwareCount: countPerHardware,
+            hardwareList: hardwareList,
+            totalCounts: totalCounts,
+            problemTypes: problemTypes});
     }
 })
 
