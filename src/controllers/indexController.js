@@ -16,15 +16,25 @@ const Feedback = require('../models/feedbackModel');
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
     let user = await User.getById(conn, req.user.id);
-    let tickets = await Ticket.getAll(conn, 0, 1000);
-    let solutions = await Solution.getAllSuccessSolution(conn);
-    let ticket_total = await Ticket.getCount(conn);
     if (user.type === 'admin') {
+        let tickets = await Ticket.getAll(conn, 0, 1000);
+        let solutions = await Solution.getAllSuccessSolution(conn);
+        let ticket_total = await Ticket.getCount(conn);
+        let assigned_total = await Ticket.getCount(conn,
+            ['status', 'status', 'status'],
+            ['active', 'unsuccessful', 'submitted'],
+            ['OR', 'OR', '']);
+        let open_total = await Ticket.getCount(conn,
+            ['handler_id'],
+            [null],
+            ['']);
         res.render('./index/admin', {
             username: req.user.username,
             tickets: tickets,
             usertype: user.type,
-            ticket_total: ticket_total
+            ticket_total: ticket_total,
+            assigned_total: assigned_total,
+            open_total: open_total
         });
     }
     if (user.type === 'user') {
@@ -56,7 +66,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let open_total = await Ticket.getCount(conn,
             [handlerId],
             [null],
-            [''])
+            ['']);
         console.log(assigned_total);
         res.render('./index/specialist', {
             username: req.user.username,
