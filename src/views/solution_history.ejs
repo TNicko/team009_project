@@ -1,0 +1,49 @@
+<%- include('partials/user_navbar.ejs') %>
+
+<div class="main_section">
+    <div class="main_container">
+        <div class="table_section">
+            <div class="table_top">
+                <div class="table_title_container">
+                    <h1 class="table_title">Your Tickets</h1>
+                    <p class="table_title_info">Total </p>
+                </div>
+                <div class="table_options_container">
+                    <!-- Searchbar -->
+                    <div class="search_item">
+                        <div class="search_container">
+                            <form>
+                                <button class="search_btn"><i class="fas fa-sliders-h"></i></button>
+                                <input type="text" class="search_input" placeholder="Search Ticket">
+                                <button class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                        <!-- Search Filters -->
+                        <div class="search_filters">
+        
+                        </div>
+                    </div>
+                    <%- include('partials/pagination.ejs') %>
+                </div>
+        
+            </div>
+        
+            <table class="ticket_table">
+        
+                <tbody class="ticket-body op-ticket-body">
+                <% solutions.forEach(function(solution){ %>
+                        <tr class="overdue"></tr>
+                    <% console.log(solution) %>
+                    <p style="padding-left: 6px;">
+                    Description: <%= solution.description %> 
+                    <br>Solution: <%= solution.solution %></p>
+                
+                </tr>
+                <% })%>
+                </tbody>
+            </table>
+        </div>
+      
+        
+    </div>
+</div>

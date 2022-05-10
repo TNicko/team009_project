@@ -17,22 +17,35 @@ const Os = require('../models/osModel');
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
     let user = await User.getById(conn, req.user.id);
-    let tickets = await Ticket.getAll(conn, 0, 1000);
-    let ticket_total = await Ticket.getCount(conn);
     if (user.type === 'admin') {
+        let tickets = await Ticket.getAll(conn, 0, 1000);
+        let solutions = await Solution.getAllSuccessSolution(conn);
+        let ticket_total = await Ticket.getCount(conn);
+        let assigned_total = await Ticket.getCount(conn,
+            ['status', 'status', 'status'],
+            ['active', 'unsuccessful', 'submitted'],
+            ['OR', 'OR', '']);
+        let open_total = await Ticket.getCount(conn,
+            ['handler_id'],
+            [null],
+            ['']);
         res.render('./index/admin', {
             username: req.user.username,
             tickets: tickets,
             usertype: user.type,
-            ticket_total: ticket_total
+            ticket_total: ticket_total,
+            assigned_total: assigned_total,
+            open_total: open_total
         });
     }
     if (user.type === 'user') {
+        let ticket_total = await Ticket.getCount(conn);
         res.render('./index/user', {
-            username: req.user.username,
-            tickets: tickets,
-            usertype: user.type
-        });
+            username: req.user.username, 
+            tickets: tickets, 
+            usertype: user.type,
+            solutions:solutions,
+            ticket_total: ticket_total});
     }
     if (user.type === 'specialist') {
 
@@ -43,6 +56,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [handlerId],
             [user.id],
             ['']);
+        let closed_total = await Ticket.getCount(conn,
+            [handlerId, 'status'],
+            [user.id, 'closed'],
+            ['AND', '']);    
         let assigned_total = await Ticket.getCount(conn,
             [handlerId, 'status', 'status', 'status'],
             [user.id, 'active', 'unsuccessful', 'submitted'],
@@ -50,7 +67,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let open_total = await Ticket.getCount(conn,
             [handlerId],
             [null],
-            [''])
+            ['']);
         console.log(assigned_total);
         res.render('./index/specialist', {
             username: req.user.username,
@@ -59,7 +76,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             open_tickets: open_tickets,
             ticket_total: ticket_total,
             assigned_total: assigned_total,
-            open_total: open_total
+            open_total: open_total,
+            closed_total: closed_total
         });
     }
     if (user.type === 'external specialist') {
@@ -208,28 +226,34 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let hardwares = await Hardware.getAll(conn, 0, 100);
+    let hardware_total = await Hardware.getCount(conn);
     res.render('./tables/hardware', {
         username: req.user.username,
         usertype: user.type,
-        hardwares: hardwares
+        hardwares: hardwares,
+        hardware_total: hardware_total
     });
 })
 router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let softwares = await Software.getAll(conn, 0, 100);
+    let software_total = await Software.getCount(conn);
     res.render('./tables/software', {
         username: req.user.username,
         usertype: user.type,
-        softwares: softwares
+        softwares: softwares,
+        software_total: software_total
     });
 })
 router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let os = await OS.getAll(conn, 0, 100);
+    let os_total = await OS.getCount(conn);
     res.render('./tables/os', {
         username: req.user.username,
         usertype: user.type,
-        os: os
+        os: os,
+        os_total: os_total
     });
 })
 router.post('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
@@ -383,6 +407,10 @@ router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analy
         username: req.user.username,
         errors: null
     });
+})
+router.get('/solution_history', checkAuthenticated(['user']), async (req, res) => {
+    let solutions = await Solution.getAllSuccessSolution(conn);
+    res.render('./solution_history', {username: req.user.username, solutions: solutions});
 })
 // Change Password validation
 router.post('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']),
