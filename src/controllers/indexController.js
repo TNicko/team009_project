@@ -45,6 +45,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [handlerId],
             [user.id],
             ['']);
+        let closed_total = await Ticket.getCount(conn,
+            [handlerId, 'status'],
+            [user.id, 'closed'],
+            ['AND', '']);    
         let assigned_total = await Ticket.getCount(conn,
             [handlerId, 'status', 'status', 'status'],
             [user.id, 'active', 'unsuccessful', 'submitted'],
@@ -61,7 +65,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             open_tickets: open_tickets,
             ticket_total: ticket_total,
             assigned_total: assigned_total,
-            open_total: open_total
+            open_total: open_total,
+            closed_total: closed_total
         });
     }
     if (user.type === 'external specialist') {
