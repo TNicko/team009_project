@@ -31,6 +31,26 @@ class Hardware {
 
     }
 
+    static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
+        let queryString = `SELECT COUNT(hardware_serial) AS count FROM hardware`
+        let queryParams = [];
+
+        if (filterColumns.length != 0) {
+            queryString += ` WHERE`;
+            filterColumns.forEach((filter, i) => {
+                if (filterValues[i] !== null) {
+                    queryString += ` ${filter} = ? ${filterOperator[i]}`;
+                    queryParams.push(filterValues[i]);
+                } else {
+                    queryString += ` ${filter} IS NULL ${filterOperator[i]}`;
+                }
+            });
+        }
+
+        let hardwares = await conn.query(queryString, queryParams);
+        return hardwares[0].count;
+    }
+
     static async add(conn, serial, name) {
         let queryString = `INSERT INTO hardware (hardware_serial, name)
                            VALUES (?, ?)`;

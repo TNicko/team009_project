@@ -28,6 +28,26 @@ class Software {
         );
     }
 
+    static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
+        let queryString = `SELECT COUNT(software_serial) AS count FROM software`
+        let queryParams = [];
+
+        if (filterColumns.length != 0) {
+            queryString += ` WHERE`;
+            filterColumns.forEach((filter, i) => {
+                if (filterValues[i] !== null) {
+                    queryString += ` ${filter} = ? ${filterOperator[i]}`;
+                    queryParams.push(filterValues[i]);
+                } else {
+                    queryString += ` ${filter} IS NULL ${filterOperator[i]}`;
+                }
+            });
+        }
+
+        let softwares = await conn.query(queryString, queryParams);
+        return softwares[0].count;
+    }
+
     static async add(conn, serial, name) {
         let queryString = `INSERT INTO software (software_serial, name)
                            VALUES (?, ?)`;

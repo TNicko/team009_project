@@ -100,28 +100,34 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let hardwares = await Hardware.getAll(conn, 0, 100);
+    let hardware_total = await Hardware.getCount(conn);
     res.render('./tables/hardware', {
         username: req.user.username,
         usertype: user.type,
-        hardwares: hardwares
+        hardwares: hardwares,
+        hardware_total: hardware_total
     });
 })
 router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let softwares = await Software.getAll(conn, 0, 100);
+    let software_total = await Software.getCount(conn);
     res.render('./tables/software', {
         username: req.user.username,
         usertype: user.type,
-        softwares: softwares
+        softwares: softwares,
+        software_total: software_total
     });
 })
 router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let os = await OS.getAll(conn, 0, 100);
+    let os_total = await OS.getCount(conn);
     res.render('./tables/os', {
         username: req.user.username,
         usertype: user.type,
-        os: os
+        os: os,
+        os_total: os_total
     });
 })
 router.post('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {

@@ -28,6 +28,26 @@ class Os {
         );
     }
 
+    static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
+        let queryString = `SELECT COUNT(os_serial) AS count FROM os`
+        let queryParams = [];
+
+        if (filterColumns.length != 0) {
+            queryString += ` WHERE`;
+            filterColumns.forEach((filter, i) => {
+                if (filterValues[i] !== null) {
+                    queryString += ` ${filter} = ? ${filterOperator[i]}`;
+                    queryParams.push(filterValues[i]);
+                } else {
+                    queryString += ` ${filter} IS NULL ${filterOperator[i]}`;
+                }
+            });
+        }
+
+        let oss = await conn.query(queryString, queryParams);
+        return oss[0].count;
+    }
+
     static async add(conn, serial, name) {
         let queryString = `INSERT INTO os (os_serial, name)
                            VALUES (?, ?)`;
