@@ -809,7 +809,7 @@ canvas {
     margin: 0 auto;
 }
 
-@media only screen and (max-device-width: 1000px) {
+@media only screen and (max-device-width: 1000px) and (min-device-width: 751px) {
     .reportedOs {
         grid-column-start: 1;
         grid-column-end: 4;
@@ -848,7 +848,8 @@ canvas {
     
 }
 
-@media only screen and (max-device-width: 750px) {
+
+@media only screen and (max-device-width: 750px) and (min-device-width: 631px) {
     .reportedOs {
         grid-column-start: 1;
         grid-column-end: 4;
