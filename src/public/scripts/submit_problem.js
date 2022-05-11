@@ -1,3 +1,4 @@
+// Replace the options of the serial number select with whatever type was selected by the user.
 function selectSerialType(select) {
     let parent = select.parentNode;
     let children = parent.children;
@@ -24,6 +25,7 @@ function selectSerialType(select) {
     }
 }
 
+// Create a new serial row to input the serial number.
 function addNewSerial(btn) {
     let parent = btn.parentNode;
 
@@ -36,6 +38,7 @@ function addNewSerial(btn) {
     parent.appendChild(btnClone);
 }
 
+// The main function to create the serial number select.
 function serialRoutine(select, serials) {
     select.removeAttribute("disabled");
     select.innerHTML = "";
@@ -47,6 +50,7 @@ function serialRoutine(select, serials) {
     }
 }
 
+// Delete a serial row.
 function deleteSerial(btn) {
     let parent = btn.parentNode;
     parent.remove();
