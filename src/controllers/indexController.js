@@ -13,6 +13,7 @@ const OS = require("../models/osModel");
 const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
 const Os = require('../models/osModel');
+const Expertise = require("../models/expertiseModel");
 
 // Checks user type logged in and renders home page for correct user.
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
@@ -468,10 +469,25 @@ router.post('/ticket/assign', checkAuthenticated(['admin']), async (req, res) =>
 router.post('/ticket/submit', checkAuthenticated(['user']), async (req, res) => {
     try {
         let body = req.body;
-        await Ticket.updateById(conn, body.ticket, null, null, null, null, body.specialist);
-        res.sendStatus(200);
+        let ticketId = await Ticket.create(conn, req.user.id, "active", body.title, body.notes, null, new Date());
+
+        if (body.isHardware) await Expertise.addToTicket(conn, ticketId, "hardware");
+        if (body.isSoftware) await Expertise.addToTicket(conn, ticketId, "software");
+        if (body.isNetwork) await Expertise.addToTicket(conn, ticketId, "network");
+
+        res.send(JSON.stringify(
+            {
+                success: true,
+                id: ticketId
+            }
+        ));
     } catch (err) {
-        res.sendStatus(500);
+        res.send(JSON.stringify(
+            {
+                success: false,
+                reason: "Unable to create ticket: " + err.message
+            }
+        ));
     }
 })
 router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {

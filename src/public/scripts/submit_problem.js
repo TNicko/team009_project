@@ -28,11 +28,16 @@ function submitProblem() {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
     }).then(async res => {
+        if (res.status !== 200) {
+            console.warn("Ticket submit returned status code " + res.status);
+            return;
+        }
+
         let resData = await res.json();
         if (resData.success) {
             location.href = "/ticket/" + resData.id;
         } else {
-
+            console.warn("Ticket submit failed: " + resData.reason);
         }
     });
 }

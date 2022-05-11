@@ -28,7 +28,7 @@ class Ticket {
             return {"serial": equipment.serial, "name": equipment.name}
         });
     }
-    // Function that allows for augmentation of a ticket
+    // Function that adds extra information to a Ticket object
     static async #augmentTicket(conn, ticket) {
         let id = ticket.ticketId;
 
@@ -185,7 +185,8 @@ class Ticket {
         `;
         let queryParams = [userId, status, description, notes, handlerId, createdAt];
 
-        await conn.query(queryString, queryParams);
+        let results = await conn.query(queryString, queryParams);
+        return results.insertId;
     }
     // Function to update a ticket specified by its ID
     static async updateById(conn,
