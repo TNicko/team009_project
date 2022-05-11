@@ -1,3 +1,42 @@
+// Send a POST request to the server with the problem data
+function submitProblem() {
+    // Get the serials
+    let serialElements = document
+        .getElementById("serialWrapper")
+        .getElementsByClassName("serialNum");
+    let serials = [];
+    for (const serialNum of serialElements) {
+        let serial = serialNum.value;
+        let serialType = serialNum.parentNode.querySelector(".serialType").value;
+        serials.push({
+            serialType: serialType,
+            serial: serial,
+        });
+    }
+
+    let data = {
+        title: document.getElementById("title").value,
+        notes: document.getElementById("notes").value,
+        isHardware: document.getElementById("hardware").checked,
+        isSoftware: document.getElementById("software").checked,
+        isNetwork: document.getElementById("network").checked,
+        serials: serials
+    }
+
+    fetch("/ticket/submit", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    }).then(async res => {
+        let resData = await res.json();
+        if (resData.success) {
+            location.href = "/ticket/" + resData.id;
+        } else {
+
+        }
+    });
+}
+
 // Replace the options of the serial number select with whatever type was selected by the user.
 function selectSerialType(select) {
     let parent = select.parentNode;

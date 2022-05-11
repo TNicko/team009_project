@@ -456,6 +456,15 @@ router.post('/ticket/assign', checkAuthenticated(['admin']), async (req, res) =>
         res.sendStatus(500);
     }
 })
+router.post('/ticket/submit', checkAuthenticated(['user']), async (req, res) => {
+    try {
+        let body = req.body;
+        await Ticket.updateById(conn, body.ticket, null, null, null, null, body.specialist);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
+})
 router.get('/account', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     res.render('./account', {
