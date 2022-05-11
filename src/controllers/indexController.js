@@ -138,6 +138,23 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
         let type = req.query.type;
         let handlerId = 'handler_id';
+        let ticket_total = await Ticket.getCount(conn,
+            [handlerId],
+            [user.id],
+            ['']);
+        let ticket_table_total = ticket_total;
+        let closed_total = await Ticket.getCount(conn,
+            [handlerId, 'status'],
+            [user.id, 'closed'],
+            ['AND', '']);    
+        let assigned_total = await Ticket.getCount(conn,
+            [handlerId, 'status', 'status', 'status'],
+            [user.id, 'active', 'unsuccessful', 'submitted'],
+            ['AND (', 'OR', 'OR', ')']);
+        let open_total = await Ticket.getCount(conn,
+            [handlerId],
+            [null],
+            ['']);
         let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
             `CASE status
                 WHEN 'unsuccessful' THEN 1
@@ -154,7 +171,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
+<<<<<<< HEAD
                 END`, '');
+=======
+                END`, ''); 
+                
+            ticket_table_total = ticket_total;    
+>>>>>>> 869217c (specialist ticket table displays correct filter totals)
         }
         if (type === "Resolved") {
             spec_tickets = await Ticket.getAll(conn, 0, 25,
@@ -167,7 +190,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
+<<<<<<< HEAD
                 END`, '');
+=======
+                END`, '');   
+            
+            ticket_table_total = open_total;
+>>>>>>> 869217c (specialist ticket table displays correct filter totals)
         }
         if (type == "Assigned") {
             spec_tickets = await Ticket.getAll(conn, 0, 25,
@@ -180,24 +209,44 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
+<<<<<<< HEAD
                 END`, '');
         }
+=======
+                END`, '');   
+>>>>>>> 869217c (specialist ticket table displays correct filter totals)
 
+            ticket_table_total = assigned_total;
+        }
 
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         spec_tickets = await mapOverdue(spec_tickets);
-        let index = spec_tickets.length;
-        if (type === "Overdue") {
-            while (index--) {
-                if (spec_tickets[index].isOverdue === false) {
-                    spec_tickets.splice(index, 1);
-                }
+        
+        let o_tickets = await Ticket.getAll(conn, 0, 1000, [handlerId], [user.id], [''],
+            `CASE status
+                WHEN 'unsuccessful' THEN 1
+                WHEN 'submitted' THEN 2
+                WHEN 'active' THEN 3
+                WHEN 'closed' THEN 4
+                ELSE 5
+            END`, '');
+        o_tickets = await augmentTicketUpdate(o_tickets);
+        o_tickets = await mapOverdue(o_tickets);
+        let index = o_tickets.length;
+        while (index--) {
+            if (o_tickets[index].isOverdue === false) {
+                o_tickets.splice(index, 1);
             }
+        }
+        if (type === "Overdue") {
+            ticket_table_total = o_tickets.length;
+            spec_tickets = o_tickets;
         }
 
         let open_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [null], ['']);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
+<<<<<<< HEAD
         let ticket_table_total = await Ticket.getCount(conn,
             [handlerId],
             [user.id],
@@ -214,15 +263,19 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [handlerId],
             [null],
             ['']);
+=======
+>>>>>>> 869217c (specialist ticket table displays correct filter totals)
         res.render('./index/specialist', {
             username: req.user.username,
             usertype: user.type,
             spec_tickets: spec_tickets,
             open_tickets: open_tickets,
             ticket_table_total: ticket_table_total,
+            ticket_total: ticket_total,
             assigned_total: assigned_total,
             open_total: open_total,
-            closed_total: closed_total
+            closed_total: closed_total,
+            overdue_ticket_total: o_tickets.length
         });
     }
     if (user.type === 'external specialist') {

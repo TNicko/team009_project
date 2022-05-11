@@ -3,6 +3,22 @@
 <div class="main_section" id="admin_section">
     <div class="admin_top">
         <div class="admin_panel">
+            <div class="strike_line sl4">
+
+            </div>
+            <div class="panel_info">
+                <div class="panel_icon pi4">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+                <div class="panel_title">
+                    <p>Total</p>
+                    <p><%= ticket_total%></p>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="admin_panel">
             <div class="strike_line sl2">
 
             </div>
@@ -45,29 +61,7 @@
                 </div>
                 <div class="panel_title">
                     <p>Overdue</p>
-                    <% count = 0 %> 
-                    <% spec_tickets.forEach((ticket, i) => { %>
-                        <% if (ticket.isOverdue) { %>
-                            <% count += 1 %>
-                        <% } %>
-                    <% }); %>
-                    <p> <%= count %>  </p>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="admin_panel">
-            <div class="strike_line sl4">
-
-            </div>
-            <div class="panel_info">
-                <div class="panel_icon pi4">
-                    <i class="fa-solid fa-gear"></i>
-                </div>
-                <div class="panel_title">
-                    <p>Total</p>
-                    <p><%= ticket_total%></p>
+                    <p> <%= overdue_ticket_total %>  </p>
                 </div>
 
             </div>
