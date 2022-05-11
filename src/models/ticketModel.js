@@ -79,7 +79,6 @@ class Ticket {
         let queryParams = [];
 
         if (filterColumns.length != 0) {
-            console.log('wddd');
             queryString += ` WHERE`;
             filterColumns.forEach((filter, i) => {
                 if (filterValues[i] !== null) {

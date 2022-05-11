@@ -45,11 +45,18 @@
         <tbody class="ticket-body op-ticket-body">
         <% tickets.forEach(function(ticket){ %>
             <tr class="overdue">
-                <td class="active"> <%= ticket.status %></td>
+                <% if (ticket.isOverdue) { %>
+                    <td class="<%= ticket.status %>"> 
+                        <i class="fa-solid fa-circle-exclamation overdue-warning"></i> 
+                        <%= ticket.status %>
+                    </td>
+                <% } else { %>
+                    <td class="<%= ticket.status %>"> <%= ticket.status %></td>
+                <% } %>
                 <td> <%= ticket.ticketId %></td>
                 <td> <%= ticket.expertises %></td>
                 <td> <%= ticket.description %></td>
-                <td> <%= ticket.name %></td>
+                <td> <%= ticket.updateDate %></td>
                 <% if (usertype === 'admin'){ %>
                     <td> <%= ticket.handlerId %></td>
                 <% } %>

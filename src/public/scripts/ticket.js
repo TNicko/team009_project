@@ -1,9 +1,12 @@
+// Call the close endpoint for the ticket and reload the page to show it has been closed.
 function closeTicket(id) {
     fetch("/ticket/" + id + "/close", {
         method: "POST"
     }).then(() => location.reload());
 }
 
+// Submit the user's feedback to the server with a POST request.
+// Reload the page to show the feedback has been submitted.
 function sendFeedback(id) {
     let feedback = document.getElementById("feedbackText").value;
     fetch("/ticket/" + id + "/feedback", {
@@ -15,6 +18,8 @@ function sendFeedback(id) {
     }).then(() => location.reload());
 }
 
+// Submit the specialist's solution to the server with a POST request.
+// Reload the page to show the solution has been submitted.
 function sendSolution(id) {
     let solution = document.getElementById("solutionText").value;
     fetch("/ticket/" + id + "/solution", {

@@ -16,10 +16,19 @@ const Os = require('../models/osModel');
 
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
+    console.log(req.body.type);
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
-        let tickets = await Ticket.getAll(conn, 0, 1000);
-        let solutions = await Solution.getAllSuccessSolution(conn);
+        let tickets = await Ticket.getAll(conn, 0, 50, null, null,
+            `CASE status
+                WHEN 'unsuccessful' THEN 1
+                WHEN 'submitted' THEN 2
+                WHEN 'active' THEN 3
+                WHEN 'closed' THEN 4
+                ELSE 5
+            END`, '');
+        tickets = await augmentTicketUpdate(tickets);
+        tickets = await mapOverdue(tickets);
         let ticket_total = await Ticket.getCount(conn);
         let assigned_total = await Ticket.getCount(conn,
             ['status', 'status', 'status'],
@@ -40,6 +49,17 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     }
     if (user.type === 'user') {
         let ticket_total = await Ticket.getCount(conn);
+        let solutions = await Solution.getAllSuccessSolution(conn);
+        let tickets = await Ticket.getAll(conn, 0, 50, 'user_id', user.id,
+        `CASE status
+            WHEN 'unsuccessful' THEN 1
+            WHEN 'submitted' THEN 2
+            WHEN 'active' THEN 3
+            WHEN 'closed' THEN 4
+            ELSE 5
+        END`, '');
+        tickets = await augmentTicketUpdate(tickets);
+
         res.render('./index/user', {
             username: req.user.username, 
             tickets: tickets, 
@@ -50,8 +70,19 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'specialist') {
 
         let handlerId = 'handler_id';
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+            `CASE status
+                WHEN 'unsuccessful' THEN 1
+                WHEN 'submitted' THEN 2
+                WHEN 'active' THEN 3
+                WHEN 'closed' THEN 4
+                ELSE 5
+            END`, '');
+        spec_tickets = await augmentTicketUpdate(spec_tickets);
+        spec_tickets = await mapOverdue(spec_tickets);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
+        open_tickets = await augmentTicketUpdate(open_tickets);
+
         let ticket_total = await Ticket.getCount(conn,
             [handlerId],
             [user.id],
@@ -68,7 +99,6 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [handlerId],
             [null],
             ['']);
-        console.log(assigned_total);
         res.render('./index/specialist', {
             username: req.user.username,
             usertype: user.type,
@@ -83,6 +113,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        spec_tickets = await augmentTicketUpdate(spec_tickets);
         res.render('./index/ext_specialist', {
             username: req.user.username,
             usertype: user.type,
@@ -221,6 +252,47 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             problemTypes: problemTypes});
     }
 })
+
+router.post('/admin', checkAuthenticated(['admin']), async (req, res) => {
+    let body = req.body;
+    let user = await User.getById(conn, req.user.id);
+
+    if (body.type === 'Unassigned') {
+        console.log('filtering unassigned...')
+        let tickets = await Ticket.getAll(conn, 0, 1, 'handler_id', null);
+        tickets = await augmentTicketUpdate(tickets);
+        tickets = await mapOverdue(tickets);
+        let ticket_total = await Ticket.getCount(conn);
+        let assigned_total = await Ticket.getCount(conn,
+            ['status', 'status', 'status'],
+            ['active', 'unsuccessful', 'submitted'],
+            ['OR', 'OR', '']);
+        let open_total = await Ticket.getCount(conn,
+            ['handler_id'],
+            [null],
+            ['']);
+        return res.render('index/admin', {
+            username: req.user.username,
+            tickets: tickets,
+            usertype: user.type,
+            ticket_total: ticket_total,
+            assigned_total: assigned_total,
+            open_total: open_total
+        });
+    } 
+    if (body.type === 'Assigned') {
+        console.log('filtering assigned...')
+
+    }
+    if (body.type === 'Overdue') {
+        console.log('filtering overdue...')
+
+    }
+    if (body.type === 'Total') {
+        console.log('filtering all...')
+
+    }
+});
 
 // Tables
 router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
@@ -368,9 +440,17 @@ router.post('/users/create/ext', checkAuthenticated(["admin"]), async (req, res)
 })
 router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
+
+    let hardwares = await Hardware.getAll(conn, 0, 1000);
+    let softwares = await Software.getAll(conn, 0, 1000);
+    let oses = await OS.getAll(conn, 0, 1000);
+
     res.render('./submit_problem', {
         username: req.user.username,
-        usertype: user.type
+        usertype: user.type,
+        hardwares: hardwares,
+        softwares: softwares,
+        oses: oses
     });
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
@@ -456,11 +536,57 @@ async function getLastUpdatedDate(ticketId) {
 
     if (arr.length != 0) {
         const max = new Date(Math.max(...arr));
-        return max;
+        const date = max.getFullYear() + '-' + (max.getMonth() + 1) + '-' + max.getDate();
+        const time = max.getHours() + ":" + max.getMinutes() + ":" + max.getSeconds();
+        const dateTime = date + ' ' + time;
+        return dateTime;
     } else {
         // Get date created here
         let ticket = await Ticket.getById(conn, ticketId);
-        return ticket.createdAt;
+        let create_date = new Date(ticket.createdAt);
+        const date = create_date.getFullYear() + '-' + (create_date.getMonth() + 1) + '-' + create_date.getDate();
+        const time = create_date.getHours() + ":" + create_date.getMinutes() + ":" + create_date.getSeconds();
+        const dateTime = date + ' ' + time;
+        return dateTime;
+    }
+}
+
+// Add update date to each ticket
+async function augmentTicketUpdate(tickets) {
+    tickets = await Promise.all(
+        tickets.map(async (v) => ({
+            ...v,
+            updateDate: await getLastUpdatedDate(v.ticketId)
+        }))
+    );
+    return tickets;
+}
+
+// Label each ticket as overdue or not overdue
+async function mapOverdue(tickets) {
+    tickets = await Promise.all(
+        tickets.map(async (v) => ({
+            ...v,
+            isOverdue: await checkOverdue(v)
+        }))
+    );
+    return tickets;
+}
+
+// Check if a ticket is overdue
+async function checkOverdue(ticket) {
+
+    const updateDate = ticket.updateDate;
+    const currentDate = new Date();
+    const ticketDate = new Date(updateDate);
+
+    const diffTime = Math.abs(currentDate - ticketDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+    if (diffDays > 7 && ticket.status !== 'closed') {
+        return true;
+    } else {
+        return false;
     }
 }
 

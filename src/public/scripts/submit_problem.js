@@ -1,85 +1,57 @@
-$('.chb').click(function () {
+// Replace the options of the serial number select with whatever type was selected by the user.
+function selectSerialType(select) {
+    let parent = select.parentNode;
+    let children = parent.children;
 
-    var chb_type = $(this).attr('id')
-
-    // check
-    if ($(this).is(':checked')) {
-        if (chb_type == "chb_hardware") {
-            $("#hardware_input").css("display", "flex");
-        } else if (chb_type == "chb_software") {
-            $("#software_input").css("display", "flex");
-        } else if (chb_type == "chb_network") {
-
-        } else if (chb_type == "chb_other") {
-            $("#other_input").css("display", "flex");
-        }
+    let type = select.value;
+    let serialSelect = children[children.length - 2];
+    switch (type) {
+        case "hardware":
+            serialRoutine(serialSelect, hardwares);
+            break;
+        case "software":
+            serialRoutine(serialSelect, softwares);
+            break;
+        case "os":
+            serialRoutine(serialSelect, oses);
+            break;
+        case "none":
+            serialSelect.setAttribute("disabled", true);
+            serialSelect.innerHTML = "";
+            let option = document.createElement("option");
+            option.innerHTML = "Choose serial...";
+            serialSelect.add(option);
+            break;
     }
-    // uncheck
-    if (!$(this).is(':checked')) {
-        if (chb_type == "chb_hardware") {
+}
 
-            $("#hardware_input").hide();
-        } else if (chb_type == "chb_software") {
-            $("#software_input").hide();
-        } else if (chb_type == "chb_network") {
+// Create a new serial row to input the serial number.
+function addNewSerial(btn) {
+    let parent = btn.parentNode;
 
-        } else if (chb_type == "chb_other") {
-            $("#other_input").hide();
-        }
+    let template = document.getElementById("serialTemplate")
+    let serialClone = template.content.cloneNode(true);
+    parent.appendChild(serialClone);
+
+    let btnClone = btn.cloneNode(true);
+    btn.remove();
+    parent.appendChild(btnClone);
+}
+
+// The main function to create the serial number select.
+function serialRoutine(select, serials) {
+    select.removeAttribute("disabled");
+    select.innerHTML = "";
+    for (const serial of serials) {
+        let option = document.createElement("option");
+        option.value = serial.serial;
+        option.innerHTML = serial.serial + " - " + serial.name;
+        select.appendChild(option);
     }
-});
+}
 
-$('#add_hardware_btn').click(function () {
-    const inputDiv = document.createElement("div");
-    inputDiv.className = "hardware_input_sec";
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "pt_input_field";
-    input.list = "hardware_list";
-    input.placeholder = "hardware id";
-    const btnDiv = document.createElement("div");
-    btnDiv.className = "input_del";
-    const btn = document.createElement("button");
-    btn.className = "delete_input_btn";
-    btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
-    // Delete button clicked -> delete input field
-    btn.addEventListener("click", function () {
-        $(this).parent().parent().remove();
-    });
-
-    btnDiv.append(btn);
-    inputDiv.append(input);
-    inputDiv.append(btnDiv);
-
-    $(inputDiv).insertAfter("#hardware_input .hardware_input_sec:last");
-});
-
-$('#add_software_btn').click(function () {
-    const inputDiv = document.createElement("div");
-    inputDiv.className = "software_input_sec";
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "pt_input_field";
-    input.list = "software_list";
-    input.placeholder = "software id";
-    const btnDiv = document.createElement("div");
-    btnDiv.className = "input_del";
-    const btn = document.createElement("button");
-    btn.className = "delete_input_btn";
-    btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
-    // Delete button clicked -> delete input field
-    btn.addEventListener("click", function () {
-        $(this).parent().parent().remove();
-    });
-
-    btnDiv.append(btn);
-    inputDiv.append(input);
-    inputDiv.append(btnDiv);
-
-    $(inputDiv).insertAfter("#software_input .software_input_sec:last");
-});
-
-
-$('#submit-problem-btn').click(function () {
-    console.log("CLICKED");
-}); 
+// Delete a serial row.
+function deleteSerial(btn) {
+    let parent = btn.parentNode;
+    parent.remove();
+}

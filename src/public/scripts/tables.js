@@ -1,3 +1,5 @@
+// Edit the hardware/software/os table row clicked on by the user.
+// This makes all the fields editable.
 function editRow(btn, serial, endpoint) {
     let row = btn.parentNode.parentNode;
     for (const col of row.children)
@@ -8,6 +10,9 @@ function editRow(btn, serial, endpoint) {
     btn.innerHTML = "Save";
 }
 
+// Save the row after it has been edited.
+// This makes all the fields uneditable.
+// It also sends the data to the hardware/software/os endpoint.
 function saveRow(btn, serial, endpoint) {
     let row = btn.parentNode.parentNode;
     for (const col of row.children)

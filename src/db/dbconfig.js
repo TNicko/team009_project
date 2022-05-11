@@ -13,7 +13,6 @@ const conn = mysql.createConnection({
     database: 'teamb009',
 });
 
-// TODO: Timeout and retry on failure instead of giving up instantly
 conn.connect(function (error) {
     if (error) {
         console.log('Error:');
