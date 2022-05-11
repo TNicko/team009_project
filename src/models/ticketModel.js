@@ -110,10 +110,14 @@ class Ticket {
         let queryParams = [];
 
         if (filterColumn !== null) {
-            if (filterValue !== null) {
+            if (filterValue === 'isNotNull'){
+                queryString += `\n WHERE ${filterColumn} IS NOT NULL`;
+            }
+             else if (filterValue !== null) {
                 queryString += `\n WHERE ${filterColumn} = ?`;
                 queryParams.push(filterValue);
-            } else {
+            } 
+            else {
                 queryString += `\n WHERE ${filterColumn} IS NULL`;
             }
 
