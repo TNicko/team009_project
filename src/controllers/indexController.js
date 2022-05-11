@@ -171,13 +171,9 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
-<<<<<<< HEAD
-                END`, '');
-=======
                 END`, ''); 
                 
             ticket_table_total = ticket_total;    
->>>>>>> 869217c (specialist ticket table displays correct filter totals)
         }
         if (type === "Resolved") {
             spec_tickets = await Ticket.getAll(conn, 0, 25,
@@ -190,13 +186,9 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
-<<<<<<< HEAD
-                END`, '');
-=======
                 END`, '');   
             
             ticket_table_total = open_total;
->>>>>>> 869217c (specialist ticket table displays correct filter totals)
         }
         if (type == "Assigned") {
             spec_tickets = await Ticket.getAll(conn, 0, 25,
@@ -209,12 +201,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
-<<<<<<< HEAD
-                END`, '');
-        }
-=======
                 END`, '');   
->>>>>>> 869217c (specialist ticket table displays correct filter totals)
 
             ticket_table_total = assigned_total;
         }
@@ -246,25 +233,6 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let open_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [null], ['']);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
-<<<<<<< HEAD
-        let ticket_table_total = await Ticket.getCount(conn,
-            [handlerId],
-            [user.id],
-            ['']);
-        let closed_total = await Ticket.getCount(conn,
-            [handlerId, 'status'],
-            [user.id, 'closed'],
-            ['AND', '']);
-        let assigned_total = await Ticket.getCount(conn,
-            [handlerId, 'status', 'status', 'status'],
-            [user.id, 'active', 'unsuccessful', 'submitted'],
-            ['AND (', 'OR', 'OR', ')']);
-        let open_total = await Ticket.getCount(conn,
-            [handlerId],
-            [null],
-            ['']);
-=======
->>>>>>> 869217c (specialist ticket table displays correct filter totals)
         res.render('./index/specialist', {
             username: req.user.username,
             usertype: user.type,
