@@ -1,3 +1,5 @@
+// The User model contains information about someone using the system.
+// This could be a user, an admin, a specialist, an analyst, or an external specialist.
 class User {
     constructor(id, name, job, department, telephone, type) {
         this.id = id;
@@ -8,13 +10,8 @@ class User {
         this.type = type;
     }
 
-    // This is an example function so that you can understand what models are
-    // supposed to do in an MVC architecture.
-    // I'm going to heavily comment this example function so that you can understand
-    // what's going on, but in your actual code don't comment such obvious things.
-    // For your model if you don't need the extra features like filter and sort,
-    // just ignore the code here that tackles that.
-    // Note: the skip and limit parameters are for pagination.
+    // Get all the users in the system, with the given filters and sort order.
+    // The skip and limit parameters are for pagination.
     // conn is the object that has the query() function for executing the SQL query.
     static async getAll(conn, skip, limit, filterColumn = null, filterValue = null, sortColumn = null, sortType = null) {
         // We have a base query string. We're going to add extra things to this query string
@@ -25,8 +22,6 @@ class User {
         let queryParams = [];
 
         // If filterColumn is not null, it means that the SQL query needs to filter the results.
-        // This is done with a WHERE
-        // The \n just means new line.
         if (filterColumn !== null) {
             if (filterValue !== null) {
                 queryString += `\n WHERE ${filterColumn} = ?`;
@@ -37,7 +32,6 @@ class User {
         }
 
         // If sortColumn is not null, it means that the SQL query needs to sort the results.
-        // This is done with a ORDER BY
         if (sortColumn !== null)
             // We're not allowed to use question marks for an ORDER BY, so we have to put the
             // sortColumn and sortType directly into the string.
@@ -50,31 +44,20 @@ class User {
         // etc.
         // Notice that we don't check if skip or limit are null before doing the query.
         // This is because pagination should be forced.
-        // Notice that we have 2 question marks. Instead of putting the skip and
-        // limit directly in the query string, we put them in queryParams.
-        // The MySQL module will automatically substitute in our actual data from
-        // queryParams into the question marks whenever the SQL query is run.
         queryString += `\n LIMIT ?, ?`;
         queryParams.push(skip, limit);
 
         // Now that we've built our query string and made the query parameters, we're
         // ready to actually execute the query.
-        // Calling conn.query will give us an array of all the rows given by the query.
-        // You don't need to understand what await does here, but make sure to write
-        // await before calling any function marked as async.
         let users = await conn.query(queryString, queryParams);
 
-        // After we've gotten our rows, we need to convert them into the actual User
-        // object. Here I've used a map to convert each element of the users array into
-        // a User object, but you can use a normal for loop if ur cringe.
+        // After we've gotten our rows, we need to convert them into the actual Users.
         return users.map(
             user => new User(user.id, user.name, user.job, user.department, user.telephone, user.type)
         );
-
-        // reminder to not write this many obvious comments for your actual code unless you
-        // want to get beaten up by me
     }
 
+    // Get the user with the given ID.
     static async getById(conn, id) {
 
         let query = 'SELECT user_id AS id, name, job, department, telephone, account_type AS type FROM user WHERE user_id = ?';
@@ -92,6 +75,7 @@ class User {
         );
     }
 
+    // Create a new user in the system.
     static async create(conn, name, job, department, telephone, type) {
         let queryString = `
             INSERT INTO user (name, job, department, telephone, account_type)
