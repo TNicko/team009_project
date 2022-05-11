@@ -934,6 +934,10 @@ canvas {
     .first-page, .last-page {
         display: none;
     }
+    
+    .table_top {
+        flex-direction: column;
+    }
 }
 
 @media only screen and (max-device-width: 630px) {
@@ -980,5 +984,9 @@ canvas {
 
     .first-page, .last-page {
         display: none;
+    }
+
+    .table_top {
+        flex-direction: column;
     }
 }
