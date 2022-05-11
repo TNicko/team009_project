@@ -1,3 +1,4 @@
+//The TicketLog Model contains information about a past change to a ticket's value 
 class TicketLog {
     constructor(logId, ticketId, updateDate, updateType, updateValue) {
         this.logId = logId;
@@ -7,6 +8,7 @@ class TicketLog {
         this.updateValue = updateValue;
     }
 
+    //Retrieves all logs for a ticket
     static async getAllForTicketId(conn, id) {
         let queryString =
             "SELECT log_id AS id, update_date AS date, update_type AS type, update_value AS value FROM ticket_log WHERE ticket_id = ? ORDER BY update_date DESC";
@@ -19,6 +21,7 @@ class TicketLog {
         );
     }
 
+    //Creates and attaches a log to an existing ticket
     static async createForTicket(conn, id, type, value) {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();

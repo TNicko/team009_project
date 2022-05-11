@@ -1,3 +1,4 @@
+//The Feedback Model contains information about a user's response to a solution
 class Feedback {
     constructor(feedbackId, ticketId, dateTime, feedback, userId) {
         this.feedbackId = feedbackId;
@@ -6,7 +7,8 @@ class Feedback {
         this.feedback = feedback;
         this.userId = userId;
     }
-
+    
+    //This retrieves all feedback from a ticket
     static async getAllForTicketId(conn, id) {
         let queryString =
             "SELECT feedback_id AS id, datetime AS dateTime, feedback, user_id AS userId FROM feedback WHERE ticket_id = ? ORDER BY datetime DESC";
@@ -19,6 +21,7 @@ class Feedback {
         );
     }
 
+    //This function creates and attaches a feedback to an existing ticket 
     static async createForTicket(conn, ticketId, feedback, userId) {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -32,6 +35,7 @@ class Feedback {
         await conn.query(queryString, queryParams);
     }
 
+    //Allows an existing feedback's values to be changed, requires feedback id
     static async updateById(conn, feedbackId, ticketId = null, feedback = null, userId = null) {
         const allParams = {'ticket_id': ticketId, 'feedback': feedback, 'user_id': userId};
         let queryString = "";
