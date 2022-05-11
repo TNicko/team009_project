@@ -15,6 +15,7 @@ const Feedback = require('../models/feedbackModel');
 
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
+    console.log(req.body.type);
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
         let tickets = await Ticket.getAll(conn, 0, 50);
@@ -104,6 +105,47 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         });
     }
 })
+
+router.post('/admin', checkAuthenticated(['admin']), async (req, res) => {
+    let body = req.body;
+    let user = await User.getById(conn, req.user.id);
+
+    if (body.type === 'Unassigned') {
+        console.log('filtering unassigned...')
+        let tickets = await Ticket.getAll(conn, 0, 1, 'handler_id', null);
+        tickets = await augmentTicketUpdate(tickets);
+        tickets = await mapOverdue(tickets);
+        let ticket_total = await Ticket.getCount(conn);
+        let assigned_total = await Ticket.getCount(conn,
+            ['status', 'status', 'status'],
+            ['active', 'unsuccessful', 'submitted'],
+            ['OR', 'OR', '']);
+        let open_total = await Ticket.getCount(conn,
+            ['handler_id'],
+            [null],
+            ['']);
+        return res.render('index/admin', {
+            username: req.user.username,
+            tickets: tickets,
+            usertype: user.type,
+            ticket_total: ticket_total,
+            assigned_total: assigned_total,
+            open_total: open_total
+        });
+    } 
+    if (body.type === 'Assigned') {
+        console.log('filtering assigned...')
+
+    }
+    if (body.type === 'Overdue') {
+        console.log('filtering overdue...')
+
+    }
+    if (body.type === 'Total') {
+        console.log('filtering all...')
+
+    }
+});
 
 // Tables
 router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
