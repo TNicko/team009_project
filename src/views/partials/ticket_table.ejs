@@ -53,7 +53,9 @@
                         <div class="status-type <%= ticket.status %>"><%= ticket.status %></div>
                     </td>
                 <% } else { %>
-                    <td> <div class="<%= ticket.status %>"><%= ticket.status %></div></td>
+                    <td class="status-col"> 
+                        <div class="status-type <%= ticket.status %>"><%= ticket.status %></div>
+                    </td>
                 <% } %>
 
                 <td><%= ticket.ticketId %></td>

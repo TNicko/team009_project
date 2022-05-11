@@ -857,10 +857,6 @@ canvas {
     
 }
 
-.overdue-warning {
-    color: var(--panelRed);
-}
-
 .tag-row{
     list-style: none;
     margin: 0;
@@ -883,9 +879,19 @@ canvas {
     padding: 0 12px;
 }
 
+.overdue-warning {
+    color: var(--panelRed);
+    position: absolute;
+    left:8px;
+}
+
 .status-col {
     display: flex;
     align-items: center;
+    position: relative;
+}
+.status-col > * {
+    vertical-align: middle;
 }
 
 .status-type {
