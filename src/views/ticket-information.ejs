@@ -1,6 +1,9 @@
 <!--This page shows all the information relating to a single ticket.-->
 
 <%- include('./partials/navbar.ejs') %>
+<%
+let isAssignedSpecialist = currentUserId === ticket.handlerId;
+%>
 
 <div class="container">
     <div class="m-4 p-4 bg-white rounded-3">
@@ -261,7 +264,7 @@
         <%
         let specialistCanSubmit = ticket.status === "active" || ticket.status === "unsuccessful";
         let userCanSubmit = ticket.status === "submitted";
-        if (specialistCanSubmit && usertype === "specialist") { %>
+        if (specialistCanSubmit && usertype === "specialist" && isAssignedSpecialist) { %>
             <div class="info-section">
                 <h3>Solution</h3>
                 <form>

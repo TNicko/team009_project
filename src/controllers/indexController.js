@@ -461,6 +461,7 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
     let data = {
         username: req.user.username,
         usertype: currentUser.type,
+        currentUserId: req.user.id,
         ticket: ticket,
         user: user,
         logs: logs,
