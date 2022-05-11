@@ -60,20 +60,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         }
         tickets = await augmentTicketUpdate(tickets);
         tickets = await mapOverdue(tickets);
-        index = tickets.length;
+        let index = tickets.length;
         if (type === "Overdue") {
             while (index--) {
                 if (tickets[index].isOverdue === false) {
                     tickets.splice(index, 1);
                 }
             }
-        //    tickets.forEach((ticket, i) => {
-        //        console.log(ticket.ticketId + " isOverdue " + ticket.isOverdue )
-        //        if (ticket.isOverdue === false) {
-        //            tickets.splice(i, 1);
-
-        //        }
-        //    }) 
         }
         let ticket_total = await Ticket.getCount(conn);
         let assigned_total = await Ticket.getCount(conn,
@@ -115,6 +108,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     }
     if (user.type === 'specialist') {
 
+        let type = req.query.type;
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
             `CASE status
@@ -124,8 +118,49 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 WHEN 'closed' THEN 4
                 ELSE 5
             END`, '');
+        if (type === "Total") {
+            spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+                `CASE status
+                    WHEN 'unsuccessful' THEN 1
+                    WHEN 'submitted' THEN 2
+                    WHEN 'active' THEN 3
+                    WHEN 'closed' THEN 4
+                    ELSE 5
+                END`, '');    
+        }
+        if (type === "Resolved") {
+            spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+                `CASE status
+                    WHEN 'unsuccessful' THEN 1
+                    WHEN 'submitted' THEN 2
+                    WHEN 'active' THEN 3
+                    WHEN 'closed' THEN 4
+                    ELSE 5
+                END`, '');   
+        }
+        if (type == "Assigned") {
+            spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+                `CASE status
+                    WHEN 'unsuccessful' THEN 1
+                    WHEN 'submitted' THEN 2
+                    WHEN 'active' THEN 3
+                    WHEN 'closed' THEN 4
+                    ELSE 5
+                END`, '');   
+        }
+
+
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         spec_tickets = await mapOverdue(spec_tickets);
+        let index = spec_tickets.length;
+        if (type === "Overdue") {
+            while (index--) {
+                if (spec_tickets[index].isOverdue === false) {
+                    spec_tickets.splice(index, 1);
+                }
+            }
+        }
+
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
@@ -460,6 +495,8 @@ router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => 
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
+    let ticket_total = await Ticket.getCount(conn);
+
     let tickets = await Ticket.getAll(conn, 0, 50, null, null,
         `CASE status
             WHEN 'unsuccessful' THEN 1
@@ -468,10 +505,12 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
             WHEN 'closed' THEN 4
             ELSE 5
         END`, '');
+        tickets = await augmentTicketUpdate(tickets);
     res.render('./all_tickets', {
         username: req.user.username,
         usertype: user.type,
-        tickets: tickets
+        tickets: tickets,
+        ticket_total: ticket_total
     });
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
@@ -494,8 +533,12 @@ router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analy
     });
 })
 router.get('/solution_history', checkAuthenticated(['user']), async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
     let solutions = await Solution.getAllSuccessSolution(conn);
-    res.render('./solution_history', {username: req.user.username, solutions: solutions});
+    res.render('./solution_history', {
+        username: req.user.username, 
+        usertype: user.type,
+        solutions: solutions});
 })
 // Change Password validation
 router.post('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']),

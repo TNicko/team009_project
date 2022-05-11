@@ -1,5 +1,4 @@
 
-
 document.querySelectorAll('.admin_panel').forEach(function(card) {
     card.addEventListener('click', function (e) {
 
@@ -9,4 +8,3 @@ document.querySelectorAll('.admin_panel').forEach(function(card) {
 
     });
 });
-
