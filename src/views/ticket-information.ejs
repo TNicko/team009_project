@@ -21,6 +21,11 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
                     Assign ticket to myself
                 </button>
             <% } %>
+        <h1 class="d-flex align-items-center">
+            <span class="<%=ticket.status%> badge rounded-pill me-2">
+                <%= ticket.status %>
+            </span>
+            Ticket #<%= ticket.ticketId %>
         </h1>
 
         <% if (user.type !== 'external specialist') { %>
