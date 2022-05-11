@@ -20,6 +20,16 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
         let type = req.query.type;
+        let ticket_table_total = await Ticket.getCount(conn);
+        let ticket_total = await Ticket.getCount(conn);
+        let assigned_total = await Ticket.getCount(conn,
+            ['status', 'status', 'status'],
+            ['active', 'unsuccessful', 'submitted'],
+            ['OR', 'OR', '']);
+        let open_total = await Ticket.getCount(conn,
+            ['handler_id'],
+            [null],
+            ['']);
         let tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
             `CASE status
                 WHEN 'unsuccessful' THEN 1
@@ -37,6 +47,9 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'closed' THEN 4
                     ELSE 5
                 END`, '');
+            
+            ticket_table_total = open_total;
+
         }
         if (type === "Assigned") {
             tickets = await Ticket.getAll(conn, 0, 50, 
@@ -50,6 +63,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'closed' THEN 4
                     ELSE 5
                 END`, '');
+            
+            ticket_table_total = assigned_total;
         }
         if (type === "Total") {
             tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
@@ -60,37 +75,46 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 WHEN 'closed' THEN 4
                 ELSE 5
             END`, '');
+
+            ticket_table_total = ticket_total;
         }
         tickets = await augmentTicketUpdate(tickets);
         tickets = await mapOverdue(tickets);
-        let index = tickets.length;
-        if (type === "Overdue") {
-            while (index--) {
-                if (tickets[index].isOverdue === false) {
-                    tickets.splice(index, 1);
-                }
+
+        let o_tickets = await Ticket.getAll(conn, 0, 1000, [], [], [],
+            `CASE status
+                WHEN 'unsuccessful' THEN 1
+                WHEN 'submitted' THEN 2
+                WHEN 'active' THEN 3
+                WHEN 'closed' THEN 4
+                ELSE 5
+            END`, '');
+        o_tickets = await augmentTicketUpdate(o_tickets);
+        o_tickets = await mapOverdue(o_tickets);
+        let index = o_tickets.length;
+        while (index--) {
+            if (o_tickets[index].isOverdue === false) {
+                o_tickets.splice(index, 1);
             }
         }
-        let ticket_total = await Ticket.getCount(conn);
-        let assigned_total = await Ticket.getCount(conn,
-            ['status', 'status', 'status'],
-            ['active', 'unsuccessful', 'submitted'],
-            ['OR', 'OR', '']);
-        let open_total = await Ticket.getCount(conn,
-            ['handler_id'],
-            [null],
-            ['']);
+        if (type === "Overdue") {
+            ticket_table_total = o_tickets.length;
+            tickets = o_tickets;
+        }
+
         res.render('./index/admin', {
             username: req.user.username,
             tickets: tickets,
             usertype: user.type,
+            ticket_table_total: ticket_table_total,
             ticket_total: ticket_total,
             assigned_total: assigned_total,
-            open_total: open_total
+            open_total: open_total,
+            overdue_ticket_total: o_tickets.length
         });
     }
     if (user.type === 'user') {
-        let ticket_total = await Ticket.getCount(conn);
+        let ticket_table_total = await Ticket.getCount(conn);
         let solutions = await Solution.getAllSuccessSolution(conn);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
         `CASE status
@@ -107,7 +131,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             tickets: tickets, 
             usertype: user.type,
             solutions:solutions,
-            ticket_total: ticket_total});
+            ticket_table_total: ticket_table_total});
     }
     if (user.type === 'specialist') {
 
@@ -173,7 +197,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let open_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [null], ['']);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
-        let ticket_total = await Ticket.getCount(conn,
+        let ticket_table_total = await Ticket.getCount(conn,
             [handlerId],
             [user.id],
             ['']);
@@ -194,7 +218,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             usertype: user.type,
             spec_tickets: spec_tickets,
             open_tickets: open_tickets,
-            ticket_total: ticket_total,
+            ticket_table_total: ticket_table_total,
             assigned_total: assigned_total,
             open_total: open_total,
             closed_total: closed_total
@@ -513,7 +537,7 @@ router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => 
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
-    let ticket_total = await Ticket.getCount(conn);
+    let ticket_table_total = await Ticket.getCount(conn);
 
     let tickets = await Ticket.getAll(conn, 0, 50, [null], [null], [''],
         `CASE status
@@ -528,7 +552,7 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
         username: req.user.username,
         usertype: user.type,
         tickets: tickets,
-        ticket_total: ticket_total
+        ticket_table_total: ticket_table_total
     });
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
