@@ -17,8 +17,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
-        let tickets = await Ticket.getAll(conn, 0, 1000);
-        let solutions = await Solution.getAllSuccessSolution(conn);
+        let tickets = await Ticket.getAll(conn, 0, 50);
+        tickets = await augmentTicketUpdate(tickets);
         let ticket_total = await Ticket.getCount(conn);
         let assigned_total = await Ticket.getCount(conn,
             ['status', 'status', 'status'],
@@ -39,6 +39,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     }
     if (user.type === 'user') {
         let ticket_total = await Ticket.getCount(conn);
+        let solutions = await Solution.getAllSuccessSolution(conn);
+        let tickets = await Ticket.getAll(conn, 0, 50, 'user_id', user.id);
+        tickets = await augmentTicketUpdate(tickets);
+
         res.render('./index/user', {
             username: req.user.username, 
             tickets: tickets, 
@@ -84,6 +88,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        spec_tickets = await augmentTicketUpdate(spec_tickets);
         res.render('./index/ext_specialist', {
             username: req.user.username,
             usertype: user.type,
