@@ -17,4 +17,9 @@
     --panelGreen: #90be6d;
     --panelBlue: #277da1;
     --panelYellow: #f9c74f;
+
+    --unsuccessfulColor: #f94144;
+    --submittedColor: #65b628;
+    --activeColor: #e9ad22;
+    --closedColor: rgb(105, 103, 103);
 }

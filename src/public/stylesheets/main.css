@@ -883,6 +883,32 @@ canvas {
     padding: 0 12px;
 }
 
+.status-col {
+    display: flex;
+    align-items: center;
+}
+
+.status-type {
+    padding: 2px 10px;
+    margin-left: 5px;
+    border-radius: 10px;
+    color: var(--white);
+}
+.active {
+    background-color: var(--activeColor);
+}
+.unsuccessful {
+    background-color: var(--unsuccessfulColor);
+}
+.submitted {
+    background-color: var(--submittedColor);
+}
+.closed {
+    background-color: var(--closedColor);
+}
+
+
+
 @media only screen and (max-device-width: 900px) {
     .table_top {
         flex-direction: column;
@@ -932,7 +958,7 @@ canvas {
     .first-page, .last-page {
         display: none;
     }
-    
+
     .table_top {
         flex-direction: column;
     }
