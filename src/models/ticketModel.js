@@ -102,30 +102,50 @@ class Ticket {
     // Get all tickets in the system
     static async getAll(conn,
                         skip, limit,
-                        filterColumn = null, filterValue = null,
+                        filterColumns = [], filterValues = [], filterOperator = [],
                         sortColumn = null, sortType = null, search = null) {
         let queryString =
             `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId, created_at AS createdAt
              FROM ticket`;
         let queryParams = [];
 
-        if (filterColumn !== null) {
-            if (filterValue === 'isNotNull'){
-                queryString += `\n WHERE ${filterColumn} IS NOT NULL`;
-            }
-             else if (filterValue !== null) {
-                queryString += `\n WHERE ${filterColumn} = ?`;
-                queryParams.push(filterValue);
-            } 
-            else {
-                queryString += `\n WHERE ${filterColumn} IS NULL`;
-            }
+        if (filterColumns.length != 0) {
+            queryString += ` WHERE`;
+            filterColumns.forEach((filter, i) => {
+                if (filterValues[i] === 'isNotNull'){
+                    queryString += ` ${filter} IS NOT NULL ${filterOperator[i]}`;
+                }  
+                else if (filterValues[i] !== null) {
+                    queryString += ` ${filter} = ? ${filterOperator[i]}`;
+                    queryParams.push(filterValues[i]);
+                } else {
+                    queryString += ` ${filter} IS NULL ${filterOperator[i]}`;
+                }
+            });
 
             if(search !== null){
                 queryString += `AND (ticket_id LIKE '%${search}%' or user_id LIKE '%${search}%' or status LIKE '%${search}%' or 
                 description LIKE '%${search}%' or notes LIKE '%${search}%' or handler_id LIKE '%${search}%' or created_at LIKE '%${search}%')`;
             }
         }
+
+        // if (filterColumn !== null) {
+        //     if (filterValue === 'isNotNull'){
+        //         queryString += `\n WHERE ${filterColumn} IS NOT NULL`;
+        //     }
+        //      else if (filterValue !== null) {
+        //         queryString += `\n WHERE ${filterColumn} = ?`;
+        //         queryParams.push(filterValue);
+        //     } 
+        //     else {
+        //         queryString += `\n WHERE ${filterColumn} IS NULL`;
+        //     }
+
+        //     if(search !== null){
+        //         queryString += `AND (ticket_id LIKE '%${search}%' or user_id LIKE '%${search}%' or status LIKE '%${search}%' or 
+        //         description LIKE '%${search}%' or notes LIKE '%${search}%' or handler_id LIKE '%${search}%' or created_at LIKE '%${search}%')`;
+        //     }
+        // }
 
         if (sortColumn !== null)
             queryString += `\n ORDER BY ${sortColumn} ${sortType}`;

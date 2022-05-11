@@ -20,7 +20,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
         let type = req.query.type;
-        let tickets = await Ticket.getAll(conn, 0, 50, null, null,
+        let tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
             `CASE status
                 WHEN 'unsuccessful' THEN 1
                 WHEN 'submitted' THEN 2
@@ -29,7 +29,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 ELSE 5
             END`, '');
         if (type === "Unassigned") {
-            tickets = await Ticket.getAll(conn, 0, 50, 'handler_id', null,
+            tickets = await Ticket.getAll(conn, 0, 50, ['handler_id'], [null], [''],
                 `CASE status
                     WHEN 'unsuccessful' THEN 1
                     WHEN 'submitted' THEN 2
@@ -39,7 +39,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 END`, '');
         }
         if (type === "Assigned") {
-            tickets = await Ticket.getAll(conn, 0, 50, 'handler_id', 'isNotNull',
+            tickets = await Ticket.getAll(conn, 0, 50, 
+                ['handler_id', 'status', 'status', 'status'],
+                ['isNotNull', 'active', 'unsuccessful', 'submitted'],
+                ['AND (', 'OR', 'OR', ')'],
                 `CASE status
                     WHEN 'unsuccessful' THEN 1
                     WHEN 'submitted' THEN 2
@@ -49,7 +52,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 END`, '');
         }
         if (type === "Total") {
-            tickets = await Ticket.getAll(conn, 0, 50, null, null,
+            tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
             `CASE status
                 WHEN 'unsuccessful' THEN 1
                 WHEN 'submitted' THEN 2
@@ -89,7 +92,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'user') {
         let ticket_total = await Ticket.getCount(conn);
         let solutions = await Solution.getAllSuccessSolution(conn);
-        let tickets = await Ticket.getAll(conn, 0, 50, 'user_id', user.id,
+        let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
         `CASE status
             WHEN 'unsuccessful' THEN 1
             WHEN 'submitted' THEN 2
@@ -110,7 +113,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
         let type = req.query.type;
         let handlerId = 'handler_id';
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
             `CASE status
                 WHEN 'unsuccessful' THEN 1
                 WHEN 'submitted' THEN 2
@@ -119,7 +122,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 ELSE 5
             END`, '');
         if (type === "Total") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+            spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
                 `CASE status
                     WHEN 'unsuccessful' THEN 1
                     WHEN 'submitted' THEN 2
@@ -129,7 +132,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 END`, '');    
         }
         if (type === "Resolved") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+            spec_tickets = await Ticket.getAll(conn, 0, 25, 
+                [handlerId, 'status'],
+                [user.id, 'closed'],
+                ['AND', ''],
                 `CASE status
                     WHEN 'unsuccessful' THEN 1
                     WHEN 'submitted' THEN 2
@@ -139,7 +145,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 END`, '');   
         }
         if (type == "Assigned") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+            spec_tickets = await Ticket.getAll(conn, 0, 25, 
+                [handlerId, 'status', 'status', 'status'],
+                [user.id, 'active', 'unsuccessful', 'submitted'],
+                ['AND (', 'OR', 'OR', ')'],
                 `CASE status
                     WHEN 'unsuccessful' THEN 1
                     WHEN 'submitted' THEN 2
@@ -161,7 +170,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             }
         }
 
-        let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
+        let open_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [null], ['']);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
         let ticket_total = await Ticket.getCount(conn,
@@ -193,7 +202,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     }
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], ['']);
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         res.render('./index/ext_specialist', {
             username: req.user.username,
@@ -506,7 +515,7 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
     let user = await User.getById(conn, req.user.id);
     let ticket_total = await Ticket.getCount(conn);
 
-    let tickets = await Ticket.getAll(conn, 0, 50, null, null,
+    let tickets = await Ticket.getAll(conn, 0, 50, [null], [null], [''],
         `CASE status
             WHEN 'unsuccessful' THEN 1
             WHEN 'submitted' THEN 2
@@ -526,7 +535,7 @@ router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
     let specialists = await User.getAll(conn, 0, 100, "account_type", "specialist");
     let extSpecialists = await User.getAll(conn, 0, 100, "account_type", "external specialist");
-    let tickets = await Ticket.getAll(conn, 0, 100, "status", "active");
+    let tickets = await Ticket.getAll(conn, 0, 100, ["status"], ["active"], ['']);
 
     res.render('./users', {
         username: req.user.username,
