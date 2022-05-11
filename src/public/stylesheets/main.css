@@ -656,9 +656,14 @@ input.info-tag {
     0 0 1px var(--tableHeaderShade),
     0 0 6px var(--tableHeaderShade);
     overflow: hidden;
-
+    transition: tranform 2s;
     display: flex;
     position: relative;
+}
+
+.admin_panel:hover {
+    cursor: pointer;
+    transform: scale(1.05);
 }
 
 .strike_line {
@@ -738,7 +743,6 @@ input.info-tag {
 .overdue-warning {
     color: var(--panelRed);
 }
-
 
 
 
