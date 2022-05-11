@@ -18,7 +18,14 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     console.log(req.body.type);
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
-        let tickets = await Ticket.getAll(conn, 0, 50);
+        let tickets = await Ticket.getAll(conn, 0, 50, null, null,
+            `CASE status
+                WHEN 'unsuccessful' THEN 1
+                WHEN 'submitted' THEN 2
+                WHEN 'active' THEN 3
+                WHEN 'closed' THEN 4
+                ELSE 5
+            END`, '');
         tickets = await augmentTicketUpdate(tickets);
         tickets = await mapOverdue(tickets);
         let ticket_total = await Ticket.getCount(conn);
@@ -42,7 +49,14 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'user') {
         let ticket_total = await Ticket.getCount(conn);
         let solutions = await Solution.getAllSuccessSolution(conn);
-        let tickets = await Ticket.getAll(conn, 0, 50, 'user_id', user.id);
+        let tickets = await Ticket.getAll(conn, 0, 50, 'user_id', user.id,
+        `CASE status
+            WHEN 'unsuccessful' THEN 1
+            WHEN 'submitted' THEN 2
+            WHEN 'active' THEN 3
+            WHEN 'closed' THEN 4
+            ELSE 5
+        END`, '');
         tickets = await augmentTicketUpdate(tickets);
 
         res.render('./index/user', {
@@ -55,7 +69,14 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'specialist') {
 
         let handlerId = 'handler_id';
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id,
+            `CASE status
+                WHEN 'unsuccessful' THEN 1
+                WHEN 'submitted' THEN 2
+                WHEN 'active' THEN 3
+                WHEN 'closed' THEN 4
+                ELSE 5
+            END`, '');
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         spec_tickets = await mapOverdue(spec_tickets);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
