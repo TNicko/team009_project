@@ -237,7 +237,6 @@ li a:hover {
 
 .ticket-body tr {
     border-bottom: solid 1px var(--tableHeaderColor);
-    cursor: pointer;
 }
 
 .ticket-body tr:hover {
@@ -245,7 +244,6 @@ li a:hover {
     border-top: solid 3px var(--mainColor); */
     box-shadow: 0 0 6px rgb(0 0 0 / 20%),
     0 2px 2px rgb(0 0 0 / 20%);
-    cursor: pointer;
 }
 
 .table_headers {

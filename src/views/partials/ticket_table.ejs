@@ -7,7 +7,7 @@
                 <h1 class="table_title">Tickets</h1>
             <% } else { %>
                 <h1 class="table_title">Your Tickets</h1>
-            <% } %>        
+            <% } %>
             <p class="table_title_info">Total <%= ticket_total %></p>
         </div>
         <div class="table_options_container">
@@ -48,21 +48,25 @@
         <% tickets.forEach(function(ticket){ %>
             <tr class="overdue">
                 <% if (ticket.isOverdue) { %>
-                    <td class="<%= ticket.status %>"> 
-                        <i class="fa-solid fa-circle-exclamation overdue-warning"></i> 
+                    <td class="<%= ticket.status %>">
+                        <i class="fa-solid fa-circle-exclamation overdue-warning"></i>
                         <%= ticket.status %>
                     </td>
                 <% } else { %>
                     <td class="<%= ticket.status %>"> <%= ticket.status %></td>
                 <% } %>
-                <td> <%= ticket.ticketId %></td>
+
+                <td><%= ticket.ticketId %></td>
                 <td> <%= ticket.expertises %></td>
-                <td> <%= ticket.description %></td>
+                <td>
+                    <a href="/ticket/<%= ticket.ticketId %>">
+                        <%= ticket.description %>
+                    </a>
+                </td>
                 <td> <%= ticket.updateDate %></td>
                 <% if (usertype === 'admin'){ %>
                     <td> <%= ticket.handlerId %></td>
                 <% } %>
-
             </tr>
         <% }); %>
         </tbody>
