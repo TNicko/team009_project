@@ -858,6 +858,27 @@ canvas {
     color: var(--panelRed);
 }
 
+.tag-row{
+    list-style: none;
+    margin: 0;
+    overflow: hidden; 
+    padding: 0;
+}
+.tag {
+    border-radius: 4px 0 0 3px;
+    color: rgb(0, 0, 0);
+    display: inline-block;
+    padding: 1px 3px 1px 3px;
+    margin: 0px 4px 0 10px;
+    position: relative;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: bisque;
+}
+.inner-text{
+    margin: 0;
+    padding: 0 12px;
+}
 
 @media only screen and (max-device-width: 750px) and (min-device-width: 631px) {
     .reportedOs {

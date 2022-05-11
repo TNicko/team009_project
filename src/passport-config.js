@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt')
 const Account = require('./models/accountModel');
 const conn = require("./db/dbconfig.js");
 
-
+// On Login, authenticates credentials inputted.
+// Saves and stores user in session
 function initialize(passport) {
 
     const authenticateUser = async (username, password, done) => {
