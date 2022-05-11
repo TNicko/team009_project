@@ -251,9 +251,17 @@ router.post('/users/create/ext', checkAuthenticated(["admin"]), async (req, res)
 })
 router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
+
+    let hardwares = await Hardware.getAll(conn, 0, 1000);
+    let softwares = await Software.getAll(conn, 0, 1000);
+    let oses = await OS.getAll(conn, 0, 1000);
+
     res.render('./submit_problem', {
         username: req.user.username,
-        usertype: user.type
+        usertype: user.type,
+        hardwares: hardwares,
+        softwares: softwares,
+        oses: oses
     });
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
