@@ -1,9 +1,12 @@
+//The Expertise model cointains information about the expertises information
+//which could be hardware software os 
+
 class Expertise {
     constructor(id, name) {
         this.id = id;
         this.name = name;
     }
-
+    //getBySpecialist() funtion takes in a specialist user Id as parameter and return the expertises object of the specialist
     static async getBySpecialist(conn, SpecialistId) {
         let expertises = await conn.query(
             `SELECT expertise.expertise_id, expertise.name
@@ -20,7 +23,7 @@ class Expertise {
             )
         );
     }
-
+    //getAll() funtion return all expertises in the system
     static async getAll(conn,
                         skip, limit,
                         filterColumn = null, filterValue = null,
