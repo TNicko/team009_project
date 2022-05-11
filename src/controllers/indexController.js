@@ -363,22 +363,23 @@ async function mapOverdue(tickets) {
     tickets = await Promise.all(
         tickets.map(async (v) => ({
             ...v,
-            isOverdue: await checkOverdue(v.updateDate)
+            isOverdue: await checkOverdue(v)
         }))
     );
     return tickets;
 }
 
 // Check if a ticket is overdue
-async function checkOverdue(updateDate) {
+async function checkOverdue(ticket) {
 
+    const updateDate = ticket.updateDate;
     const currentDate = new Date();
     const ticketDate = new Date(updateDate);
 
     const diffTime = Math.abs(currentDate - ticketDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
-    if (diffDays > 7) {
+    if (diffDays > 7 && ticket.status !== 'closed') {
         return true;
     } else {
         return false;
