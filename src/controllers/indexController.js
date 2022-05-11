@@ -40,7 +40,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 END`, '');
         }
         if (type === "Assigned") {
-            tickets = await Ticket.getAll(conn, 0, 50, 
+            tickets = await Ticket.getAll(conn, 0, 50,
                 ['handler_id', 'status', 'status', 'status'],
                 ['isNotNull', 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
@@ -104,8 +104,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         tickets = await augmentTicketUpdate(tickets);
 
         res.render('./index/user', {
-            username: req.user.username, 
-            tickets: tickets, 
+            username: req.user.username,
+            tickets: tickets,
             usertype: user.type,
             solutions:solutions,
             ticket_total: ticket_total});
@@ -130,10 +130,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
-                END`, '');    
+                END`, '');
         }
         if (type === "Resolved") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25, 
+            spec_tickets = await Ticket.getAll(conn, 0, 25,
                 [handlerId, 'status'],
                 [user.id, 'closed'],
                 ['AND', ''],
@@ -143,10 +143,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
-                END`, '');   
+                END`, '');
         }
         if (type == "Assigned") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25, 
+            spec_tickets = await Ticket.getAll(conn, 0, 25,
                 [handlerId, 'status', 'status', 'status'],
                 [user.id, 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
@@ -156,7 +156,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     WHEN 'active' THEN 3
                     WHEN 'closed' THEN 4
                     ELSE 5
-                END`, '');   
+                END`, '');
         }
 
 
@@ -181,7 +181,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let closed_total = await Ticket.getCount(conn,
             [handlerId, 'status'],
             [user.id, 'closed'],
-            ['AND', '']);    
+            ['AND', '']);
         let assigned_total = await Ticket.getCount(conn,
             [handlerId, 'status', 'status', 'status'],
             [user.id, 'active', 'unsuccessful', 'submitted'],
@@ -247,7 +247,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 })
             })
             countPerHardware[hardware.name] = hardwareCount;
-            
+
         })
 
         softwareListGet.forEach(function(software){
@@ -285,11 +285,11 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 {
                     count++;
                 }
-                
+
             })
 
             countPerHandler[user.name] = count;
-            
+
         })
 
 
@@ -475,6 +475,13 @@ router.post('/ticket/submit', checkAuthenticated(['user']), async (req, res) => 
         if (body.isSoftware) await Expertise.addToTicket(conn, ticketId, "software");
         if (body.isNetwork) await Expertise.addToTicket(conn, ticketId, "network");
 
+        for (const serial of body.serials) {
+            if (serial.serialType === "hardware") await Hardware.addToTicket(conn, serial.serial, ticketId);
+            if (serial.serialType === "software") await Software.addToTicket(conn, serial.serial, ticketId);
+            if (serial.serialType === "os") await OS.addToTicket(conn, serial.serial, ticketId);
+        }
+
+
         res.send(JSON.stringify(
             {
                 success: true,
@@ -570,7 +577,7 @@ router.get('/solution_history', checkAuthenticated(['user']), async (req, res) =
     let user = await User.getById(conn, req.user.id);
     let solutions = await Solution.getAllSuccessSolution(conn);
     res.render('./solution_history', {
-        username: req.user.username, 
+        username: req.user.username,
         usertype: user.type,
         solutions: solutions});
 })
@@ -673,7 +680,7 @@ async function checkOverdue(ticket) {
     const ticketDate = new Date(updateDate);
 
     const diffTime = Math.abs(currentDate - ticketDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays > 7 && ticket.status !== 'closed') {
         return true;
