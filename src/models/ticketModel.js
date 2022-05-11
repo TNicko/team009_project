@@ -73,6 +73,12 @@ class Ticket {
         );
     }
 
+    /**
+    * Gets count of tickets with filter options
+    * @param {list} filterColumns table columns to filter
+    * @param {list} filterValues values selected in columns to filter
+    * @param {list} filterOperator query operators to seperate each filter option (e.g. AND, OR)
+    */
     static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
         let queryString = `SELECT COUNT(ticket_id) AS count FROM ticket`
         let queryParams = [];
