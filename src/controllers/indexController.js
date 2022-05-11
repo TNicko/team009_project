@@ -14,6 +14,7 @@ const Account = require('../models/accountModel.js');
 const Feedback = require('../models/feedbackModel');
 const Os = require('../models/osModel');
 
+// Checks user type logged in and renders home page for correct user.
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
     console.log(req.body.type);
@@ -516,7 +517,10 @@ router.post('/change_password', checkAuthenticated(['specialist', 'admin', 'anal
         }
     });
 
-// Get ticket last updated date
+/**
+ * Gets and returns the last updated date for a specific ticket
+ * @param {int} ticketId ticket's id
+ */
 async function getLastUpdatedDate(ticketId) {
     let ticket_logs = await TicketLog.getAllForTicketId(conn, ticketId);
     let solutions = await Solution.getAllForTicketId(conn, ticketId);
@@ -535,6 +539,7 @@ async function getLastUpdatedDate(ticketId) {
     }
 
     if (arr.length != 0) {
+        // Get last updated date 
         const max = new Date(Math.max(...arr));
         const date = max.getFullYear() + '-' + (max.getMonth() + 1) + '-' + max.getDate();
         const time = max.getHours() + ":" + max.getMinutes() + ":" + max.getSeconds();
@@ -551,7 +556,10 @@ async function getLastUpdatedDate(ticketId) {
     }
 }
 
-// Add update date to each ticket
+/**
+ * Appends update date for each ticket object and returns updated list
+ * @param {object} tickets list of all ticket objects
+ */
 async function augmentTicketUpdate(tickets) {
     tickets = await Promise.all(
         tickets.map(async (v) => ({
@@ -562,7 +570,10 @@ async function augmentTicketUpdate(tickets) {
     return tickets;
 }
 
-// Label each ticket as overdue or not overdue
+/**
+ * Appends boolean value to each ticket object and returns updated list
+ * @param {object} tickets list of all ticket objects
+ */
 async function mapOverdue(tickets) {
     tickets = await Promise.all(
         tickets.map(async (v) => ({
@@ -573,7 +584,7 @@ async function mapOverdue(tickets) {
     return tickets;
 }
 
-// Check if a ticket is overdue
+// Checks if a ticket is overdue and returns boolean
 async function checkOverdue(ticket) {
 
     const updateDate = ticket.updateDate;
@@ -596,8 +607,11 @@ async function hashPassword(password) {
     return hashedPassword;
 }
 
-// Redirects to login if not authenticated
-// Redirects to home if user does not have access to page
+/**
+ * Redirects to login if not authenticated
+ * Redirects to home if user does not have access to page
+ * @param {object} userTypes list of all user types that have access to view
+ */
 function checkAuthenticated(userTypes) {
     return async (req, res, next) => {
         if (req.isAuthenticated()) {
@@ -621,6 +635,8 @@ function checkNoAuthenticated(req, res, next) {
     next()
 }
 
+// Utility function to combine a list of solutions objects and list of feedback objects for a single ticket. 
+// Sorts in chronological order.
 function combineSolutionsAndFeedbacks(solutions, feedbacks) {
     let solutionsAndFeedbacks = [];
     let solCounter = 0;

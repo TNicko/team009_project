@@ -1,10 +1,11 @@
+//The Hardware model stores information about hardware in the company
 class Hardware {
     constructor(name, serial) {
         this.name = name
         this.serial = serial
     }
 
-
+    //Retrieves all hardware
     static async getAll(conn, skip, limit, search = null, sortColumn = null, sortType = null) {
 
         let queryString = "SELECT hardware_serial AS serial, name FROM hardware";
@@ -31,6 +32,7 @@ class Hardware {
 
     }
 
+    //Gets number of hardware, filters can be applied
     static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
         let queryString = `SELECT COUNT(hardware_serial) AS count FROM hardware`
         let queryParams = [];
@@ -51,6 +53,7 @@ class Hardware {
         return hardwares[0].count;
     }
 
+    //Add new hardware to database
     static async add(conn, serial, name) {
         let queryString = `INSERT INTO hardware (hardware_serial, name)
                            VALUES (?, ?)`;
@@ -58,12 +61,14 @@ class Hardware {
 
     }
 
+    //Attach a hardware to existing ticket
     static async addToTicket(conn, serial, ticket_id) {
         let queryString = `INSERT INTO ticket_hardware (hardware_serial, ticket_id)
                            VALUES (?, ?)`;
         await conn.query(queryString, [serial, ticket_id]);
     }
 
+    //Detach a hardware from an existing tickert
     static async deleteFromTicket(conn, serial, ticket_id) {
         let queryString = `DELETE
                            FROM ticket_hardware
@@ -72,6 +77,7 @@ class Hardware {
         await conn.query(queryString, [ticket_id, serial]);
     }
 
+    //Allows an existing hardware's values to be changed
     static async update(conn, serial, newSerial = null, name = null) {
         let queryString = `UPDATE hardware \n SET`;
         let queryParams = []
