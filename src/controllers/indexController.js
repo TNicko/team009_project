@@ -188,7 +188,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                     ELSE 5
                 END`, '');   
             
-            ticket_table_total = open_total;
+            ticket_table_total = closed_total;
         }
         if (type == "Assigned") {
             spec_tickets = await Ticket.getAll(conn, 0, 25,
