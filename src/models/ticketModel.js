@@ -114,7 +114,7 @@ class Ticket {
             filterColumns.forEach((filter, i) => {
                 if (filterValues[i] === 'isNotNull'){
                     queryString += ` ${filter} IS NOT NULL ${filterOperator[i]}`;
-                }  
+                }
                 else if (filterValues[i] !== null) {
                     queryString += ` ${filter} = ? ${filterOperator[i]}`;
                     queryParams.push(filterValues[i]);
@@ -202,7 +202,8 @@ class Ticket {
         const addToQuery = (param, name) => {
             if (param != null) {
                 queryString += `, ${name} = ? `;
-                queryParams.push(param)
+                if (param === -1) queryParams.push(null)
+                else queryParams.push(param)
             }
         };
 

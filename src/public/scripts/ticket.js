@@ -30,3 +30,24 @@ function sendSolution(id) {
         })
     }).then(() => location.reload());
 }
+
+function assignToSelf(id) {
+    assignRequest(id, currentUserId);
+}
+
+function dropTicket(id) {
+    assignRequest(id, -1);
+}
+
+function assignRequest(ticketId, specialistId) {
+    let data = {
+        ticket: ticketId,
+        specialist: specialistId
+    };
+
+    fetch("/ticket/assign", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    }).then(() => location.reload());
+}

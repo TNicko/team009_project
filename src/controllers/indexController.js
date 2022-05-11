@@ -452,7 +452,7 @@ router.post('/ticket/:id/solution', checkAuthenticated(['specialist']), async (r
         res.sendStatus(500);
     }
 })
-router.post('/ticket/assign', checkAuthenticated(['admin']), async (req, res) => {
+router.post('/ticket/assign', checkAuthenticated(['admin', 'specialist']), async (req, res) => {
     try {
         let body = req.body;
         await Ticket.updateById(conn, body.ticket, null, null, null, null, body.specialist);

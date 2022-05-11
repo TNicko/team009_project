@@ -7,11 +7,20 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
 
 <div class="container">
     <div class="m-4 p-4 bg-white rounded-3">
-        <h1 class="d-flex align-items-center">
-            <span class="badge rounded-pill bg-secondary me-2">
-                <%= ticket.status %>
-            </span>
-            Ticket #<%= ticket.ticketId %>
+        <h1 class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <span class="badge rounded-pill bg-secondary me-2">
+                    <%= ticket.status %>
+                </span>
+                Ticket #<%= ticket.ticketId %>
+            </div>
+            <% if (isAssignedSpecialist) { %>
+                <button class="btn btn-danger" onclick="dropTicket(<%= ticket.ticketId %>)">Drop ticket</button>
+            <% } else { %>
+                <button class="btn btn-primary" onclick="assignToSelf(<%= ticket.ticketId %>)">
+                    Assign ticket to myself
+                </button>
+            <% } %>
         </h1>
 
         <% if (user.type !== 'external specialist') { %>
@@ -268,23 +277,37 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
             <div class="info-section">
                 <h3>Solution</h3>
                 <form>
-                    <textarea class="form-control mb-3" placeholder="Add a solution" rows="8" id="solutionText"></textarea>
-                    <button type="button" onclick="sendSolution(<%= ticket.ticketId %>)" class="btn btn-primary">Submit solution</button>
-                    <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close ticket</button>
+                    <textarea class="form-control mb-3" placeholder="Add a solution" rows="8"
+                              id="solutionText"></textarea>
+                    <button type="button" onclick="sendSolution(<%= ticket.ticketId %>)" class="btn btn-primary">Submit
+                        solution
+                    </button>
+                    <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close
+                        ticket
+                    </button>
                 </form>
             </div>
         <% } else if (userCanSubmit && usertype === "user") { %>
             <div class="info-section">
                 <h3>Feedback</h3>
                 <form>
-                    <textarea class="form-control mb-3" placeholder="Add feedback" rows="8" id="feedbackText"></textarea>
-                    <button type="button" onclick="sendFeedback(<%= ticket.ticketId %>)" class="btn btn-primary">Submit feedback</button>
-                    <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close ticket</button>
+                    <textarea class="form-control mb-3" placeholder="Add feedback" rows="8"
+                              id="feedbackText"></textarea>
+                    <button type="button" onclick="sendFeedback(<%= ticket.ticketId %>)" class="btn btn-primary">Submit
+                        feedback
+                    </button>
+                    <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close
+                        ticket
+                    </button>
                 </form>
             </div>
         <% } %>
     </div>
 
 </div>
+
+<script>
+    let currentUserId = <%= currentUserId %>;
+</script>
 
 <script src="../scripts/ticket.js"></script>
