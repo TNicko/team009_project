@@ -15,6 +15,15 @@ const Feedback = require('../models/feedbackModel');
 const Os = require('../models/osModel');
 const Expertise = require("../models/expertiseModel");
 
+var statusOrderQuery = `
+CASE status
+    WHEN 'unsuccessful' THEN 1
+    WHEN 'submitted' THEN 2
+    WHEN 'active' THEN 3
+    WHEN 'closed' THEN 4
+    ELSE 5
+END`;
+
 // Checks user type logged in and renders home page for correct user.
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
 
@@ -32,13 +41,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [null],
             ['']);
         let tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
-            `CASE status
-                WHEN 'unsuccessful' THEN 1
-                WHEN 'submitted' THEN 2
-                WHEN 'active' THEN 3
-                WHEN 'closed' THEN 4
-                ELSE 5
-            END`, '');
+            statusOrderQuery, '');
         if (type === "Unassigned") {
             tickets = await Ticket.getAll(conn, 0, 50, ['handler_id'], [null], [''],
                 `CASE status
@@ -57,25 +60,13 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 ['handler_id', 'status', 'status', 'status'],
                 ['isNotNull', 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
-                `CASE status
-                    WHEN 'unsuccessful' THEN 1
-                    WHEN 'submitted' THEN 2
-                    WHEN 'active' THEN 3
-                    WHEN 'closed' THEN 4
-                    ELSE 5
-                END`, '');
+                statusOrderQuery, '');
             
             ticket_table_total = assigned_total;
         }
         if (type === "Total") {
             tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
-            `CASE status
-                WHEN 'unsuccessful' THEN 1
-                WHEN 'submitted' THEN 2
-                WHEN 'active' THEN 3
-                WHEN 'closed' THEN 4
-                ELSE 5
-            END`, '');
+                statusOrderQuery, '');
 
             ticket_table_total = ticket_total;
         }
@@ -83,13 +74,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         tickets = await mapOverdue(tickets);
 
         let o_tickets = await Ticket.getAll(conn, 0, 1000, [], [], [],
-            `CASE status
-                WHEN 'unsuccessful' THEN 1
-                WHEN 'submitted' THEN 2
-                WHEN 'active' THEN 3
-                WHEN 'closed' THEN 4
-                ELSE 5
-            END`, '');
+            statusOrderQuery, '');
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
         let index = o_tickets.length;
@@ -118,13 +103,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let ticket_table_total = await Ticket.getCount(conn);
         let solutions = await Solution.getAllSuccessSolution(conn);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
-        `CASE status
-            WHEN 'unsuccessful' THEN 1
-            WHEN 'submitted' THEN 2
-            WHEN 'active' THEN 3
-            WHEN 'closed' THEN 4
-            ELSE 5
-        END`, '');
+        statusOrderQuery, '');
         tickets = await augmentTicketUpdate(tickets);
 
         res.render('./index/user', {
@@ -156,22 +135,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [null],
             ['']);
         let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
-            `CASE status
-                WHEN 'unsuccessful' THEN 1
-                WHEN 'submitted' THEN 2
-                WHEN 'active' THEN 3
-                WHEN 'closed' THEN 4
-                ELSE 5
-            END`, '');
+        statusOrderQuery, '');
         if (type === "Total") {
             spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
-                `CASE status
-                    WHEN 'unsuccessful' THEN 1
-                    WHEN 'submitted' THEN 2
-                    WHEN 'active' THEN 3
-                    WHEN 'closed' THEN 4
-                    ELSE 5
-                END`, ''); 
+            statusOrderQuery, ''); 
                 
             ticket_table_total = ticket_total;    
         }
@@ -180,13 +147,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 [handlerId, 'status'],
                 [user.id, 'closed'],
                 ['AND', ''],
-                `CASE status
-                    WHEN 'unsuccessful' THEN 1
-                    WHEN 'submitted' THEN 2
-                    WHEN 'active' THEN 3
-                    WHEN 'closed' THEN 4
-                    ELSE 5
-                END`, '');   
+                statusOrderQuery, '');   
             
             ticket_table_total = closed_total;
         }
@@ -195,13 +156,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 [handlerId, 'status', 'status', 'status'],
                 [user.id, 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
-                `CASE status
-                    WHEN 'unsuccessful' THEN 1
-                    WHEN 'submitted' THEN 2
-                    WHEN 'active' THEN 3
-                    WHEN 'closed' THEN 4
-                    ELSE 5
-                END`, '');   
+                statusOrderQuery, '');   
 
             ticket_table_total = assigned_total;
         }
@@ -210,13 +165,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         spec_tickets = await mapOverdue(spec_tickets);
         
         let o_tickets = await Ticket.getAll(conn, 0, 1000, [handlerId], [user.id], [''],
-            `CASE status
-                WHEN 'unsuccessful' THEN 1
-                WHEN 'submitted' THEN 2
-                WHEN 'active' THEN 3
-                WHEN 'closed' THEN 4
-                ELSE 5
-            END`, '');
+        statusOrderQuery, '');
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
         let index = o_tickets.length;
@@ -585,13 +534,7 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
     let ticket_table_total = await Ticket.getCount(conn);
 
     let tickets = await Ticket.getAll(conn, 0, 50, [null], [null], [''],
-        `CASE status
-            WHEN 'unsuccessful' THEN 1
-            WHEN 'submitted' THEN 2
-            WHEN 'active' THEN 3
-            WHEN 'closed' THEN 4
-            ELSE 5
-        END`, '');
+    statusOrderQuery, '');
         tickets = await augmentTicketUpdate(tickets);
     res.render('./all_tickets', {
         username: req.user.username,
