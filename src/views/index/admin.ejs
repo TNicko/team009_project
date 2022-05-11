@@ -45,7 +45,13 @@
                 </div>
                 <div class="panel_title">
                     <p>Overdue</p>
-                    <p>0</p>
+                    <% count = 0 %> 
+                    <% tickets.forEach((ticket, i) => { %>
+                        <% if (ticket.isOverdue) { %>
+                            <% count += 1 %>
+                        <% } %>
+                    <% }); %>
+                    <p> <%= count %>  </p>
                 </div>
 
             </div>

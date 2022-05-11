@@ -735,6 +735,10 @@ input.info-tag {
     flex-direction: column;
 }
 
+.overdue-warning {
+    color: var(--panelRed);
+}
+
 
 
 

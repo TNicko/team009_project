@@ -19,6 +19,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'admin') {
         let tickets = await Ticket.getAll(conn, 0, 50);
         tickets = await augmentTicketUpdate(tickets);
+        tickets = await mapOverdue(tickets);
         let ticket_total = await Ticket.getCount(conn);
         let assigned_total = await Ticket.getCount(conn,
             ['status', 'status', 'status'],
@@ -55,6 +56,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
         spec_tickets = await augmentTicketUpdate(spec_tickets);
+        spec_tickets = await mapOverdue(spec_tickets);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
@@ -345,6 +347,7 @@ async function getLastUpdatedDate(ticketId) {
     }
 }
 
+// Add update date to each ticket
 async function augmentTicketUpdate(tickets) {
     tickets = await Promise.all(
         tickets.map(async (v) => ({
@@ -353,6 +356,33 @@ async function augmentTicketUpdate(tickets) {
         }))
     );
     return tickets;
+}
+
+// Label each ticket as overdue or not overdue
+async function mapOverdue(tickets) {
+    tickets = await Promise.all(
+        tickets.map(async (v) => ({
+            ...v,
+            isOverdue: await checkOverdue(v.updateDate)
+        }))
+    );
+    return tickets;
+}
+
+// Check if a ticket is overdue
+async function checkOverdue(updateDate) {
+
+    const currentDate = new Date();
+    const ticketDate = new Date(updateDate);
+
+    const diffTime = Math.abs(currentDate - ticketDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+    if (diffDays > 7) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // Hash password
