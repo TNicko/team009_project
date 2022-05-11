@@ -24,10 +24,6 @@ const MySQLStore = require('express-mysql-session')(session);
 const Account = require('./models/accountModel');
 
 const initializePassport = require('./passport-config');
-// initializePassport(passport, 
-//     username => accounts.find(user => user.username === username),
-//     id => accounts.find(user => user.id === id)
-// )
 
 initializePassport(passport);
 
