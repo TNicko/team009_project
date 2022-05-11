@@ -5,29 +5,29 @@
 <div class="container">
     <div class="m-4 p-4 bg-white rounded-3 d-flex flex-column align-items-center">
         <h1>Submit a ticket</h1>
-        <form action="/submit" method="POST">
+        <form>
             <div class="mb-3">
                 <label for="title" class="form-label">Title
-                    <textarea class="form-control" name="title" cols="100" rows="1"></textarea>
+                    <textarea class="form-control" id="title" name="title" cols="100" rows="1"></textarea>
                 </label>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">What kind of problem(s) are you experiencing?</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" name="hardware">
+                    <input class="form-check-input" type="checkbox" value="" id="hardware" name="hardware">
                     <label class="form-check-label" for="hardware">
                         Hardware
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" name="software">
+                    <input class="form-check-input" type="checkbox" value="" id="software" name="software">
                     <label class="form-check-label" for="software">
                         Software
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" name="network">
+                    <input class="form-check-input" type="checkbox" value="" id="network" name="network">
                     <label class="form-check-label" for="network">
                         Network
                     </label>
@@ -36,18 +36,18 @@
 
             <div class="mb-3">
                 <label for="notes" class="form-label"> Notes
-                    <textarea class="form-control" name="notes" cols="100" rows="5"></textarea>
+                    <textarea class="form-control" id="notes" name="notes" cols="100" rows="5"></textarea>
                 </label>
             </div>
 
-            <div class="mb-5">
+            <div class="mb-5" id="serialWrapper">
                 <button class="btn btn-secondary" type="button" onclick="addNewSerial(this)">
                     <i class="fa-solid fa-plus"></i>
                     Add new serial
                 </button>
             </div>
 
-            <button type="button" onclick="" class="btn btn-primary">Submit ticket</button>
+            <button type="button" onclick="submitProblem()" class="btn btn-primary">Submit ticket</button>
         </form>
     </div>
 </div>
@@ -55,13 +55,13 @@
 <template id="serialTemplate">
     <div class="input-group mb-3">
         <label class="input-group-text" for="serial">Serial</label>
-        <select class="form-select" name="serialType" onchange="selectSerialType(this)">
+        <select class="form-select serialType" name="serialType" onchange="selectSerialType(this)">
             <option value="none" selected>Choose serial type...</option>
             <option value="hardware">Hardware</option>
             <option value="software">Software</option>
             <option value="os">OS</option>
         </select>
-        <select class="form-select" name="serial" disabled>
+        <select class="form-select serialNum" name="serial" disabled>
             <option selected>Choose serial...</option>
         </select>
         <button class="btn btn-outline-secondary" type="button" onclick="deleteSerial(this)">
