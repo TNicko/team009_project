@@ -99,7 +99,7 @@
 
                         <tbody class="ticket-body op-ticket-body">
 
-                        <% open_tickets.forEach(function(ticket){ %>
+                        <% open_tickets.forEach((ticket, i) => { %>
                             <tr>
                                 <td>
                                     <%= ticket.ticketId %>
@@ -111,7 +111,7 @@
                                     <%= ticket.description %>
                                 </td>
                                 <td>
-                                    [date]
+                                    <%= ticket.updateDate %> 
                                 </td>
 
                             </tr>

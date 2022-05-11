@@ -50,7 +50,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
         let handlerId = 'handler_id';
         let spec_tickets = await Ticket.getAll(conn, 0, 25, handlerId, user.id);
+        spec_tickets = await augmentTicketUpdate(spec_tickets);
         let open_tickets = await Ticket.getAll(conn, 0, 25, handlerId, null);
+        open_tickets = await augmentTicketUpdate(open_tickets);
+
         let ticket_total = await Ticket.getCount(conn,
             [handlerId],
             [user.id],
@@ -67,7 +70,6 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [handlerId],
             [null],
             ['']);
-        console.log(assigned_total);
         res.render('./index/specialist', {
             username: req.user.username,
             usertype: user.type,
@@ -336,6 +338,16 @@ async function getLastUpdatedDate(ticketId) {
         let ticket = await Ticket.getById(conn, ticketId);
         return ticket.createdAt;
     }
+}
+
+async function augmentTicketUpdate(tickets) {
+    tickets = await Promise.all(
+        tickets.map(async (v) => ({
+            ...v,
+            updateDate: await getLastUpdatedDate(v.ticketId)
+        }))
+    );
+    return tickets;
 }
 
 // Hash password
