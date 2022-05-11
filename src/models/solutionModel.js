@@ -9,7 +9,7 @@ class Solution {
         this.solution = solution;
     }
 
-    // this is a function to get all the solutions available where those solutions were successful
+    // This is a function to get all the solutions available where those solutions were successful
     static async getAllSuccessSolution(conn) {
         let queryString =
             "SELECT solution.solution_id AS id, solution.datetime AS dateTime, solution.solution as solution, ticket.description as description, ticket.notes as notes FROM solution LEFT JOIN ticket ON solution.ticket_id = ticket.ticket_id WHERE solution.solution_status = 'successful' ORDER BY datetime DESC";
@@ -18,7 +18,7 @@ class Solution {
 
         return results;
     }
-    // gets the solution for a certain ticket
+    // Gets the solution for a certain ticket
     static async getAllForTicketId(conn, id) {
         let queryString =
             "SELECT solution_id AS id, datetime AS dateTime, solution_status AS status, handler_id AS handlerId, solution FROM solution WHERE ticket_id = ? ORDER BY datetime DESC";
@@ -31,7 +31,7 @@ class Solution {
         );
     }
 
-    // this functions allows for creating a solution for a ticket
+    // This functions allows for creating a solution for a ticket
     static async createForTicket(conn, ticketId, status, handlerId, solution) {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -45,7 +45,7 @@ class Solution {
         await conn.query(queryString, queryParams);
     }
 
-    // function that allows for updating a specified solution by ID
+    // Function that allows for updating a specified solution by ID
     static async updateById(conn, solutionId, ticketId = null, status = null, handlerId = null, solution = null) {
         const allParams = {
             'ticket_id': ticketId,

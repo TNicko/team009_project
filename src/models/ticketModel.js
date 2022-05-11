@@ -13,7 +13,7 @@ class Ticket {
         this.oses = oses;
         this.createdAt = createdAt;
     }
-    //function to get equipment related to a ticket specified by ticket id
+    // Function to get equipment related to a ticket specified by ticket id
     static async #getEquipment(conn, equipmentType, id) {
         let query = await conn.query(
             `SELECT ${equipmentType}.${equipmentType}_serial AS serial, ${equipmentType}.name AS name
@@ -28,7 +28,7 @@ class Ticket {
             return {"serial": equipment.serial, "name": equipment.name}
         });
     }
-    // function that allows for augmentation of a ticket
+    // Function that allows for augmentation of a ticket
     static async #augmentTicket(conn, ticket) {
         let id = ticket.ticketId;
 
@@ -47,7 +47,7 @@ class Ticket {
 
         return ticket;
     }
-    // function that get a ticket using its ID
+    // Function that get a ticket using its ID
     static async getById(conn, id) {
         let ticketResult = await conn.query(
             `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId, created_at AS createdAt
@@ -73,7 +73,7 @@ class Ticket {
             ticket.createdAt
         );
     }
-    // get the total amount of tickets that exist in the system
+    // Get the total amount of tickets that exist in the system
     static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
         let queryString = `SELECT COUNT(ticket_id) AS count FROM ticket`
         let queryParams = [];
@@ -93,7 +93,7 @@ class Ticket {
         let tickets = await conn.query(queryString, queryParams);
         return tickets[0].count;
     }
-    // get all tickets in the system
+    // Get all tickets in the system
     static async getAll(conn,
                         skip, limit,
                         filterColumn = null, filterValue = null,
@@ -144,7 +144,7 @@ class Ticket {
             )
         );
     }
-    // function that allows for creation of a ticket
+    // Function that allows for creation of a ticket
     static async create(conn, userId, status, description, notes, handlerId, createdAt) {
         // ticketId is not going to be used for the creation because it is auto incrementing.
         // Hardware/software/OS are separate to the ticket table, so they are handled in their
@@ -157,7 +157,7 @@ class Ticket {
 
         await conn.query(queryString, queryParams);
     }
-    // function to update a ticket specified by its ID
+    // Function to update a ticket specified by its ID
     static async updateById(conn,
                             ticketId,
                             userId = null,
