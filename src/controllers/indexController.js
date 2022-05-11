@@ -339,11 +339,18 @@ async function getLastUpdatedDate(ticketId) {
 
     if (arr.length != 0) {
         const max = new Date(Math.max(...arr));
-        return max;
+        const date = max.getFullYear() + '-' + (max.getMonth() + 1) + '-' + max.getDate();
+        const time = max.getHours() + ":" + max.getMinutes() + ":" + max.getSeconds();
+        const dateTime = date + ' ' + time;
+        return dateTime;
     } else {
         // Get date created here
         let ticket = await Ticket.getById(conn, ticketId);
-        return ticket.createdAt;
+        let create_date = new Date(ticket.createdAt);
+        const date = create_date.getFullYear() + '-' + (create_date.getMonth() + 1) + '-' + create_date.getDate();
+        const time = create_date.getHours() + ":" + create_date.getMinutes() + ":" + create_date.getSeconds();
+        const dateTime = date + ' ' + time;
+        return dateTime;
     }
 }
 
