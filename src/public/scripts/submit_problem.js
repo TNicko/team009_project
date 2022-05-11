@@ -3,7 +3,7 @@ function selectSerialType(select) {
     let children = parent.children;
 
     let type = select.value;
-    let serialSelect = children[children.length - 1];
+    let serialSelect = children[children.length - 2];
     switch (type) {
         case "hardware":
             serialRoutine(serialSelect, hardwares);
@@ -24,6 +24,18 @@ function selectSerialType(select) {
     }
 }
 
+function addNewSerial(btn) {
+    let parent = btn.parentNode;
+
+    let template = document.getElementById("serialTemplate")
+    let serialClone = template.content.cloneNode(true);
+    parent.appendChild(serialClone);
+
+    let btnClone = btn.cloneNode(true);
+    btn.remove();
+    parent.appendChild(btnClone);
+}
+
 function serialRoutine(select, serials) {
     select.removeAttribute("disabled");
     select.innerHTML = "";
@@ -31,6 +43,11 @@ function serialRoutine(select, serials) {
         let option = document.createElement("option");
         option.value = serial.serial;
         option.innerHTML = serial.serial + " - " + serial.name;
-        select.add(option);
+        select.appendChild(option);
     }
+}
+
+function deleteSerial(btn) {
+    let parent = btn.parentNode;
+    parent.remove();
 }

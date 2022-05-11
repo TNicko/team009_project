@@ -39,19 +39,7 @@
             </div>
 
             <div class="mb-5">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="serial">Serial</label>
-                    <select class="form-select" name="serialType" onchange="selectSerialType(this)">
-                        <option value="none" selected>Choose serial type...</option>
-                        <option value="hardware">Hardware</option>
-                        <option value="software">Software</option>
-                        <option value="os">OS</option>
-                    </select>
-                    <select class="form-select" name="serial" disabled>
-                        <option selected>Choose serial...</option>
-                    </select>
-                </div>
-                <button class="btn btn-secondary" type="button">
+                <button class="btn btn-secondary" type="button" onclick="addNewSerial(this)">
                     <i class="fa-solid fa-plus"></i>
                     Add new serial
                 </button>
@@ -63,7 +51,21 @@
 </div>
 
 <template id="serialTemplate">
-
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="serial">Serial</label>
+        <select class="form-select" name="serialType" onchange="selectSerialType(this)">
+            <option value="none" selected>Choose serial type...</option>
+            <option value="hardware">Hardware</option>
+            <option value="software">Software</option>
+            <option value="os">OS</option>
+        </select>
+        <select class="form-select" name="serial" disabled>
+            <option selected>Choose serial...</option>
+        </select>
+        <button class="btn btn-outline-secondary" type="button" onclick="deleteSerial(this)">
+            <i class="fa-solid fa-times"></i>
+        </button>
+    </div>
 </template>
 
 <script>
