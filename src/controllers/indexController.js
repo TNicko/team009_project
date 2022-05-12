@@ -109,6 +109,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
         res.render('./index/user', {
             username: req.user.username,
+            url: 'user',
             tickets: tickets,
             usertype: user.type,
             solutions:solutions,
