@@ -427,6 +427,15 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
 
     res.render('./ticket-information', data);
 })
+router.put('/ticket', checkAuthenticated(['specialist', 'admin', 'external specialist', 'user']), async (req, res) => {
+    let body = req.body;
+    try {
+        await Ticket.updateById(conn, body.id, null, null, body.title, body.notes);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(500);
+    }
+})
 router.post('/ticket/:id/close', checkAuthenticated(['specialist', 'admin', 'external specialist', 'user']), async (req, res) => {
     let ticketId = req.params.id;
     try {
