@@ -836,7 +836,7 @@ canvas {
     height: 80% !important;
 }
 
-@media only screen and (max-device-width: 1000px) and (min-device-width: 751px) {
+@media only screen and (max-width: 1000px) and (min-width: 751px) {
     .reportedOs {
         grid-column-start: 1;
         grid-column-end: 3;
@@ -932,13 +932,13 @@ canvas {
 
 
 
-@media only screen and (max-device-width: 900px) {
+@media only screen and (max-width: 900px) {
     .table_top {
         flex-direction: column;
     }
 }
 
-@media only screen and (max-device-width: 750px) and (min-device-width: 631px) {
+@media only screen and (max-width: 750px) and (min-width: 631px) {
     .reportedOs {
         grid-column-start: 1;
         grid-column-end: 3;
@@ -987,7 +987,7 @@ canvas {
     }
 }
 
-@media only screen and (max-device-width: 630px) {
+@media only screen and (max-width: 630px) {
     .reportedOs {
         grid-column-start: 1;
         grid-column-end: 5;
