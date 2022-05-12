@@ -3,7 +3,7 @@
 <div class="table_section">
     <div class="table_top">
         <div class="table_title_container">
-            <% if (usertype == 'admin') { %>
+            <% if (url == 'admin' || url == 'all_tickets') { %>
                 <h1 class="table_title">Tickets</h1>
             <% } else { %>
                 <h1 class="table_title">Your Tickets</h1>
@@ -38,7 +38,7 @@
             <th>Problem Type</th>
             <th>Title</th>
             <th>Last Updated</th>
-            <% if (usertype === 'admin'){ %>
+            <% if (usertype === 'admin' || url === 'all_tickets'){ %>
                 <th>Handler ID</th>
             <% } %>
         </tr>
@@ -66,7 +66,7 @@
                     </a>
                 </td>
                 <td> <%= ticket.updateDate %></td>
-                <% if (usertype === 'admin'){ %>
+                <% if (usertype === 'admin' || url === 'all_tickets'){ %>
                     <td> <%= ticket.handlerId %></td>
                 <% } %>
             </tr>

@@ -90,6 +90,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
         res.render('./index/admin', {
             username: req.user.username,
+            url: 'admin',
             tickets: tickets,
             usertype: user.type,
             ticket_table_total: ticket_table_total,
@@ -184,6 +185,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
         res.render('./index/specialist', {
             username: req.user.username,
+            url: 'specialist',
             usertype: user.type,
             spec_tickets: spec_tickets,
             open_tickets: open_tickets,
@@ -540,10 +542,12 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
     let user = await User.getById(conn, req.user.id);
     let ticket_table_total = await Ticket.getCount(conn);
 
+
     let tickets = await Ticket.getAll(conn, 0, 50, [null], [null], [''],
     statusOrderQuery, '');
         tickets = await augmentTicketUpdate(tickets);
     res.render('./all_tickets', {
+        url: 'all_tickets',
         username: req.user.username,
         usertype: user.type,
         tickets: tickets,
