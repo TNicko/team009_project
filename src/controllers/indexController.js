@@ -94,7 +94,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     }
     if (user.type === 'user') {
         let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id], ['']);
-        let solutions = await Solution.getAllSuccessSolution(conn);
+        let solutions = await Solution.getAllSuccessSolution(conn, search);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
             statusOrderQuery, '', search);
         tickets = await augmentTicketUpdate(tickets);
@@ -396,8 +396,6 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
         }))
 );
 
-    console.log(JSON.stringify(logs));
-
     let specialistName = "None";
     if (ticket.handlerId !== null) {
         let specialist = await User.getById(conn, ticket.handlerId);
@@ -592,8 +590,12 @@ router.get('/change_password', checkAuthenticated(['specialist', 'admin', 'analy
     });
 })
 router.get('/solution_history', checkAuthenticated(['user']), async (req, res) => {
+    let search = req.query.search;
+    if (search === undefined)
+        search = null;
+
     let user = await User.getById(conn, req.user.id);
-    let solutions = await Solution.getAllSuccessSolution(conn);
+    let solutions = await Solution.getAllSuccessSolution(conn, search);
     res.render('./solution_history', {
         username: req.user.username,
         usertype: user.type,
