@@ -756,8 +756,8 @@ input.info-tag {
 .graphs {
     border-radius: 25px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    
-
+    height:100%;
+    width:100%;
 }
 
 .graphCanvas {
@@ -780,7 +780,7 @@ canvas {
     font-family: 'Arial';
     font-weight: bold;
     color: #666;
-    padding-top: 20px;
+    padding-top: 1.2rem;
 }
 
 .barChart {
@@ -808,8 +808,6 @@ canvas {
 }
 
 .problemPerType {
-    grid-column-start: 3;
-    grid-column-end: 3;
     align-content: center;
 }
 

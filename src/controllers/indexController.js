@@ -219,7 +219,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         // passes list of software, list of users and and the count for each software and users
         // the count for the software is to check how many times it has appeared on tickets and
         // same with the users(handlers), counts how many tickets the handler has attached to them 
-        let countPerHandler = {};
+        let countPerHandler = [];
         let listOfTickets = await Ticket.getAll(conn, 0, 1000);
         let listOfUsers = await User.getAll(conn, 0, 1000, "job", "specialist");
         let softwareListGet = await Software.getAll(conn, 0, 1000);
@@ -238,7 +238,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let totalHardware = 0;
         let problemTypes = ["software", "hardware", "os"];
         let totalCounts = {};
-
+        let tickets = await Ticket.getAll(conn, 0, 1000);
         listOfHardwareGet.forEach(function(hardware){
             hardwareList.push(hardware.name);
             let hardwareCount = 0;
@@ -291,8 +291,12 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
                 }
 
             })
-
-            countPerHandler[user.name] = count;
+            var Obj = {};
+            Obj['name'] = user.name;
+            Obj['id'] = user.id;
+            Obj['count'] = count;
+            Obj['external'] = user.type === 'External Specialist'?true:false; 
+            countPerHandler.push(Obj);
 
         })
 
@@ -344,7 +348,9 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             hardwareCount: countPerHardware,
             hardwareList: hardwareList,
             totalCounts: totalCounts,
-            problemTypes: problemTypes});
+            problemTypes: problemTypes,
+            tickets:tickets
+        });
     }
 })
 

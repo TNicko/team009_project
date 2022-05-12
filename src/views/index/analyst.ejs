@@ -1,7 +1,9 @@
 <!-- Front end home page for analyst users -->
-
-<%- include('../partials/navbar.ejs') %>
-
+<div class="container-fluid">
+    <div class="row">
+    <%- include('../partials/navbar.ejs') %>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     function getRandomRGB(){
@@ -13,12 +15,11 @@
     }
 
         document.addEventListener('DOMContentLoaded', function(){
-        const ctx = document.getElementById('firstGraph').getContext('2d');
+        
 
         const barGraph = document.getElementById('commonSoftware').getContext('2d');
         
         let use = <%- JSON.stringify(users) %>;
-        console.log(use);
         let names = [];
         let count = <%- JSON.stringify(counted) %>;
         let counter = [];
@@ -46,23 +47,7 @@
                 hoverOffset: 4,
             }]
         }
-        const assTickPerSpec = new Chart(ctx, {
-            type: 'pie',
-            data: assignedTicketsPerSpecialist,
-            options: {
-                responsive: true,
-                plugins:{
-                    legend:{
-                        position: 'top',
-                        labels:{
-                            font:{
-                                size: 15
-                            }
-                        }
-                    }
-                }
-            }
-        })
+        
 
         let softwareList = <%- JSON.stringify(pureSoftwareList) %>;
         let countPerSoftware = <%- JSON.stringify(softwareCount) %>;
@@ -87,7 +72,6 @@
                 borderWidth: 1
             }]
         }
-        console.log(countPerSoftware);
         const commonSoft = new Chart(barGraph, {
             type: 'bar',
             data: commonSoftData,
@@ -216,8 +200,6 @@
             totalCountsTypes.push(totalCounts[type]);
         })
 
-        console.log(totalCountsTypes);
-        console.log(problemTypes);
 
         let horiData = {
             labels: problemTypes,
@@ -238,14 +220,53 @@
             type: 'bar',
             data: horiData,
             options: {
-                maintainAspectRatio: false,
+                responsive: true,
+                maintainAspectRatio: true,
                 indexAxis: 'y',
                 elements: {
                     bar: {
                         borderWidth: 2,
                     }
                 },
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'right',
+                    },
+                    title: {
+                        display: false,
+                        text: 'Problem Per Problem Type'
+                    }
+                }
+            }
+        })
+        //closing date graph
+        let ClosingDateData = {
+            labels: problemTypes,
+            datasets: [
+                {
+
+                    data: totalCountsTypes,
+                    borderColor: "rgb(255, 102, 102)",
+                    backgroundColor: "rgb(255, 128, 128)",
+
+                }
+            ]
+        }
+
+        const ClosingDate = document.getElementById('ClosingDate').getContext('2d');
+
+        const ClosingDateGraph = new Chart(ClosingDate,{
+            type: 'line',
+            data: ClosingDateData,
+            options: {
                 responsive: true,
+                indexAxis: 'y',
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false,
@@ -259,18 +280,98 @@
             }
         })
 
+
+        
     })
 </script>
 
-<div class="main_section" style="height:86%;">
-    <div class="main_container" style="height: 100%;">
-        
-        <div class="table_section" style="height: 100%; overflow: hidden;">
-            <div class="table_top">
-                <div class="table_title_container">
-                    <h1 class="graph_title">Statistics</h1>
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10 pt-2 mt-5 bg-white">  
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12"> 
+                           <h1>Statistics</h1> 
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <div class="col-xxl-6 col-12 my-3" style="overflow-y:scroll;height:320px"> 
+                            <h5 class="text-center">Specialist Problem Allocation</h5>
+                            <% console.log(counted) %>
+                            <table class="table-primary ticket-body ticket_table" style="height:100%" >
+                                <thead class="table_headers">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Number of tickets</th>
+                                    <th scope="col">Internal/External</th>                                    
+                                </tr>
+                                </thead>
+            
+                                <tbody class="ticket-body op-ticket-body">
+                                <% counted.forEach(function(handler){ %>
+                                    <tr >
+                                       
+                                        <th scope="row"><%= handler.id %></th>
+                                        <td><%= handler.name %></td>
+                                        
+                                        <td> <%= handler.count %></td>
+                                        <td> <%= handler.external == false? 'internal' : 'external' %></td>
+                                    </tr>
+                                <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
+                            <div class="graphs">
+                                <p class="graph_title fs-5 fw-bold py-1 my-0">Reported OS</p>
+                                <canvas id="reportOsBar" class="barChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
+                            <div class="graphs">
+                                <p class="graph_title fs-5 fw-bold py-1 my-0">Closing Date</p>
+                                <canvas id="ClosingDate" class="barChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
+                            <div class="commonSoftBar graphs">
+                                <p class="graph_title fs-5 fw-bold py-1 my-0">Commonly Reported Software</p>
+                                <canvas id="commonSoftware" class="barChart"></canvas>
+                            </div>
+                        </div>
+                
+                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
+                            <div class="status graphs">
+                                <p class="graph_title fs-5 fw-bold py-1 my-0">Status</p>
+                                <canvas id="statusDough" class="graphCanvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
+                            <div class="graphs">
+                                <p class="graph_title fs-5 fw-bold py-1 my-0">Problem Per Problem Type</p>
+                                <canvas class="horiBar" id="horiBarType"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
+                            <div class="NoAssinedTickets graphs">
+                                <p class="graph_title fs-5 fw-bold py-1 my-0">Commonly Reported Hardware</p>
+                                <canvas class="horiBar" id="horiBarType"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
+            <div class="col-1"></div>
+        </div>
+</div>  
+<!--
+<div class="table_section" style="height: 100%; overflow: hidden;">
+          
             <div class="grid">
                 <div class="NoAssinedTickets graphs">
                     <div><h5 class="graph_title">Assigned Tickets Per Specialist</h5></div>
@@ -297,6 +398,4 @@
                 </div>
             </div>
         </div>
-        
-    </div>
-</div>
+        -->
