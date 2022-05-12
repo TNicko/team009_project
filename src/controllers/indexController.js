@@ -440,7 +440,16 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
 router.put('/ticket', checkAuthenticated(['specialist', 'admin', 'external specialist', 'user']), async (req, res) => {
     let body = req.body;
     try {
+        let oldTicket = await Ticket.getById(conn, body.id);
         await Ticket.updateById(conn, body.id, null, null, body.title, body.notes);
+        if (oldTicket.description !== body.title) {
+            console.log('changed');
+            await TicketLog.createForTicket(conn, body.id, 'description', body.title);
+        }
+        if (oldTicket.notes !== body.notes) {
+            console.log(' notes changed');
+            await TicketLog.createForTicket(conn, body.id, 'notes', body.notes);
+        }
         res.sendStatus(200);
     } catch (err) {
         res.sendStatus(500);

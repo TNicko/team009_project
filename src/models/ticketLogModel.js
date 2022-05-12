@@ -27,9 +27,10 @@ class TicketLog {
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date + ' ' + time;
-
-        let queryString =
-            "INSERT INTO ticket_log VALUES (?, ?, ?, ?)";
+        let queryString = `
+            INSERT INTO ticket_log (ticket_id, update_date, update_type, update_value)
+            VALUES (?, ?, ?, ?)
+        `;
         let queryParams = [id, dateTime, type, value];
 
         await conn.query(queryString, queryParams);
