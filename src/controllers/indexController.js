@@ -204,6 +204,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         res.render('./index/ext_specialist', {
             username: req.user.username,
+            url: 'ex_spec',
             usertype: user.type,
             spec_tickets: spec_tickets
         });
