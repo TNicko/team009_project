@@ -422,7 +422,7 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
             ...v,
             updateDate: await formatDate(new Date(v.updateDate))
         }))
-    );
+);
 
     console.log(JSON.stringify(logs));
 
@@ -684,10 +684,11 @@ async function getLastUpdatedDate(ticketId) {
     }
 }
 
+// Reformats Date
 async function formatDate(mDate) {
-    const date = mDate.getFullYear() + '-' + (mDate.getMonth() + 1) + '-' + mDate.getDate();
-    const time = mDate.getHours() + ":" + mDate.getMinutes() + ":" + mDate.getSeconds();
-    const dateTime = date + ' ' + time;
+    const date = mDate.getDate() + '/' + (mDate.getMonth() + 1) + '/' + mDate.getFullYear();
+    const time = mDate.getHours() + ":" + mDate.getMinutes();
+    const dateTime = date + ', ' + time;
     return dateTime;
 }
 
