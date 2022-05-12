@@ -686,8 +686,12 @@ async function getLastUpdatedDate(ticketId) {
 
 // Reformats Date
 async function formatDate(mDate) {
+    let mins = mDate.getMinutes();
+    if (mins < 10) {
+        mins = "0"+mins;
+    }
     const date = mDate.getDate() + '/' + (mDate.getMonth() + 1) + '/' + mDate.getFullYear();
-    const time = mDate.getHours() + ":" + mDate.getMinutes();
+    const time = mDate.getHours() + ":" + mins;
     const dateTime = date + ', ' + time;
     return dateTime;
 }
