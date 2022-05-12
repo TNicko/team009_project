@@ -101,7 +101,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         });
     }
     if (user.type === 'user') {
-        let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id]);
+        let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id], ['']);
         let solutions = await Solution.getAllSuccessSolution(conn);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
         statusOrderQuery, '');
