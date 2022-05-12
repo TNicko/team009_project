@@ -101,7 +101,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         });
     }
     if (user.type === 'user') {
-        let ticket_table_total = await Ticket.getCount(conn);
+        let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id]);
         let solutions = await Solution.getAllSuccessSolution(conn);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
         statusOrderQuery, '');
@@ -200,13 +200,19 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     }
     if (user.type === 'external specialist') {
         let handlerId = 'handler_id';
+        let ticket_total = await Ticket.getCount(conn,
+            [handlerId],
+            [user.id],
+            ['']);
+        let ticket_table_total = ticket_total;
         let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], ['']);
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         res.render('./index/ext_specialist', {
             username: req.user.username,
             url: 'ex_spec',
             usertype: user.type,
-            spec_tickets: spec_tickets
+            spec_tickets: spec_tickets,
+            ticket_table_total: ticket_table_total
         });
     }
     if (user.type === 'analyst') {
