@@ -15,7 +15,7 @@ const Feedback = require('../models/feedbackModel');
 const Os = require('../models/osModel');
 const Expertise = require("../models/expertiseModel");
 
-var statusOrderQuery = `
+const statusOrderQuery = `
 CASE status
     WHEN 'unsuccessful' THEN 1
     WHEN 'submitted' THEN 2
@@ -26,6 +26,9 @@ END`;
 
 // Checks user type logged in and renders home page for correct user.
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
+    let search = req.query.search;
+    if (search === undefined)
+        search = null;
 
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
@@ -40,41 +43,30 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ['handler_id'],
             [null],
             ['']);
-        let tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
-            statusOrderQuery, '');
+        let tickets = await Ticket.getAll(conn, 0, 50, [], [], [], statusOrderQuery, '', search);
         if (type === "Unassigned") {
-            tickets = await Ticket.getAll(conn, 0, 50, ['handler_id'], [null], [''],
-                `CASE status
-                    WHEN 'unsuccessful' THEN 1
-                    WHEN 'submitted' THEN 2
-                    WHEN 'active' THEN 3
-                    WHEN 'closed' THEN 4
-                    ELSE 5
-                END`, '');
-            
+            tickets = await Ticket.getAll(conn, 0, 50, ['handler_id'], [null], [''], statusOrderQuery, '', search);
             ticket_table_total = open_total;
-
         }
         if (type === "Assigned") {
             tickets = await Ticket.getAll(conn, 0, 50,
                 ['handler_id', 'status', 'status', 'status'],
                 ['isNotNull', 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
-                statusOrderQuery, '');
-            
+                statusOrderQuery, '', search);
+
             ticket_table_total = assigned_total;
         }
         if (type === "Total") {
             tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
-                statusOrderQuery, '');
+                statusOrderQuery, '', search);
 
             ticket_table_total = ticket_total;
         }
         tickets = await augmentTicketUpdate(tickets);
         tickets = await mapOverdue(tickets);
 
-        let o_tickets = await Ticket.getAll(conn, 0, 1000, [], [], [],
-            statusOrderQuery, '');
+        let o_tickets = await Ticket.getAll(conn, 0, 1000, [], [], [], statusOrderQuery, '', search);
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
         let index = o_tickets.length;
@@ -104,7 +96,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id], ['']);
         let solutions = await Solution.getAllSuccessSolution(conn);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
-        statusOrderQuery, '');
+            statusOrderQuery, '', search);
         tickets = await augmentTicketUpdate(tickets);
 
         res.render('./index/user', {
@@ -112,62 +104,50 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             url: 'user',
             tickets: tickets,
             usertype: user.type,
-            solutions:solutions,
-            ticket_table_total: ticket_table_total});
+            solutions: solutions,
+            ticket_table_total: ticket_table_total
+        });
     }
     if (user.type === 'specialist') {
 
         let type = req.query.type;
         let handlerId = 'handler_id';
-        let ticket_total = await Ticket.getCount(conn,
-            [handlerId],
-            [user.id],
-            ['']);
+        let ticket_total = await Ticket.getCount(conn, [handlerId], [user.id], ['']);
         let ticket_table_total = ticket_total;
-        let closed_total = await Ticket.getCount(conn,
-            [handlerId, 'status'],
-            [user.id, 'closed'],
-            ['AND', '']);    
-        let assigned_total = await Ticket.getCount(conn,
-            [handlerId, 'status', 'status', 'status'],
-            [user.id, 'active', 'unsuccessful', 'submitted'],
-            ['AND (', 'OR', 'OR', ')']);
-        let open_total = await Ticket.getCount(conn,
-            [handlerId],
-            [null],
-            ['']);
+        let closed_total = await Ticket.getCount(conn, [handlerId, 'status'], [user.id, 'closed'], ['AND', '']);
+        let assigned_total = await Ticket.getCount(conn, [handlerId, 'status', 'status', 'status'], [user.id, 'active', 'unsuccessful', 'submitted'], ['AND (', 'OR', 'OR', ')']);
+        let open_total = await Ticket.getCount(conn, [handlerId], [null], ['']);
         let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
-        statusOrderQuery, '');
+            statusOrderQuery, '', search);
         if (type === "Total") {
             spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
-            statusOrderQuery, ''); 
-                
-            ticket_table_total = ticket_total;    
+                statusOrderQuery, '', search);
+
+            ticket_table_total = ticket_total;
         }
         if (type === "Resolved") {
             spec_tickets = await Ticket.getAll(conn, 0, 25,
                 [handlerId, 'status'],
                 [user.id, 'closed'],
                 ['AND', ''],
-                statusOrderQuery, '');   
-            
+                statusOrderQuery, '', search);
+
             ticket_table_total = closed_total;
         }
-        if (type == "Assigned") {
+        if (type === "Assigned") {
             spec_tickets = await Ticket.getAll(conn, 0, 25,
                 [handlerId, 'status', 'status', 'status'],
                 [user.id, 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
-                statusOrderQuery, '');   
+                statusOrderQuery, '', search);
 
             ticket_table_total = assigned_total;
         }
 
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         spec_tickets = await mapOverdue(spec_tickets);
-        
-        let o_tickets = await Ticket.getAll(conn, 0, 1000, [handlerId], [user.id], [''],
-        statusOrderQuery, '');
+
+        let o_tickets = await Ticket.getAll(conn, 0, 1000, [handlerId], [user.id], [''], statusOrderQuery, '', search);
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
         let index = o_tickets.length;
@@ -181,7 +161,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             spec_tickets = o_tickets;
         }
 
-        let open_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [null], ['']);
+        let open_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [null], [''], null, null, search);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
         res.render('./index/specialist', {
@@ -205,7 +185,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [user.id],
             ['']);
         let ticket_table_total = ticket_total;
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], ['']);
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''], null, null, search);
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         res.render('./index/ext_specialist', {
             username: req.user.username,
@@ -239,13 +219,12 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let problemTypes = ["software", "hardware", "os"];
         let totalCounts = {};
 
-        listOfHardwareGet.forEach(function(hardware){
+        listOfHardwareGet.forEach(function (hardware) {
             hardwareList.push(hardware.name);
             let hardwareCount = 0;
-            listOfTickets.forEach(function(ticket){
-                ticket.hardwares.forEach(function(list){
-                    if(list["name"] == hardware.name)
-                    {
+            listOfTickets.forEach(function (ticket) {
+                ticket.hardwares.forEach(function (list) {
+                    if (list["name"] == hardware.name) {
                         hardwareCount++;
                     }
                 })
@@ -254,13 +233,12 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
         })
 
-        softwareListGet.forEach(function(software){
+        softwareListGet.forEach(function (software) {
             softwareList.push(software.name);
             let softwareCount = 0;
-            listOfTickets.forEach(function(ticket){
-                ticket.softwares.forEach(function(list){
-                    if(list["name"] == software.name)
-                    {
+            listOfTickets.forEach(function (ticket) {
+                ticket.softwares.forEach(function (list) {
+                    if (list["name"] == software.name) {
                         softwareCount++;
                     }
                 })
@@ -268,13 +246,12 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             countPerSoftware[software.name] = softwareCount;
         })
 
-        listOfOsesGet.forEach(function(os){
+        listOfOsesGet.forEach(function (os) {
             listOfOses.push(os.name);
             let osCount = 0;
-            listOfTickets.forEach(function(ticket){
-                ticket.oses.forEach(function(list){
-                    if(list["name"] == os.name)
-                    {
+            listOfTickets.forEach(function (ticket) {
+                ticket.oses.forEach(function (list) {
+                    if (list["name"] == os.name) {
                         osCount++;
                     }
                 })
@@ -282,11 +259,10 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             countPerOses[os.name] = osCount;
         })
 
-        listOfUsers.forEach(function(user){
+        listOfUsers.forEach(function (user) {
             let count = 0;
-            listOfTickets.forEach(function(ticket){
-                if(ticket.handlerId == user.id)
-                {
+            listOfTickets.forEach(function (ticket) {
+                if (ticket.handlerId == user.id) {
                     count++;
                 }
 
@@ -297,31 +273,26 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         })
 
 
-
         // console.log(listOfOses);
 
-        statuses.forEach(function(status){
+        statuses.forEach(function (status) {
             let statusCount = 0;
-            listOfTickets.forEach(function(ticket){
-                if(ticket.status == status)
-                {
+            listOfTickets.forEach(function (ticket) {
+                if (ticket.status == status) {
                     statusCount++;
                 }
             })
             countPerStatus[status] = statusCount;
         })
 
-        listOfTickets.forEach(function(ticket){
-            if(ticket.oses.length != 0)
-            {
+        listOfTickets.forEach(function (ticket) {
+            if (ticket.oses.length != 0) {
                 totalOs++;
             }
-            if(ticket.hardwares.length != 0)
-            {
+            if (ticket.hardwares.length != 0) {
                 totalHardware++;
             }
-            if(ticket.softwares.length != 0)
-            {
+            if (ticket.softwares.length != 0) {
                 totalSoftware++;
             }
         })
@@ -344,7 +315,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             hardwareCount: countPerHardware,
             hardwareList: hardwareList,
             totalCounts: totalCounts,
-            problemTypes: problemTypes});
+            problemTypes: problemTypes
+        });
     }
 })
 
@@ -586,10 +558,12 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
     let user = await User.getById(conn, req.user.id);
     let ticket_table_total = await Ticket.getCount(conn);
 
+    let search = req.query.search;
+    if (search === undefined)
+        search = null;
 
-    let tickets = await Ticket.getAll(conn, 0, 50, [null], [null], [''],
-    statusOrderQuery, '');
-        tickets = await augmentTicketUpdate(tickets);
+    let tickets = await Ticket.getAll(conn, 0, 50, [null], [null], [''], statusOrderQuery, '', search);
+    tickets = await augmentTicketUpdate(tickets);
     res.render('./all_tickets', {
         url: 'all_tickets',
         username: req.user.username,
@@ -623,7 +597,8 @@ router.get('/solution_history', checkAuthenticated(['user']), async (req, res) =
     res.render('./solution_history', {
         username: req.user.username,
         usertype: user.type,
-        solutions: solutions});
+        solutions: solutions
+    });
 })
 // Change Password validation
 router.post('/change_password', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']),

@@ -3,21 +3,21 @@
 <div class="table_section">
     <div class="table_top">
         <div class="table_title_container">
-            <% if (url == 'admin' || url == 'all_tickets') { %>
+            <% if (url === 'admin' || url === 'all_tickets') { %>
                 <h1 class="table_title">Tickets</h1>
             <% } else { %>
                 <h1 class="table_title">Your Tickets</h1>
             <% } %>
-            <p class="table_title_info">Total <%= ticket_table_total %></p>
+            <p class="table_title_info">Total <%= tickets.length %></p>
         </div>
         <div class="table_options_container">
             <!-- Searchbar -->
             <div class="search_item">
                 <div class="search_container">
-                    <form>
-                        <button class="search_btn"><i class="fas fa-sliders-h"></i></button>
-                        <input type="text" class="search_input" placeholder="Search Ticket">
-                        <button class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <form action="?" method="GET">
+<!--                        <button class="search_btn"><i class="fas fa-sliders-h"></i></button>-->
+                        <input type="text" class="search_input" name="search" placeholder="Search">
+                        <button type="submit" class="search_btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
                 <!-- Search Filters -->
