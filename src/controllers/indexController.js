@@ -407,6 +407,12 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
     let combined = combineSolutionsAndFeedbacks(solutions, feedbacks);
     let lastUpdated = await getLastUpdatedDate(ticketId);
 
+    let specialistName = "None";
+    if (ticket.handlerId !== null) {
+        let specialist = await User.getById(conn, ticket.handlerId);
+        specialistName = specialist.name;
+    }
+
     let data = {
         username: req.user.username,
         usertype: currentUser.type,
@@ -415,7 +421,8 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
         user: user,
         logs: logs,
         solutionsAndFeedbacks: combined,
-        lastUpdated: lastUpdated
+        lastUpdated: lastUpdated,
+        specialistName: specialistName,
     };
 
     res.render('./ticket-information', data);

@@ -14,9 +14,9 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
             </span>
                 Ticket #<%= ticket.ticketId %>
             </h1>
-            <% if (isAssignedSpecialist) { %>
+            <% if (isAssignedSpecialist && ticket.status !== "closed") { %>
                 <button class="btn btn-danger" onclick="dropTicket(<%= ticket.ticketId %>)">Drop ticket</button>
-            <% } else { %>
+            <% } else if ((usertype === "specialist" || usertype === "external specialist") && ticket.handlerId === null) { %>
                 <button class="btn btn-primary" onclick="assignToSelf(<%= ticket.ticketId %>)">
                     Assign ticket to myself
                 </button>
@@ -61,6 +61,15 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
 
             <table class="table table-light">
                 <tbody>
+                <tr>
+                    <th style="width: 30%">Specialist</th>
+                    <td>
+                        <%= specialistName %>
+                        <% if (ticket.handlerId !== null) { %>
+                            - <%= ticket.handlerId %>
+                        <% } %>
+                    </td>
+                </tr>
                 <tr>
                     <th style="width: 30%">Date Created</th>
                     <td>
