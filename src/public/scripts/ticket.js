@@ -64,8 +64,9 @@ function editTicketInfo(btn, id) {
     let parent = btn.parentNode.parentNode;
     for (const editable of parent.querySelectorAll(".editable-text")) {
         let text = editable.innerHTML.trim();
-        let input = document.createElement("input");
+        let input = document.createElement("textarea");
         input.type = "text";
+        input.classList = "editable-input"
         input.value = text;
         editable.innerHTML = "";
         editable.appendChild(input);
@@ -80,7 +81,7 @@ function saveTicketInfo(btn, id) {
 
     let parent = btn.parentNode.parentNode;
     for (const editable of parent.querySelectorAll(".editable-text")) {
-        let input = editable.querySelector("input");
+        let input = editable.querySelector("textarea");
         let text = input.value.trim();
         editable.innerHTML = text;
     }
