@@ -102,37 +102,37 @@ VALUES (5247, 3),
 -- ??? Ex Spec expertise ???
 
 INSERT INTO ticket (ticket_id, user_id, status, description, notes, handler_id, created_at)
-VALUES (13, 5177, 'closed', 'Printer out of ink', NULL, 5247, '2022-01-01 20:10:00'),
-       (1, 3629, 'closed', 'Mouse Bluetooth not connecting with Mac', NULL, 1911, '2022-01-01 20:10:00'),
-       (2, 3975, 'closed', 'Adobe not working', NULL, 5280, '2022-01-01 20:10:00'),
+VALUES (13, 5177, 'closed', 'Printer out of ink', NULL, 5247, '2022-05-12 20:10:00'),
+       (1, 3629, 'closed', 'Mouse Bluetooth not connecting with Mac', NULL, 1911, '2022-05-12 20:10:00'),
+       (2, 3975, 'closed', 'Adobe not working', NULL, 5280, '2022-05-12 20:10:00'),
 
-       (3, 3166, 'submitted', 'Printer out of ink', 'Cannot find ink', 1911, '2022-01-01 20:10:00'),
-       (4, 1111, 'active', 'Computer not turning on', 'Everything is plugged in', 5247, '2022-01-01 20:10:00'),
-       (5, 2222, 'unsuccessful', 'Mouse Bluetooth not connecting with Mac', NULL, 1911, '2022-01-01 20:10:00'),
-       (6, 3267, 'active', 'Adobe not working', 'Returns an error when trying to run', 5280, '2022-01-01 20:10:00'),
-       (7, 5177, 'submitted', 'Keyboard not working', NULL, 5247, '2022-01-01 20:10:00'),
-       (8, 3975, 'active', 'Cannot connect to internet', NULL, 5280, '2022-01-01 20:10:00'),
+       (3, 3166, 'submitted', 'Printer out of ink', 'Cannot find ink', 1911, '2022-05-12 20:10:00'),
+       (4, 1111, 'active', 'Computer not turning on', 'Everything is plugged in', 5247, '2022-05-12 20:10:00'),
+       (5, 2222, 'unsuccessful', 'Mouse Bluetooth not connecting with Mac', NULL, 1911, '2022-05-12 20:10:00'),
+       (6, 3267, 'active', 'Adobe not working', 'Returns an error when trying to run', 5280, '2022-05-12 20:10:00'),
+       (7, 5177, 'submitted', 'Keyboard not working', NULL, 5247, '2022-05-12 20:10:00'),
+       (8, 3975, 'active', 'Cannot connect to internet', NULL, 5280, '2022-05-01 20:10:00'),
        (9, 2222, 'active', 'Mouse Bluetooth not connecting with Mac',
-        'Bluetooth connection made but still no responsiveness', NULL, '2022-01-01 20:10:00'),
-       (10, 3975, 'active', 'Cannot connect to internet', 'Wifi not showing up', NULL, '2022-01-01 20:10:00'),
-       (11, 5177, 'active', 'Keyboard not working', NULL, NULL, '2022-01-01 20:10:00'),
-       (12, 2222, 'active', 'Printer out of ink', 'Cannot find ink', NULL, '2022-01-01 20:10:00');
+        'Bluetooth connection made but still no responsiveness', NULL, '2022-05-01 20:10:00'),
+       (10, 3975, 'active', 'Cannot connect to internet', 'Wifi not showing up', NULL, '2022-05-12 20:10:00'),
+       (11, 5177, 'active', 'Keyboard not working', NULL, NULL, '2022-05-12 20:10:00'),
+       (12, 2222, 'active', 'Printer out of ink', 'Cannot find ink', NULL, '2022-05-12 20:10:00');
 
 INSERT INTO ticket_log (log_id, ticket_id, update_date, update_type, update_value)
-VALUES (3, 4, '2022-01-01 20:10:00', 'notes', 'Everything is plugged in'),
-       (1, 6, '2022-01-01 20:10:00', 'handler', 'Joey John'),
-       (2, 3, '2022-01-01 20:10:00', 'notes', 'Cannot find ink');
+VALUES (3, 4, '2022-05-12 20:10:00', 'notes', 'Everything is plugged in'),
+       (1, 6, '2022-05-12 20:10:00', 'handler', 'Joey John'),
+       (2, 3, '2022-05-12 20:10:00', 'notes', 'Cannot find ink');
 
 INSERT INTO feedback (feedback_id, ticket_id, datetime, feedback, user_id)
-VALUES (1, 5, '2022-02-01 20:10:00', 'Mouse charged but connection still not working', 2222);
+VALUES (1, 5, '2022-05-12 20:10:00', 'Mouse charged but connection still not working', 2222);
 
 INSERT INTO solution (solution_id, ticket_id, datetime, solution_status, handler_id, solution)
-VALUES (6, 13, '2022-01-01 20:10:00', 'successful', 5247, 'Insert more ink into printer'),
-       (1, 1, '2022-02-01 20:10:00', 'successful', 1911, 'Select correct mouse from bluetooth list on mac'),
-       (2, 2, '2022-02-01 20:10:00', 'successful', 5280, 'Login using new credentials'),
-       (3, 3, '2022-02-02 20:10:00', 'pending', 1911, 'Get ink from storage room and replace in printer'),
-       (4, 5, '2022-02-02 20:10:00', 'unsuccessful', 1911, 'Charge mouse and wait for bluetooth connection to appear'),
-       (5, 7, '2022-02-02 20:10:00', 'pending', 5247, 'Plug keyboard into computer');
+VALUES (6, 13, '2022-05-12 20:10:00', 'successful', 5247, 'Insert more ink into printer'),
+       (1, 1, '2022-05-12 20:10:00', 'successful', 1911, 'Select correct mouse from bluetooth list on mac'),
+       (2, 2, '2022-05-12 20:10:00', 'successful', 5280, 'Login using new credentials'),
+       (3, 3, '2022-05-12 20:10:00', 'pending', 1911, 'Get ink from storage room and replace in printer'),
+       (4, 5, '2022-05-12 20:10:00', 'unsuccessful', 1911, 'Charge mouse and wait for bluetooth connection to appear'),
+       (5, 7, '2022-05-12 20:10:00', 'pending', 5247, 'Plug keyboard into computer');
 
 INSERT INTO ticket_expertise (expertise_id, ticket_id)
 VALUES (3, 13),
