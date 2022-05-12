@@ -664,6 +664,10 @@ input.info-tag {
     position: relative;
 }
 
+.error_container {
+    display: none;
+}
+
 .admin_panel:hover {
     cursor: pointer;
     transform: scale(1.05);

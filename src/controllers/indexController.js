@@ -552,7 +552,8 @@ router.get('/submit_problem', checkAuthenticated(['user']), async (req, res) => 
         usertype: user.type,
         hardwares: hardwares,
         softwares: softwares,
-        oses: oses
+        oses: oses,
+        errors: null
     });
 })
 router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) => {
