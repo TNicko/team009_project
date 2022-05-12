@@ -491,6 +491,8 @@ router.post('/ticket/assign', checkAuthenticated(['admin', 'specialist']), async
     try {
         let body = req.body;
         await Ticket.updateById(conn, body.ticket, null, null, null, null, body.specialist);
+        let user = await User.getById(conn, body.specialist);
+        await TicketLog.createForTicket(conn, body.ticket, 'specialist assigned', user.name);
         res.sendStatus(200);
     } catch (err) {
         res.sendStatus(500);
