@@ -417,6 +417,15 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
     let combined = combineSolutionsAndFeedbacks(solutions, feedbacks);
     let lastUpdated = await getLastUpdatedDate(ticketId);
 
+    logs = await Promise.all(
+        logs.map(async (v) => ({
+            ...v,
+            updateDate: await formatDate(new Date(v.updateDate))
+        }))
+    );
+
+    console.log(JSON.stringify(logs));
+
     let specialistName = "None";
     if (ticket.handlerId !== null) {
         let specialist = await User.getById(conn, ticket.handlerId);
@@ -664,19 +673,22 @@ async function getLastUpdatedDate(ticketId) {
     if (arr.length != 0) {
         // Get last updated date 
         const max = new Date(Math.max(...arr));
-        const date = max.getFullYear() + '-' + (max.getMonth() + 1) + '-' + max.getDate();
-        const time = max.getHours() + ":" + max.getMinutes() + ":" + max.getSeconds();
-        const dateTime = date + ' ' + time;
+        const dateTime = formatDate(max);
         return dateTime;
     } else {
         // Get date created here
         let ticket = await Ticket.getById(conn, ticketId);
         let create_date = new Date(ticket.createdAt);
-        const date = create_date.getFullYear() + '-' + (create_date.getMonth() + 1) + '-' + create_date.getDate();
-        const time = create_date.getHours() + ":" + create_date.getMinutes() + ":" + create_date.getSeconds();
-        const dateTime = date + ' ' + time;
+        let dateTime = formatDate(create_date);
         return dateTime;
     }
+}
+
+async function formatDate(mDate) {
+    const date = mDate.getFullYear() + '-' + (mDate.getMonth() + 1) + '-' + mDate.getDate();
+    const time = mDate.getHours() + ":" + mDate.getMinutes() + ":" + mDate.getSeconds();
+    const dateTime = date + ' ' + time;
+    return dateTime;
 }
 
 /**
