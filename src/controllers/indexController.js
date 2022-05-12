@@ -322,9 +322,14 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
 
 // Tables
 router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+    let search = req.query.search;
+    if (search === undefined)
+        search = null;
+
     let user = await User.getById(conn, req.user.id);
-    let hardwares = await Hardware.getAll(conn, 0, 100);
+    let hardwares = await Hardware.getAll(conn, 0, 100, search);
     let hardware_total = await Hardware.getCount(conn);
+
     res.render('./tables/hardware', {
         username: req.user.username,
         usertype: user.type,
@@ -333,8 +338,12 @@ router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), 
     });
 })
 router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+    let search = req.query.search;
+    if (search === undefined)
+        search = null;
+
     let user = await User.getById(conn, req.user.id);
-    let softwares = await Software.getAll(conn, 0, 100);
+    let softwares = await Software.getAll(conn, 0, 100, search);
     let software_total = await Software.getCount(conn);
     res.render('./tables/software', {
         username: req.user.username,
@@ -344,9 +353,13 @@ router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), 
     });
 })
 router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+    let search = req.query.search;
+    if (search === undefined)
+        search = null;
+
     let user = await User.getById(conn, req.user.id);
     let os = await OS.getAll(conn, 0, 100);
-    let os_total = await OS.getCount(conn);
+    let os_total = await OS.getCount(conn, search);
     res.render('./tables/os', {
         username: req.user.username,
         usertype: user.type,
@@ -394,7 +407,7 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
             ...v,
             updateDate: await formatDate(new Date(v.updateDate))
         }))
-);
+    );
 
     let specialistName = "None";
     if (ticket.handlerId !== null) {
@@ -477,7 +490,7 @@ router.post('/ticket/assign', checkAuthenticated(['admin', 'specialist']), async
             let user = await User.getById(conn, body.specialist);
             await TicketLog.createForTicket(conn, body.ticket, 'specialist assigned', user.name);
         }
-        
+
         res.sendStatus(200);
     } catch (err) {
         res.sendStatus(500);
@@ -665,7 +678,7 @@ async function getLastUpdatedDate(ticketId) {
 async function formatDate(mDate) {
     let mins = mDate.getMinutes();
     if (mins < 10) {
-        mins = "0"+mins;
+        mins = "0" + mins;
     }
     const date = mDate.getDate() + '/' + (mDate.getMonth() + 1) + '/' + mDate.getFullYear();
     const time = mDate.getHours() + ":" + mins;

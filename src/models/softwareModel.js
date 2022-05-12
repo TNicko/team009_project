@@ -12,8 +12,7 @@ class Software {
         let queryParams = [];
 
         if (search !== null) {
-            queryString += `\n WHERE name LIKE '%?%' \n OR software_serial LIKE '%?%'`;
-            queryParams.push(search, search)
+            queryString += `\n WHERE name LIKE '%${search}%' \n OR software_serial LIKE '%${search}%'`;
         }
 
         if (sortColumn !== null) {
