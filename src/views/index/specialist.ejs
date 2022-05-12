@@ -108,7 +108,9 @@
                                     <%= ticket.expertises %>
                                 </td>
                                 <td>
-                                    <%= ticket.description %>
+                                    <a href="/ticket/<%= ticket.ticketId %>">
+                                        <%= ticket.description %>
+                                    </a>
                                 </td>
                                 <td>
                                     <%= ticket.updateDate %> 
