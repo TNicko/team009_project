@@ -27,14 +27,6 @@ Checks type of user logged in and renders correct menu items -->
                         </a>
                     </li>
                 <% } %>
-                <% if (usertype === 'analyst') { %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fa-solid fa-ticket"></i>
-                            In Depth
-                        </a>
-                    </li>
-                <% } %>
                 <% if (usertype === 'user') { %>
                     <li class="nav-item">
                         <a class="nav-link" href="/submit_problem">
