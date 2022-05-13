@@ -53,8 +53,8 @@ class Ticket {
     // Function that get a ticket using its ID
     static async getById(conn, id) {
         let ticketResult = await conn.query(
-            `SELECT ticket_id AS ticketId,
-                    user_id AS userId,
+            `SELECT ticket_id  AS ticketId,
+                    user_id    AS userId,
                     status,
                     description,
                     notes,
@@ -115,20 +115,24 @@ class Ticket {
     static async getAll(conn,
                         skip, limit,
                         filterColumns = [], filterValues = [], filterOperator = [],
-                        sortColumn = null, sortType = null, search = null) {
+                        sortColumn = null, sortType = null, search = null, expertise = "%") {
         let queryString =
-            `SELECT ticket_id  AS ticketId,
-                    user_id    AS userId,
-                    status,
-                    description,
-                    notes,
-                    handler_id AS handlerId,
-                    created_at AS createdAt
-             FROM ticket`;
-        let queryParams = [];
+            `SELECT t.ticket_id  AS ticketId,
+                    t.user_id    AS userId,
+                    t.status,
+                    t.description,
+                    t.notes,
+                    t.handler_id AS handlerId,
+                    t.created_at AS createdAt
+             FROM ticket t
+                      INNER JOIN ticket_expertise te ON te.ticket_id = t.ticket_id
+                      INNER JOIN expertise e ON e.expertise_id = te.expertise_id
+             WHERE e.name LIKE ?
+            `;
+        let queryParams = [expertise];
 
-        if (filterColumns.length != 0) {
-            queryString += ` WHERE`;
+        if (filterColumns.length !== 0) {
+            queryString += ` AND `;
             filterColumns.forEach((filter, i) => {
                 if (filterValues[i] === 'isNotNull') {
                     queryString += ` ${filter} IS NOT NULL ${filterOperator[i]}`;
@@ -141,7 +145,9 @@ class Ticket {
             });
 
             if (search !== null) {
-                queryString += `AND (ticket_id LIKE '%${search}%' or user_id LIKE '%${search}%' or status LIKE '%${search}%' or 
+                if (!queryString.endsWith("AND "))
+                    queryString += ` AND `;
+                queryString += ` (t.ticket_id LIKE '%${search}%' or t.user_id LIKE '%${search}%' or t.status LIKE '%${search}%' or 
                 description LIKE '%${search}%' or notes LIKE '%${search}%' or handler_id LIKE '%${search}%' or created_at LIKE '%${search}%')`;
             }
         }
@@ -169,6 +175,9 @@ class Ticket {
 
         queryString += `\n LIMIT ?, ?`;
         queryParams.push(skip, limit);
+
+        console.log(queryString);
+        console.log(queryParams);
 
         let tickets = await conn.query(queryString, queryParams);
         tickets = await Promise.all(

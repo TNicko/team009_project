@@ -29,16 +29,16 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     let user = await User.getById(conn, req.user.id);
 
     let search = req.query.search === undefined ? null : req.query.search;
-    let problemType = req.query.problemType === undefined ? null : req.query.problemType;
+    let problemType = (req.query.problemType === undefined) || (req.query.problemType === "") ? "%" : req.query.problemType;
     let status = req.query.status === undefined ? null : req.query.status;
     let sortBy = req.query.sortBy === undefined ? null : req.query.sortBy;
 
-    let filterColumns = ['user_id'];
-    let filterValues = [user.id];
+    let filterColumns = [];
+    let filterValues = [];
     let operators = [];
 
     if (status !== null && status !== "") {
-        operators.push("AND");
+        operators.push(" AND ");
         filterColumns.push("status");
         filterValues.push(status);
     }
@@ -61,7 +61,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ['handler_id'],
             [null],
             ['']);
-        let tickets = await Ticket.getAll(conn, 0, 50, [], [], [], statusOrderQuery, '', search);
+        let tickets = await Ticket.getAll(conn, 0, 50, filterColumns, filterValues, operators, sortColumn, sortType, search, problemType);
         if (type === "Unassigned") {
             tickets = await Ticket.getAll(conn, 0, 50, ['handler_id'], [null], [''], statusOrderQuery, '', search);
             ticket_table_total = open_total;
@@ -84,7 +84,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         tickets = await augmentTicketUpdate(tickets);
         tickets = await mapOverdue(tickets);
 
-        let o_tickets = await Ticket.getAll(conn, 0, 1000, [], [], [], statusOrderQuery, '', search);
+        let o_tickets = await Ticket.getAll(conn, 0, 1000, filterColumns,
+            filterValues, operators, sortColumn, sortType, search, problemType);
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
         let index = o_tickets.length;
@@ -111,9 +112,12 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         });
     }
     if (user.type === 'user') {
+        filterColumns.push('user_id');
+        filterValues.push(user.id);
+
         let ticket_table_total = await Ticket.getCount(conn, filterColumns, filterValues, operators);
         let tickets = await Ticket.getAll(conn, 0, 50, filterColumns, filterValues, operators,
-            sortColumn, sortType, search);
+            sortColumn, sortType, search, problemType);
         tickets = await augmentTicketUpdate(tickets);
 
         res.render('./index/user', {
@@ -125,6 +129,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         });
     }
     if (user.type === 'specialist') {
+        filterColumns.push('handler_id');
+        filterValues.push(user.id);
 
         let type = req.query.type;
         let handlerId = 'handler_id';
@@ -133,8 +139,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let closed_total = await Ticket.getCount(conn, [handlerId, 'status'], [user.id, 'closed'], ['AND', '']);
         let assigned_total = await Ticket.getCount(conn, [handlerId, 'status', 'status', 'status'], [user.id, 'active', 'unsuccessful', 'submitted'], ['AND (', 'OR', 'OR', ')']);
         let open_total = await Ticket.getCount(conn, [handlerId], [null], ['']);
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
-            statusOrderQuery, '', search);
+        let spec_tickets = await Ticket.getAll(conn, 0, 25, filterColumns, filterValues, operators, sortColumn,
+            sortType, search, problemType);
         if (type === "Total") {
             spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
                 statusOrderQuery, '', search);
@@ -163,7 +169,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         spec_tickets = await mapOverdue(spec_tickets);
 
-        let o_tickets = await Ticket.getAll(conn, 0, 1000, [handlerId], [user.id], [''], statusOrderQuery, '', search);
+        let o_tickets = await Ticket.getAll(conn, 0, 25, filterColumns, filterValues, operators, sortColumn,
+            sortType, search, problemType);
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
         let index = o_tickets.length;
