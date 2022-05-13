@@ -26,9 +26,14 @@ END`;
 
 // Checks user type logged in and renders home page for correct user.
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
-    let search = req.query.search;
-    if (search === undefined)
-        search = null;
+    let search = req.query.search === undefined ? null : req.query.search;
+    let problemType = req.query.problemType === undefined ? null : req.query.problemType;
+    let status = req.query.status === undefined ? null : req.query.status;
+    let sortBy = req.query.sortBy === undefined ? null : req.query.sortBy;
+
+    let [sortColumn, sortType] = [statusOrderQuery, ""];
+    if (sortBy !== null)
+        [sortColumn, sortType] = parseSort(sortBy);
 
     let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
@@ -95,7 +100,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     if (user.type === 'user') {
         let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id], ['']);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
-            statusOrderQuery, '', search);
+            sortColumn, sortType, search);
         tickets = await augmentTicketUpdate(tickets);
 
         res.render('./index/user', {
@@ -799,6 +804,22 @@ function combineSolutionsAndFeedbacks(solutions, feedbacks) {
     }
 
     return solutionsAndFeedbacks;
+}
+
+// Parse ticket_table.ejs sort details
+function parseSort(text) {
+    let sortColumn = "created_at";
+    let sortType = "DESC";
+
+    if (text.endsWith("asc")) sortType = "ASC";
+    if (text.endsWith("desc")) sortType = "DESC";
+
+    if (text.startsWith("title")) sortColumn = "description";
+    if (text.startsWith("id")) sortColumn = "ticketId";
+    if (text.startsWith("date")) sortColumn = "created_at";
+
+    return [sortColumn, sortType];
+
 }
 
 module.exports = router;
