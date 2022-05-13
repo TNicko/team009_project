@@ -94,7 +94,6 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
     }
     if (user.type === 'user') {
         let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id], ['']);
-        let solutions = await Solution.getAllSuccessSolution(conn, search);
         let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
             statusOrderQuery, '', search);
         tickets = await augmentTicketUpdate(tickets);
@@ -104,7 +103,6 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             url: 'user',
             tickets: tickets,
             usertype: user.type,
-            solutions: solutions,
             ticket_table_total: ticket_table_total
         });
     }
