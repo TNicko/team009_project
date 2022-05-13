@@ -359,7 +359,7 @@ router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async 
 
     let user = await User.getById(conn, req.user.id);
     let os = await OS.getAll(conn, 0, 100);
-    let os_total = await OS.getCount(conn, search);
+    let os_total = await OS.getCount(conn);
     res.render('./tables/os', {
         username: req.user.username,
         usertype: user.type,
