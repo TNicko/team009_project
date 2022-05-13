@@ -28,6 +28,10 @@ END`;
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
 
+    let page = req.query.page === undefined ? 1 : req.query.page;
+    const resultsPerPage = 20;
+    const pageStart = (p) => resultsPerPage * (p - 1);
+
     let search = req.query.search === undefined ? null : req.query.search;
     let problemType = (req.query.problemType === undefined) || (req.query.problemType === "") ? "%" : req.query.problemType;
     let status = req.query.status === undefined ? null : req.query.status;
@@ -61,13 +65,15 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ['handler_id'],
             [null],
             ['']);
-        let tickets = await Ticket.getAll(conn, 0, 50, filterColumns, filterValues, operators, sortColumn, sortType, search, problemType);
+        console.log(resultsPerPage, page);
+        let tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, filterColumns,
+            filterValues, operators, sortColumn, sortType, search, problemType);
         if (type === "Unassigned") {
-            tickets = await Ticket.getAll(conn, 0, 50, ['handler_id'], [null], [''], statusOrderQuery, '', search);
+            tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, ['handler_id'], [null], [''], statusOrderQuery, '', search);
             ticket_table_total = open_total;
         }
         if (type === "Assigned") {
-            tickets = await Ticket.getAll(conn, 0, 50,
+            tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage,
                 ['handler_id', 'status', 'status', 'status'],
                 ['isNotNull', 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
@@ -76,7 +82,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ticket_table_total = assigned_total;
         }
         if (type === "Total") {
-            tickets = await Ticket.getAll(conn, 0, 50, [], [], [],
+            tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, [], [], [],
                 statusOrderQuery, '', search);
 
             ticket_table_total = ticket_total;
@@ -84,7 +90,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         tickets = await augmentTicketUpdate(tickets);
         tickets = await mapOverdue(tickets);
 
-        let o_tickets = await Ticket.getAll(conn, 0, 1000, filterColumns,
+        let o_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, filterColumns,
             filterValues, operators, sortColumn, sortType, search, problemType);
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
@@ -116,7 +122,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         filterValues.push(user.id);
 
         let ticket_table_total = await Ticket.getCount(conn, filterColumns, filterValues, operators);
-        let tickets = await Ticket.getAll(conn, 0, 50, filterColumns, filterValues, operators,
+        let tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, filterColumns, filterValues, operators,
             sortColumn, sortType, search, problemType);
         tickets = await augmentTicketUpdate(tickets);
 
@@ -139,16 +145,16 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         let closed_total = await Ticket.getCount(conn, [handlerId, 'status'], [user.id, 'closed'], ['AND', '']);
         let assigned_total = await Ticket.getCount(conn, [handlerId, 'status', 'status', 'status'], [user.id, 'active', 'unsuccessful', 'submitted'], ['AND (', 'OR', 'OR', ')']);
         let open_total = await Ticket.getCount(conn, [handlerId], [null], ['']);
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, filterColumns, filterValues, operators, sortColumn,
+        let spec_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, filterColumns, filterValues, operators, sortColumn,
             sortType, search, problemType);
         if (type === "Total") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''],
+            spec_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, [handlerId], [user.id], [''],
                 statusOrderQuery, '', search);
 
             ticket_table_total = ticket_total;
         }
         if (type === "Resolved") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25,
+            spec_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage,
                 [handlerId, 'status'],
                 [user.id, 'closed'],
                 ['AND', ''],
@@ -157,7 +163,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ticket_table_total = closed_total;
         }
         if (type === "Assigned") {
-            spec_tickets = await Ticket.getAll(conn, 0, 25,
+            spec_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage,
                 [handlerId, 'status', 'status', 'status'],
                 [user.id, 'active', 'unsuccessful', 'submitted'],
                 ['AND (', 'OR', 'OR', ')'],
@@ -169,8 +175,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         spec_tickets = await mapOverdue(spec_tickets);
 
-        let o_tickets = await Ticket.getAll(conn, 0, 25, filterColumns, filterValues, operators, sortColumn,
-            sortType, search, problemType);
+        let o_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, filterColumns, filterValues,
+            operators, sortColumn, sortType, search, problemType);
         o_tickets = await augmentTicketUpdate(o_tickets);
         o_tickets = await mapOverdue(o_tickets);
         let index = o_tickets.length;
@@ -184,7 +190,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             spec_tickets = o_tickets;
         }
 
-        let open_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [null], [''], null, null, search);
+        let open_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, [handlerId], [null], [''], null, null, search);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
         res.render('./index/specialist', {
@@ -208,7 +214,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             [user.id],
             ['']);
         let ticket_table_total = ticket_total;
-        let spec_tickets = await Ticket.getAll(conn, 0, 25, [handlerId], [user.id], [''], null, null, search);
+        let spec_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, [handlerId], [user.id], [''], null, null, search);
         spec_tickets = await augmentTicketUpdate(spec_tickets);
         res.render('./index/ext_specialist', {
             username: req.user.username,
