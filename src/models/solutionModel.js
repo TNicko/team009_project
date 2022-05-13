@@ -10,7 +10,7 @@ class Solution {
     }
 
     // This is a function to get all the solutions available where those solutions were successful
-    static async getAllSuccessSolution(conn, search = null, problemType = null, sortDateBy = null) {
+    static async getAllSuccessSolution(conn, search = null, problemType = null, sortDateBy = null, skip = 0, limit = 10) {
         let queryString =
             `SELECT solution.solution_id AS id,
                     solution.datetime    AS dateTime,
@@ -24,7 +24,8 @@ class Solution {
              WHERE solution.solution_status = 'successful'
                AND ticket.description LIKE ?
                AND expertise.name LIKE ?
-             ORDER BY dateTime ${sortDateBy}`;
+             ORDER BY dateTime ${sortDateBy}
+             LIMIT ${skip}, ${limit}`;
 
         let queryParams = [];
         if (search === null) queryParams.push('%');

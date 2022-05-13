@@ -2,24 +2,25 @@
 
 <div class="table_scroll_section">
     <div class="table_scroll_container">
-        <button class="t-button t-button-left t-arrow back-page">
-            <div class="t-button-content">
-                <span class="table-icon">
-                    <i class="fa-solid fa-angle-left"></i>
-                </span>
-            </div>
+
+        <button class="btn"
+        <% if (page === 1) { %> disabled <% } %>
+                onclick="prevPage()"
+        >
+            <span class="table-icon">
+                <i class="fa-solid fa-angle-left"></i>
+            </span>
         </button>
+
         <span class="page-info">
-            <span class="page-num">1</span>
-            <span class="page-sep">/</span>
-            <span class="number_of_pages">1</span>
+            <span class="page-num">Page <%= page %></span>
         </span>
-        <button class="t-button t-button-right t-arrow next-page">
-            <div class="table-button-content">
-                <span class="table-icon">
-                    <i class="fa-solid fa-angle-right"></i>
-                </span>
-            </div>
+
+        <button class="btn" onclick="nextPage()">
+            <span class="table-icon">
+                <i class="fa-solid fa-angle-right"></i>
+            </span>
         </button>
+
     </div>
 </div>

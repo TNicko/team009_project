@@ -24,14 +24,14 @@ CASE status
     ELSE 5
 END`;
 
+const resultsPerPage = 10;
+const pageStart = (p) => resultsPerPage * (p - 1);
+
 // Checks user type logged in and renders home page for correct user.
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
     let user = await User.getById(conn, req.user.id);
 
-    let page = req.query.page === undefined ? 1 : req.query.page;
-    const resultsPerPage = 20;
-    const pageStart = (p) => resultsPerPage * (p - 1);
-
+    let page = req.query.page === undefined ? 1 : parseInt(req.query.page);
     let search = req.query.search === undefined ? null : req.query.search;
     let problemType = (req.query.problemType === undefined) || (req.query.problemType === "") ? "%" : req.query.problemType;
     let status = req.query.status === undefined ? null : req.query.status;
@@ -114,7 +114,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ticket_total: ticket_total,
             assigned_total: assigned_total,
             open_total: open_total,
-            overdue_ticket_total: o_tickets.length
+            overdue_ticket_total: o_tickets.length,
+            page: page
         });
     }
     if (user.type === 'user') {
@@ -131,7 +132,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             url: 'user',
             tickets: tickets,
             usertype: user.type,
-            ticket_table_total: ticket_table_total
+            ticket_table_total: ticket_table_total,
+            page: page
         });
     }
     if (user.type === 'specialist') {
@@ -204,7 +206,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             assigned_total: assigned_total,
             open_total: open_total,
             closed_total: closed_total,
-            overdue_ticket_total: o_tickets.length
+            overdue_ticket_total: o_tickets.length,
+            page: page
         });
     }
     if (user.type === 'external specialist') {
@@ -221,7 +224,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             url: 'ex_spec',
             usertype: user.type,
             spec_tickets: spec_tickets,
-            ticket_table_total: ticket_table_total
+            ticket_table_total: ticket_table_total,
+            page: page
         });
     }
     if (user.type === 'analyst') {
@@ -353,15 +357,17 @@ router.get('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), 
     if (search === undefined)
         search = null;
 
+    let page = req.query.page === undefined ? 1 : parseInt(req.query.page);
     let user = await User.getById(conn, req.user.id);
-    let hardwares = await Hardware.getAll(conn, 0, 100, search);
+    let hardwares = await Hardware.getAll(conn, pageStart(page), resultsPerPage, search);
     let hardware_total = await Hardware.getCount(conn);
 
     res.render('./tables/hardware', {
         username: req.user.username,
         usertype: user.type,
         hardwares: hardwares,
-        hardware_total: hardware_total
+        hardware_total: hardware_total,
+        page: page,
     });
 })
 router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
@@ -369,14 +375,16 @@ router.get('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), 
     if (search === undefined)
         search = null;
 
+    let page = req.query.page === undefined ? 1 : parseInt(req.query.page);
     let user = await User.getById(conn, req.user.id);
-    let softwares = await Software.getAll(conn, 0, 100, search);
+    let softwares = await Software.getAll(conn, pageStart(page), resultsPerPage, search);
     let software_total = await Software.getCount(conn);
     res.render('./tables/software', {
         username: req.user.username,
         usertype: user.type,
         softwares: softwares,
-        software_total: software_total
+        software_total: software_total,
+        page: page,
     });
 })
 router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
@@ -384,14 +392,16 @@ router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async 
     if (search === undefined)
         search = null;
 
+    let page = req.query.page === undefined ? 1 : parseInt(req.query.page);
     let user = await User.getById(conn, req.user.id);
-    let os = await OS.getAll(conn, 0, 100);
+    let os = await OS.getAll(conn, pageStart(page), resultsPerPage, search);
     let os_total = await OS.getCount(conn);
     res.render('./tables/os', {
         username: req.user.username,
         usertype: user.type,
         os: os,
-        os_total: os_total
+        os_total: os_total,
+        page: page
     });
 })
 router.post('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
@@ -633,6 +643,7 @@ router.get('/solution_history', checkAuthenticated(['user']), async (req, res) =
     let search = req.query.search;
     if (search === undefined) search = null;
 
+    let page = req.query.page === undefined ? 1 : parseInt(req.query.page);
     let problemType = req.query.problemType;
     if (problemType === undefined) problemType = null;
 
@@ -642,11 +653,13 @@ router.get('/solution_history', checkAuthenticated(['user']), async (req, res) =
     else sortDateBy = 'DESC';
 
     let user = await User.getById(conn, req.user.id);
-    let solutions = await Solution.getAllSuccessSolution(conn, search, problemType, sortDateBy);
+    let solutions = await Solution.getAllSuccessSolution(conn, search, problemType, sortDateBy,
+        pageStart(page), resultsPerPage);
     res.render('./solution_history', {
         username: req.user.username,
         usertype: user.type,
-        solutions: solutions
+        solutions: solutions,
+        page: page,
     });
 })
 // Change Password validation
