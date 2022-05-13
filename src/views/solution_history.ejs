@@ -29,18 +29,22 @@
                                                         data-bs-dismiss="modal"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <label for="problemType"> Problem type </label>
-                                                <select class="form-select" name="problemType">
-                                                    <option value="">Problem type</option>
-                                                    <option value="hardware">Hardware</option>
-                                                    <option value="software">Software</option>
-                                                    <option value="network">Network</option>
-                                                </select>
-                                                <label for="sortDateBy"> Sort date by </label>
-                                                <select class="form-select" name="sortDateBy">
-                                                    <option value="newest" selected>Newest first</option>
-                                                    <option value="oldest">Oldest first</option>
-                                                </select>
+                                                <div class="mb-3">
+                                                    <label for="problemType"> Problem type </label>
+                                                    <select class="form-select" name="problemType">
+                                                        <option value="">Problem type</option>
+                                                        <option value="hardware">Hardware</option>
+                                                        <option value="software">Software</option>
+                                                        <option value="network">Network</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="sortDateBy"> Sort date by </label>
+                                                    <select class="form-select" name="sortDateBy">
+                                                        <option value="newest" selected>Newest first</option>
+                                                        <option value="oldest">Oldest first</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
