@@ -26,16 +26,29 @@ END`;
 
 // Checks user type logged in and renders home page for correct user.
 router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external specialist', 'analyst']), async (req, res) => {
+    let user = await User.getById(conn, req.user.id);
+
     let search = req.query.search === undefined ? null : req.query.search;
     let problemType = req.query.problemType === undefined ? null : req.query.problemType;
     let status = req.query.status === undefined ? null : req.query.status;
     let sortBy = req.query.sortBy === undefined ? null : req.query.sortBy;
 
+    let filterColumns = ['user_id'];
+    let filterValues = [user.id];
+    let operators = [];
+
+    if (status !== null && status !== "") {
+        operators.push("AND");
+        filterColumns.push("status");
+        filterValues.push(status);
+    }
+
+    operators.push("");
+
     let [sortColumn, sortType] = [statusOrderQuery, ""];
     if (sortBy !== null)
         [sortColumn, sortType] = parseSort(sortBy);
 
-    let user = await User.getById(conn, req.user.id);
     if (user.type === 'admin') {
         let type = req.query.type;
         let ticket_table_total = await Ticket.getCount(conn);
@@ -98,8 +111,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         });
     }
     if (user.type === 'user') {
-        let ticket_table_total = await Ticket.getCount(conn, ['user_id'], [user.id], ['']);
-        let tickets = await Ticket.getAll(conn, 0, 50, ['user_id'], [user.id], [''],
+        let ticket_table_total = await Ticket.getCount(conn, filterColumns, filterValues, operators);
+        let tickets = await Ticket.getAll(conn, 0, 50, filterColumns, filterValues, operators,
             sortColumn, sortType, search);
         tickets = await augmentTicketUpdate(tickets);
 
