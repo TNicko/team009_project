@@ -14,49 +14,85 @@
                     <div class="search_item">
                         <div class="search_container">
                             <form action="?" method="GET" class="align-items-center">
-                                <select class="form-select" name="problemType">
-                                    <option value="">Problem type</option>
-                                    <option value="hardware">Hardware</option>
-                                    <option value="software">Software</option>
-                                    <option value="network">Network</option>
-                                </select>
+                                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                                        data-bs-target="#filterModal">
+                                    Advanced
+                                </button>
+
+                                <div class="modal fade" id="filterModal" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">
+                                                    Advanced
+                                                </h5>
+                                                <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="problemType"> Problem type </label>
+                                                <select class="form-select" name="problemType">
+                                                    <option value="">Problem type</option>
+                                                    <option value="hardware">Hardware</option>
+                                                    <option value="software">Software</option>
+                                                    <option value="network">Network</option>
+                                                </select>
+                                                <label for="sortDateBy"> Sort date by </label>
+                                                <select class="form-select" name="sortDateBy">
+                                                    <option value="network" selected>Newest first</option>
+                                                    <option value="asc">Oldest first</option>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <input type="text" class="search_input" name="search" placeholder="Search">
                                 <button class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
                         </div>
                         <!-- Search Filters -->
                         <div class="search_filters">
-        
+
                         </div>
                     </div>
                     <%- include('partials/pagination.ejs') %>
                 </div>
-        
+
             </div>
-        
+
             <table class="ticket_table">
-        
+
                 <tbody class="ticket-body op-ticket-body">
                 <% solutions.forEach(function(solution){ %>
-                <tr><td>
-                    <div class="tag-row">
-                    <div class="tag"><%= solution.dateTime.getFullYear()%>-<%= solution.dateTime.getMonth()+1 %>-<%= solution.dateTime.getDate() %></div><div class="tag"> <%= solution.name %></div>
-                    </div>
-                    <div class="inner-text">
-                        Description: <%= solution.description %>
-                        <br>
-                        Solution: <%= solution.solution %>
+                    <tr>
+                        <td>
+                            <div class="tag-row">
+                                <div class="tag"><%= solution.dateTime.getFullYear() %>
+                                    -<%= solution.dateTime.getMonth() + 1 %>-<%= solution.dateTime.getDate() %></div>
+                                <div class="tag"> <%= solution.name %></div>
+                            </div>
+                            <div class="inner-text">
+                                Description: <%= solution.description %>
+                                <br>
+                                Solution: <%= solution.solution %>
 
-                
 
-                    </div>
-                </td></tr>
-                <% })%>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
 
                 </tbody>
             </table>
         </div>
-      
-        
+
+
     </div>
 </div>
