@@ -18,7 +18,6 @@
         const barGraph = document.getElementById('commonSoftware').getContext('2d');
         
         let use = <%- JSON.stringify(users) %>;
-        console.log(use);
         let names = [];
         let count = <%- JSON.stringify(counted) %>;
         let counter = [];
@@ -87,7 +86,6 @@
                 borderWidth: 1
             }]
         }
-        console.log(countPerSoftware);
         const commonSoft = new Chart(barGraph, {
             type: 'bar',
             data: commonSoftData,
@@ -215,9 +213,6 @@
         problemTypes.forEach(function(type){
             totalCountsTypes.push(totalCounts[type]);
         })
-
-        console.log(totalCountsTypes);
-        console.log(problemTypes);
 
         let horiData = {
             labels: problemTypes,

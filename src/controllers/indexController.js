@@ -65,7 +65,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             ['handler_id'],
             [null],
             ['']);
-        console.log(resultsPerPage, page);
+
         let tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, filterColumns,
             filterValues, operators, sortColumn, sortType, search, problemType);
         if (type === "Unassigned") {
@@ -302,8 +302,6 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         })
 
 
-        // console.log(listOfOses);
-
         statuses.forEach(function (status) {
             let statusCount = 0;
             listOfTickets.forEach(function (ticket) {
@@ -329,7 +327,7 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
         totalCounts["hardware"] = totalHardware;
         totalCounts["software"] = totalSoftware;
         totalCounts["os"] = totalOs;
-        console.log(listOfTickets);
+
         res.render('./index/analyst', {
             username: req.user.username,
             usertype: user.type,

@@ -1,7 +1,5 @@
 // Send a POST request to the server with the problem data
 function submitProblem() {
-    console.log('clicked');
-
     let title = document.getElementById("title").value;
     let notes = document.getElementById("notes").value;
     let isHardware = document.getElementById("hardware").checked;
@@ -40,8 +38,6 @@ function submitProblem() {
         error.innerHTML = "Please provide a serial related to your problem" 
     }
     else {
-        console.log(serials);
-
         let data = {
             title: title,
             notes: notes,

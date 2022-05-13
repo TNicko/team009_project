@@ -176,9 +176,6 @@ class Ticket {
         queryString += `\n LIMIT ?, ?`;
         queryParams.push(skip, limit);
 
-        console.log(queryString);
-        console.log(queryParams);
-
         let tickets = await conn.query(queryString, queryParams);
         tickets = await Promise.all(
             tickets.map(ticket => this.#augmentTicket(conn, ticket))
