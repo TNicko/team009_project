@@ -605,8 +605,12 @@ router.get('/solution_history', checkAuthenticated(['user']), async (req, res) =
     if (search === undefined)
         search = null;
 
+    let problemType = req.query.problemType;
+    if (problemType === undefined)
+        problemType = null;
+
     let user = await User.getById(conn, req.user.id);
-    let solutions = await Solution.getAllSuccessSolution(conn, search);
+    let solutions = await Solution.getAllSuccessSolution(conn, search, problemType);
     res.render('./solution_history', {
         username: req.user.username,
         usertype: user.type,

@@ -10,7 +10,7 @@ class Solution {
     }
 
     // This is a function to get all the solutions available where those solutions were successful
-    static async getAllSuccessSolution(conn, search) {
+    static async getAllSuccessSolution(conn, search = null, problemType = null) {
         let queryString =
             `SELECT solution.solution_id AS id,
                     solution.datetime    AS dateTime,
@@ -23,11 +23,17 @@ class Solution {
                   LEFT JOIN solution ON solution.ticket_id = ticket.ticket_id
              WHERE solution.solution_status = 'successful'
                AND ticket.description LIKE ?
+               AND expertise.name LIKE ?
              ORDER BY dateTime DESC`;
 
-        let param = search === null ? ['%'] : ['%' + search + '%'];
-        let results = await conn.query(queryString, param);
+        let queryParams = [];
+        if (search === null) queryParams.push('%');
+        else queryParams.push(`%${search}%`);
+        if (problemType === null) queryParams.push('%');
+        else queryParams.push(`%${problemType}%`);
 
+
+        let results = await conn.query(queryString, queryParams);
         return results;
     }
 
