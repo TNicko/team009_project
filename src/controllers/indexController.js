@@ -428,10 +428,9 @@ router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 
     let currentUser = await User.getById(conn, req.user.id);
 
     // Redirect user to home page if ticket is not theirs
-    // TODO: Uncomment this when testing is finished
-    // if (usertype === "user")
-    //     if (user.id !== req.user.id)
-    //         res.redirect('/');
+    if (currentUser.type === "user")
+        if (user.id !== req.user.id)
+            res.redirect('/');
 
     let logs = await TicketLog.getAllForTicketId(conn, ticketId);
     let solutions = await Solution.getAllForTicketId(conn, ticketId);
