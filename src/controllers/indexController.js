@@ -192,7 +192,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             spec_tickets = o_tickets;
         }
 
-        let open_tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage, [handlerId], [null], [''], null, null, search);
+        let openPage = req.query.openPage === undefined ? 1 : parseInt(req.query.openPage);
+        let open_tickets = await Ticket.getAll(conn, pageStart(openPage), resultsPerPage, [handlerId], [null], [''], null, null, search);
         open_tickets = await augmentTicketUpdate(open_tickets);
 
         res.render('./index/specialist', {
@@ -207,7 +208,8 @@ router.get('/', checkAuthenticated(['user', 'admin', 'specialist', 'external spe
             open_total: open_total,
             closed_total: closed_total,
             overdue_ticket_total: o_tickets.length,
-            page: page
+            page: page,
+            openPage: openPage,
         });
     }
     if (user.type === 'external specialist') {

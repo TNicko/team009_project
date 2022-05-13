@@ -12,7 +12,7 @@
                 </div>
                 <div class="panel_title">
                     <p>Total</p>
-                    <p><%= ticket_total%></p>
+                    <p><%= ticket_total %></p>
                 </div>
 
             </div>
@@ -84,7 +84,33 @@
                             <p class="table_title_info">Total <%= open_total %> </p>
                         </div>
                         <div class="table_options_container">
-                            <%- include('../partials/pagination.ejs') %>
+                            <!-- Pagination section to move through different pages in view -->
+
+                            <div class="table_scroll_section">
+                                <div class="table_scroll_container">
+
+                                    <button class="btn"
+                                    <% if (openPage === 1) { %> disabled
+                                            <% } %>
+                                            onclick="prevPage(true)"
+                                    >
+                                        <span class="table-icon">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </span>
+                                    </button>
+
+                                    <span class="page-info">
+                                        <span class="page-num">Page <%= openPage %></span>
+                                    </span>
+
+                                    <button class="btn" onclick="nextPage(true)">
+                                        <span class="table-icon">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </span>
+                                    </button>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <table class="ticket_table">
@@ -113,7 +139,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <%= ticket.updateDate %> 
+                                    <%= ticket.updateDate %>
                                 </td>
 
                             </tr>
