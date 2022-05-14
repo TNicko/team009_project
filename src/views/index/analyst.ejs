@@ -4,401 +4,95 @@
     <%- include('../partials/navbar.ejs') %>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--CHART JS-->	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 <script>
-    function getRandomRGB(){
-        var num = Math.round(0xffffff * Math.random());
-        var r = num >> 16;
-        var g = num >> 8 & 255;
-        var b = num & 255;
-        return 'rgb(' + r + ', ' + g + ', ' + b + ')';
-    }
+    const user_data = <%- JSON.stringify(users) %>;
+    const count = <%- JSON.stringify(counted) %>;
 
-        document.addEventListener('DOMContentLoaded', function(){
-        
+    const softwareList = <%- JSON.stringify(pureSoftwareList) %>;
+    const countPerSoftware = <%- JSON.stringify(softwareCount) %>;
 
-        const barGraph = document.getElementById('commonSoftware').getContext('2d');
-        
-        let use = <%- JSON.stringify(users) %>;
-        let names = [];
-        let count = <%- JSON.stringify(counted) %>;
-        let counter = [];
-        let backgroundColor = [];
-        use.forEach(function(user){
-            names.push(user.name);
-            counter.push(count[user.name]);
-            var color = getRandomRGB();
-            while(backgroundColor.find(element => element > color))
-            {
-                color = getRandomRGB();
-            }
+    const hardwareList = <%- JSON.stringify(hardwareList) %>;
+    const countPerHardware = <%- JSON.stringify(hardwareCount) %>;
 
-            backgroundColor.push(color);
-        })
+    const osList = <%- JSON.stringify(osList) %>;
+    const countPerOs = <%- JSON.stringify(osCount) %>;
 
-        
-        
-        let assignedTicketsPerSpecialist = {
-            labels: names,
-            datasets: [{
-                label: 'Number of assigned tickets per specialist',
-                data: counter,
-                backgroundColor: backgroundColor,
-                hoverOffset: 4,
-            }]
-        }
-        
+    const statusList = <%- JSON.stringify(statuses) %>;
+    const countPerStatus = <%- JSON.stringify(statusCount) %>;
 
-        let softwareList = <%- JSON.stringify(pureSoftwareList) %>;
-        let countPerSoftware = <%- JSON.stringify(softwareCount) %>;
-        let softwareCount = [];
-        let softwareBackground = [];
-        softwareList.forEach(function(software){
-            softwareCount.push(countPerSoftware[software])
-            var color = getRandomRGB();
-            while(softwareBackground.find(element => element > color))
-            {
-                color = getRandomRGB();
-            }
-
-            softwareBackground.push(color);
-        })
-        commonSoftData = {
-            labels: softwareList,
-            datasets: [{
-                label: 'Commonly Reported Software',
-                data: softwareCount,
-                backgroundColor: softwareBackground,
-                borderWidth: 1
-            }]
-        }
-        const commonSoft = new Chart(barGraph, {
-            type: 'bar',
-            data: commonSoftData,
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks:{
-                            stepSize: 1
-                        }
-                    }
-                    
-                },
-                plugins:{
-                    legend:{
-                        display: false,
-                        position: 'top',
-                        labels:{
-                            font:{
-                                size: 20
-                            }
-                        }
-                    }
-                }
-            }
-        })
-
-
-        let osList = <%- JSON.stringify(osList) %>;
-        let countPerOs = <%- JSON.stringify(osCount) %>;
-        let osCount = [];
-        let osBackground = [];
-        osList.forEach(function(os){
-            osCount.push(countPerOs[os]);
-            var color = getRandomRGB();
-            while(osBackground.find(element => element > color))
-            {
-                color = getRandomRGB();
-            }
-
-            osBackground.push(color);
-        })
-
-        reportOs = {
-            labels: osList,
-            datasets: [{
-                label: 'Reported Os',
-                data: osCount,
-                backgroundColor: osBackground,
-                borderWidth: 1
-            }]
-        }
-
-        const barOs = document.getElementById('reportOsBar').getContext('2d');
-        const commonReportedOs = new Chart(barOs, {
-            type: 'bar',
-            data: reportOs,
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks:{
-                            stepSize: 1
-                        }
-                    }
-                    
-                },
-                plugins:{
-                    legend:{
-                        display: false,
-                        position: 'top',
-                        labels:{
-                            font:{
-                                size: 15
-                            }
-                        }
-                    }
-                }
-            }
-        })
-
-        let statusList = <%- JSON.stringify(statuses) %>;
-        let countPerStatus = <%- JSON.stringify(statusCount) %>;
-        let statusCount = [];
-        let statusBackground = ["rgb(115, 115, 115)", "rgb(204, 153, 255)", "rgb(0, 230, 0)", "rgb(230, 0, 0)"];
-        
-        statusList.forEach(function(status){
-            statusCount.push(countPerStatus[status]);
-        })
-
-        statusData = {
-            labels: statusList,
-            datasets: [{
-                label: 'status',
-                data: statusCount,
-                backgroundColor: statusBackground,
-                hoverOffset: 4
-            }]
-        }
-        const statusDo = document.getElementById('statusDough').getContext('2d');
-        const doghnutStatus = new Chart(statusDo,{
-            type: 'doughnut',
-            data: statusData,
-        })
-
-        let problemTypes = <%- JSON.stringify(problemTypes) %>;
-        let totalCounts = <%- JSON.stringify(totalCounts) %>;
-        let totalCountsTypes = [];
-        problemTypes.forEach(function(type){
-            totalCountsTypes.push(totalCounts[type]);
-        })
-
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
-        let horiData = {
-            labels: problemTypes,
-            datasets: [
-                {
-
-                    data: totalCountsTypes,
-                    borderColor: "rgb(255, 102, 102)",
-                    backgroundColor: "rgb(255, 128, 128)",
-
-                }
-            ]
-        }
-
-        const horiBarProblem = document.getElementById('horiBarType').getContext('2d');
-
-        const horiBarTypeG = new Chart(horiBarProblem,{
-            type: 'bar',
-            data: horiData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                indexAxis: 'y',
-                elements: {
-                    bar: {
-                        borderWidth: 2,
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                        position: 'right',
-                    },
-                    title: {
-                        display: false,
-                        text: 'Problem Per Problem Type'
-                    }
-                }
-            }
-        })
-        //closing date graph
-        let ClosingDateData = {
-            labels: problemTypes,
-            datasets: [
-                {
-
-                    data: totalCountsTypes,
-                    borderColor: "rgb(255, 102, 102)",
-                    backgroundColor: "rgb(255, 128, 128)",
-
-                }
-            ]
-        }
-
-        const ClosingDate = document.getElementById('ClosingDate').getContext('2d');
-
-        const ClosingDateGraph = new Chart(ClosingDate,{
-            type: 'line',
-            data: ClosingDateData,
-            options: {
-                responsive: true,
-                indexAxis: 'y',
-                elements: {
-                    bar: {
-                        borderWidth: 2,
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                        position: 'right',
-                    },
-                    title: {
-                        display: false,
-                        text: 'Problem Per Problem Type'
-                    }
-                }
-            }
-        })
-
-
-        
-    })
+    const problemTypes = <%- JSON.stringify(problemTypes) %>;
+    const totalCounts = <%- JSON.stringify(totalCounts) %>;
 </script>
 
-<div class="container-fluid">
-        <div class="row">
-            <div class="col-1"></div>
-            <div class="col-10 pt-2 mt-5 bg-white">  
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12"> 
-                           <h1>Statistics</h1> 
-                        </div>
-                    </div>
-                    <div class="row" >
-                        <div class="col-xxl-6 col-12 my-3" style="overflow-y:scroll;height:320px"> 
-                            <h5 class="text-center">Specialist Problem Allocation</h5>
-                            <% console.log(counted) %>
-                            <table class="table-primary ticket-body ticket_table" style="height:100%" >
-                                <thead class="table_headers">
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Number of tickets</th>
-                                    <th scope="col">Internal/External</th>                                    
-                                </tr>
-                                </thead>
-            
-                                <tbody class="ticket-body op-ticket-body">
-                                <% counted.forEach(function(handler){ %>
-                                    <tr >
-                                       
-                                        <th scope="row"><%= handler.id %></th>
-                                        <td><%= handler.name %></td>
-                                        
-                                        <td> <%= handler.count %></td>
-                                        <td> <%= handler.external == false? 'internal' : 'external' %></td>
-                                    </tr>
-                                <% }); %>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
-                            <div class="graphs">
-                                <p class="graph_title fs-5 fw-bold py-1 my-0">Reported OS</p>
-                                <canvas id="reportOsBar" class="barChart"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
-                            <div class="graphs">
-                                <p class="graph_title fs-5 fw-bold py-1 my-0">Closing Date</p>
-                                <canvas id="ClosingDate" class="barChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
-                            <div class="commonSoftBar graphs">
-                                <p class="graph_title fs-5 fw-bold py-1 my-0">Commonly Reported Software</p>
-                                <canvas id="commonSoftware" class="barChart"></canvas>
-                            </div>
-                        </div>
-                
-                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
-                            <div class="status graphs">
-                                <p class="graph_title fs-5 fw-bold py-1 my-0">Status</p>
-                                <canvas id="statusDough" class="graphCanvas"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
-                            <div class="graphs">
-                                <p class="graph_title fs-5 fw-bold py-1 my-0">Problem Per Problem Type</p>
-                                <canvas class="horiBar" id="horiBarType"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-6 my-3" style="height:320px"> 
-                            <div class="NoAssinedTickets graphs">
-                                <p class="graph_title fs-5 fw-bold py-1 my-0">Commonly Reported Hardware</p>
-                                <canvas class="horiBar" id="horiBarType"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="col-1"></div>
+<div class="analytics-container">
+    <div class="stats_title_container">
+        <div class="stats_title"> 
+           <h1>Statistics</h1> 
         </div>
-</div>  
-<!--
-<div class="table_section" style="height: 100%; overflow: hidden;">
-          
-            <div class="grid">
-                <div class="NoAssinedTickets graphs">
-                    <div><h5 class="graph_title">Assigned Tickets Per Specialist</h5></div>
-                    <canvas id="firstGraph" class="graphCanvas"></canvas>
-                </div>
-                
-                <div class="commonSoftBar graphs">
-                    <div><h5 class="graph_title">Commonly Reported Software</h5></div>
-                    <canvas id="commonSoftware" class="barChart"></canvas>
-                </div>
-                <div class="reportedOs graphs">
-                    <div><h5 class="graph_title">Reported OS</h5></div>
-                    <canvas id="reportOsBar" class="barChart"></canvas>
-                </div>
-                <div class="status graphs">
-                    <div>
-                        <h5 class="graph_title">Status</h5>
-                    </div>
-                    <canvas id="statusDough" class="graphCanvas"></canvas>
-                </div>
-                <div class="problemPerType graphs">
-                    <div><h5 class="graph_title">Problem Per Problem Type</h5></div>
-                    <canvas class="horiBar" id="horiBarType"></canvas>
-                </div>
+    </div>
+
+    <div class="stats_container">
+        <div class="stats_table"> 
+            <h5 class="text-center">Specialist Problem Allocation</h5>                 
+            <table class="table-primary ticket-body ticket_table">
+                <thead class="table_headers">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Number of tickets</th>
+                    <th scope="col">Internal/External</th>                                    
+                </tr>
+                </thead>
+
+                <tbody class="ticket-body op-ticket-body">
+                <% counted.forEach(function(handler){ %>
+                    <tr >
+                       
+                        <th scope="row"><%= handler.id %></th>
+                        <td><%= handler.name %></td>
+                        
+                        <td> <%= handler.count %></td>
+                        <td> <%= handler.external == false? 'internal' : 'external' %></td>
+                    </tr>
+                <% }); %>
+                </tbody>
+            </table>
+        </div>
+        <div class="tile"> 
+            <p class="graph_title">Problem Per Problem Type</p>
+            <div class="graphs">
+                <canvas id="problemType"></canvas>
             </div>
         </div>
-        -->
+        <div class="tile"> 
+            <p class="graph_title">Commonly Reported Hardware</p>
+            <div class="graphs">
+                <canvas id="commonHardware"></canvas>
+            </div>
+        </div>
+        <div class="tile"> 
+            <p class="graph_title">Status</p>
+            <div class="graphs">
+                <canvas id="statusDough"></canvas>
+            </div>
+        </div>
+        <div class="tile"> 
+            <p class="graph_title">Reported OS</p>
+            <div class="graphs">
+                <canvas id="reportOsBar"></canvas>
+            </div>
+        </div>
+        <div class="tile"> 
+            <p class="graph_title">Commonly Reported Software</p>
+            <div class="graphs">
+                <canvas id="commonSoftware"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="scripts/analyst.js" crossorigin="anonymous"></script>
