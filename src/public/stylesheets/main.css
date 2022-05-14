@@ -37,8 +37,8 @@ button {
 }
 
 .nav {
-    background: var(--navColor);
-    background-image: linear-gradient(to right, var(--navColor2), var(--navColor));
+    /* background: var(--navColor); */
+    background: linear-gradient(to right, var(--navColor2), var(--navColor));
     color: var(--white);
     height: 60px;
     display: flex;
