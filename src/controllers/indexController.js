@@ -647,7 +647,7 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
     let [sortColumn, sortType] = [statusOrderQuery, ""];
     if (sortBy !== null)
         [sortColumn, sortType] = parseSort(sortBy);
-console.log(search);
+
     let tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage,
         filterColumns, filterValues, operators, sortColumn, sortType, search, problemType);
     tickets = await augmentTicketUpdate(tickets);
