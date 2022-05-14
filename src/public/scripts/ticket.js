@@ -96,5 +96,5 @@ function saveTicketInfo(btn, id) {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
-    }).then(() => console.log("done"));
+    }).then(() => location.reload());
 }
