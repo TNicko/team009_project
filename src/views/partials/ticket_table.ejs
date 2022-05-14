@@ -3,21 +3,76 @@
 <div class="table_section">
     <div class="table_top">
         <div class="table_title_container">
-            <% if (url == 'admin' || url == 'all_tickets') { %>
+            <% if (url === 'admin' || url === 'all_tickets') { %>
                 <h1 class="table_title">Tickets</h1>
             <% } else { %>
                 <h1 class="table_title">Your Tickets</h1>
             <% } %>
-            <p class="table_title_info">Total <%= ticket_table_total %></p>
+            <p class="table_title_info">Total <%= tickets.length %></p>
         </div>
         <div class="table_options_container">
             <!-- Searchbar -->
             <div class="search_item">
                 <div class="search_container">
-                    <form>
-                        <button class="search_btn"><i class="fas fa-sliders-h"></i></button>
-                        <input type="text" class="search_input" placeholder="Search Ticket">
-                        <button class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <form action="?" method="GET" class="align-items-center">
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#filterModal">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+
+                        <div class="modal fade" id="filterModal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            Search settings
+                                        </h5>
+                                        <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="status">Status</label>
+                                            <select class="form-select" name="status">
+                                                <option value="">Status</option>
+                                                <option value="active">Active</option>
+                                                <option value="submitted">Submitted</option>
+                                                <option value="unsuccessful">Unsuccessful</option>
+                                                <option value="closed">Closed</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="problemType">Problem type</label>
+                                            <select class="form-select" name="problemType">
+                                                <option value="">Problem type</option>
+                                                <option value="hardware">Hardware</option>
+                                                <option value="software">Software</option>
+                                                <option value="network">Network</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="sortBy">Sort by</label>
+                                            <select class="form-select" name="sortBy">
+                                                <option value="id-asc">ID: Ascending</option>
+                                                <option value="id-desc">ID: Descending</option>
+                                                <option value="date-desc" selected>Date: Newest first</option>
+                                                <option value="date-asc">Date: Oldest first</option>
+                                                <option value="title-asc">Title: A-Z</option>
+                                                <option value="title-desc">Title: Z-A</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="text" class="search_input" name="search" placeholder="Search">
+                        <button type="submit" class="search_btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
                 <!-- Search Filters -->
@@ -53,7 +108,7 @@
                         <div class="status-type <%= ticket.status %>"><%= ticket.status %></div>
                     </td>
                 <% } else { %>
-                    <td class="status-col"> 
+                    <td class="status-col">
                         <div class="status-type <%= ticket.status %>"><%= ticket.status %></div>
                     </td>
                 <% } %>
