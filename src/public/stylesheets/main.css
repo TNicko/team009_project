@@ -770,26 +770,53 @@ input.info-tag {
     overflow: scroll;
 }
 
-.graphs {
-    border-radius: 25px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    
-
+.analytics-container {
+    background-color: var(--white);
+    margin: 50px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.graphCanvas {
-    width: 70% !important;
-    height: 70% !important;
+.stats_container {
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
 }
 
-canvas {
-    margin: 0 auto;
+.stats-container > .tile {
+    display: flex;
+    flex-direction: column;
 }
 
-.NoAssinedTickets {
-    grid-row-start: 1;
-    grid-row-end: 2;
-    align-content: center;
+.stats_table {
+    box-shadow: 0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 6px var(--tableHeaderShade);
+    border-radius: 5px;
+    overflow: scroll;
+    height: 300px;
+    width: 800px;
+    padding: 10px;
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 1px var(--tableHeaderShade),
+    0 0 6px var(--tableHeaderShade);
+    border-radius: 5px;
+    width: 400px;
+    height: 300px;
 }
 
 .graph_title {
@@ -797,43 +824,7 @@ canvas {
     font-family: 'Arial';
     font-weight: bold;
     color: #666;
-    padding-top: 20px;
-}
-
-.barChart {
-    width: 90% !important;
-    height: 80% !important;
-}
-
-.commonSoftBar {
-    grid-column-start: 2;
-    grid-column-end: 4;
-}
-
-.status {
-    grid-column-start: 4;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 1;
-}
-
-.reportedOs {
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 2;
-}
-
-.problemPerType {
-    grid-column-start: 3;
-    grid-column-end: 3;
-    align-content: center;
-}
-
-.horiBar {
-    margin: 0 auto;
-    width: 90% !important;
-    height: 80% !important;
+    padding-top: 1.2rem;
 }
 
 @media only screen and (max-width: 1000px) and (min-width: 751px) {
@@ -929,6 +920,14 @@ canvas {
 .closed {
     background-color: var(--closedColor);
 }
+
+.stats_title_container {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+}
+
 
 
 
