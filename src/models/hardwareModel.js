@@ -12,15 +12,14 @@ class Hardware {
         let queryParams = [];
 
         if (search !== null) {
-            queryString += `\n WHERE name LIKE '%?%' \n OR hardware_serial LIKE '%?%'`;
-            queryParams.push(search, search)
+            queryString += ` WHERE name LIKE '%${search}%' OR hardware_serial LIKE '%${search}%'`;
         }
 
         if (sortColumn !== null) {
-            queryString += `\n ORDER BY ${sortColumn} ${sortType}`;
+            queryString += ` ORDER BY ${sortColumn} ${sortType}`;
         }
 
-        queryString += `\n LIMIT ?, ?`;
+        queryString += ` LIMIT ?, ?`;
         queryParams.push(skip, limit);
 
         let hardwares = await conn.query(queryString, queryParams);

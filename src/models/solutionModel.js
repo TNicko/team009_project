@@ -10,17 +10,45 @@ class Solution {
     }
 
     // This is a function to get all the solutions available where those solutions were successful
-    static async getAllSuccessSolution(conn) {
+    static async getAllSuccessSolution(conn, search = null, problemType = null, sortDateBy = null, skip = 0, limit = 10) {
         let queryString =
-            "SELECT solution.solution_id AS id, solution.datetime AS dateTime, solution.solution as solution, ticket.description as description, expertise.name FROM ticket_expertise INNER JOIN expertise ON ticket_expertise.expertise_id = expertise.expertise_id LEFT JOIN ticket ON ticket_expertise.ticket_id = ticket.ticket_id LEFT JOIN solution ON solution.ticket_id = ticket.ticket_id WHERE solution.solution_status = 'successful' ORDER BY datetime DESC";
-        let results = await conn.query(queryString);
-       
+            `SELECT solution.solution_id AS id,
+                    solution.datetime    AS dateTime,
+                    solution.solution    AS solution,
+                    ticket.description   AS description,
+                    expertise.name
+             FROM ticket_expertise
+                  INNER JOIN expertise ON ticket_expertise.expertise_id = expertise.expertise_id
+                  LEFT JOIN ticket ON ticket_expertise.ticket_id = ticket.ticket_id
+                  LEFT JOIN solution ON solution.ticket_id = ticket.ticket_id
+             WHERE solution.solution_status = 'successful'
+               AND ticket.description LIKE ?
+               AND expertise.name LIKE ?
+             ORDER BY dateTime ${sortDateBy}
+             LIMIT ${skip}, ${limit}`;
+
+        let queryParams = [];
+        if (search === null) queryParams.push('%');
+        else queryParams.push(`%${search}%`);
+        if (problemType === null) queryParams.push('%');
+        else queryParams.push(`%${problemType}%`);
+
+
+        let results = await conn.query(queryString, queryParams);
         return results;
     }
+
     // Gets the solution for a certain ticket
     static async getAllForTicketId(conn, id) {
         let queryString =
-            "SELECT solution_id AS id, datetime AS dateTime, solution_status AS status, handler_id AS handlerId, solution FROM solution WHERE ticket_id = ? ORDER BY datetime DESC";
+            `SELECT solution_id     AS id,
+                    datetime        AS dateTime,
+                    solution_status AS status,
+                    handler_id      AS handlerid,
+                    solution
+             FROM solution
+             WHERE ticket_id = ?
+             ORDER BY dateTime DESC`;
         let queryParams = [id];
 
         let results = await conn.query(queryString, queryParams);
@@ -57,15 +85,17 @@ class Solution {
 
         const addToQuery = (param, name) => {
             if (param != null) {
-                queryString += `,${name} = ? `;
+                queryString += `,${name} =
+            ? `;
                 queryParams.push(param);
             }
         }
 
         for (const [name, param] of Object.entries(allParams)) {
             if (param != null && !queryParams.length) {
-                queryString += `UPDATE solution
-                                SET ${name} = ?`;
+                queryString += `UPDATE
+                                    solution
+                                SET ${name} = ? `;
                 queryParams.push(param);
             } else {
                 addToQuery(param, name);

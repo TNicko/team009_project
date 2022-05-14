@@ -13,6 +13,7 @@ class Ticket {
         this.oses = oses;
         this.createdAt = createdAt;
     }
+
     // Function to get equipment related to a ticket specified by ticket id
     static async #getEquipment(conn, equipmentType, id) {
         let query = await conn.query(
@@ -28,6 +29,7 @@ class Ticket {
             return {"serial": equipment.serial, "name": equipment.name}
         });
     }
+
     // Function that adds extra information to a Ticket object
     static async #augmentTicket(conn, ticket) {
         let id = ticket.ticketId;
@@ -47,10 +49,17 @@ class Ticket {
 
         return ticket;
     }
+
     // Function that get a ticket using its ID
     static async getById(conn, id) {
         let ticketResult = await conn.query(
-            `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId, created_at AS createdAt
+            `SELECT ticket_id  AS ticketId,
+                    user_id    AS userId,
+                    status,
+                    description,
+                    notes,
+                    handler_id AS handlerId,
+                    created_at AS createdAt
              FROM ticket
              WHERE ticket_id = ?`,
             [id]
@@ -73,15 +82,17 @@ class Ticket {
             ticket.createdAt
         );
     }
+
     // Get the total amount of tickets that exist in the system
     /**
-    * Gets count of tickets with filter options
-    * @param {list} filterColumns table columns to filter
-    * @param {list} filterValues values selected in columns to filter
-    * @param {list} filterOperator query operators to seperate each filter option (e.g. AND, OR)
-    */
+     * Gets count of tickets with filter options
+     * @param {list} filterColumns table columns to filter
+     * @param {list} filterValues values selected in columns to filter
+     * @param {list} filterOperator query operators to seperate each filter option (e.g. AND, OR)
+     */
     static async getCount(conn, filterColumns = [], filterValues = [], filterOperator = []) {
-        let queryString = `SELECT COUNT(ticket_id) AS count FROM ticket`
+        let queryString = `SELECT COUNT(ticket_id) AS count
+                           FROM ticket`
         let queryParams = [];
 
         if (filterColumns.length != 0) {
@@ -99,23 +110,33 @@ class Ticket {
         let tickets = await conn.query(queryString, queryParams);
         return tickets[0].count;
     }
+
     // Get all tickets in the system
     static async getAll(conn,
                         skip, limit,
                         filterColumns = [], filterValues = [], filterOperator = [],
-                        sortColumn = null, sortType = null, search = null) {
+                        sortColumn = null, sortType = null, search = null, expertise = "%") {
         let queryString =
-            `SELECT ticket_id AS ticketId, user_id AS userId, status, description, notes, handler_id AS handlerId, created_at AS createdAt
-             FROM ticket`;
-        let queryParams = [];
+            `SELECT t.ticket_id  AS ticketId,
+                    t.user_id    AS userId,
+                    t.status,
+                    t.description,
+                    t.notes,
+                    t.handler_id AS handlerId,
+                    t.created_at AS createdAt
+             FROM ticket t
+                      INNER JOIN ticket_expertise te ON te.ticket_id = t.ticket_id
+                      INNER JOIN expertise e ON e.expertise_id = te.expertise_id
+             WHERE e.name LIKE ?
+            `;
+        let queryParams = [expertise];
 
-        if (filterColumns.length != 0) {
-            queryString += ` WHERE`;
+        if (filterColumns.length !== 0) {
+            queryString += ` AND `;
             filterColumns.forEach((filter, i) => {
-                if (filterValues[i] === 'isNotNull'){
+                if (filterValues[i] === 'isNotNull') {
                     queryString += ` ${filter} IS NOT NULL ${filterOperator[i]}`;
-                }
-                else if (filterValues[i] !== null) {
+                } else if (filterValues[i] !== null) {
                     queryString += ` ${filter} = ? ${filterOperator[i]}`;
                     queryParams.push(filterValues[i]);
                 } else {
@@ -123,8 +144,10 @@ class Ticket {
                 }
             });
 
-            if(search !== null){
-                queryString += `AND (ticket_id LIKE '%${search}%' or user_id LIKE '%${search}%' or status LIKE '%${search}%' or 
+            if (search !== null) {
+                if (!queryString.endsWith("AND "))
+                    queryString += ` AND `;
+                queryString += ` (t.ticket_id LIKE '%${search}%' or t.user_id LIKE '%${search}%' or t.status LIKE '%${search}%' or 
                 description LIKE '%${search}%' or notes LIKE '%${search}%' or handler_id LIKE '%${search}%' or created_at LIKE '%${search}%')`;
             }
         }
@@ -174,6 +197,7 @@ class Ticket {
             )
         );
     }
+
     // Function that allows for creation of a ticket
     static async create(conn, userId, status, description, notes, handlerId, createdAt) {
         // ticketId is not going to be used for the creation because it is auto incrementing.
@@ -188,6 +212,7 @@ class Ticket {
         let results = await conn.query(queryString, queryParams);
         return results.insertId;
     }
+
     // Function to update a ticket specified by its ID
     static async updateById(conn,
                             ticketId,
