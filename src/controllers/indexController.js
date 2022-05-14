@@ -406,17 +406,18 @@ router.get('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async 
         page: page
     });
 })
-router.post('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+// Update table endpoints
+router.put('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let body = req.body;
     await Hardware.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)
 });
-router.post('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+router.put('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let body = req.body;
     await Software.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)
 });
-router.post('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+router.put('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
     let body = req.body;
     await OS.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)

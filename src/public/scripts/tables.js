@@ -29,7 +29,7 @@ function saveRow(btn, serial, endpoint) {
     }
 
     fetch(endpoint, {
-        method: "POST",
+        method: "PUT",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
     }).then(res => {
