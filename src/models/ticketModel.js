@@ -143,13 +143,13 @@ class Ticket {
                     queryString += ` ${filter} IS NULL ${filterOperator[i]}`;
                 }
             });
+        }
 
-            if (search !== null) {
-                if (!queryString.endsWith("AND "))
-                    queryString += ` AND `;
-                queryString += ` (t.ticket_id LIKE '%${search}%' or t.user_id LIKE '%${search}%' or t.status LIKE '%${search}%' or 
+        if (search !== null) {
+            if (!queryString.endsWith("AND "))
+                queryString += ` AND `;
+            queryString += ` (t.ticket_id LIKE '%${search}%' or t.user_id LIKE '%${search}%' or t.status LIKE '%${search}%' or 
                 description LIKE '%${search}%' or notes LIKE '%${search}%' or handler_id LIKE '%${search}%' or created_at LIKE '%${search}%')`;
-            }
         }
 
         // if (filterColumn !== null) {
@@ -175,7 +175,8 @@ class Ticket {
 
         queryString += `\n LIMIT ?, ?`;
         queryParams.push(skip, limit);
-
+        console.log(queryString);
+        console.log(queryParams);
         let tickets = await conn.query(queryString, queryParams);
         tickets = await Promise.all(
             tickets.map(ticket => this.#augmentTicket(conn, ticket))

@@ -626,18 +626,38 @@ router.get('/all_tickets', checkAuthenticated(['specialist']), async (req, res) 
     let user = await User.getById(conn, req.user.id);
     let ticket_table_total = await Ticket.getCount(conn);
 
-    let search = req.query.search;
-    if (search === undefined)
-        search = null;
+    let page = req.query.page === undefined ? 1 : parseInt(req.query.page);
+    let search = req.query.search === undefined ? null : req.query.search;
+    let problemType = (req.query.problemType === undefined) || (req.query.problemType === "") ? "%" : req.query.problemType;
+    let status = req.query.status === undefined ? null : req.query.status;
+    let sortBy = req.query.sortBy === undefined ? null : req.query.sortBy;
 
-    let tickets = await Ticket.getAll(conn, 0, 50, [null], [null], [''], statusOrderQuery, '', search);
+    let filterColumns = [];
+    let filterValues = [];
+    let operators = [];
+
+    if (status !== null && status !== "") {
+        operators.push(" AND ");
+        filterColumns.push("status");
+        filterValues.push(status);
+    }
+
+    operators.push("");
+
+    let [sortColumn, sortType] = [statusOrderQuery, ""];
+    if (sortBy !== null)
+        [sortColumn, sortType] = parseSort(sortBy);
+console.log(search);
+    let tickets = await Ticket.getAll(conn, pageStart(page), resultsPerPage,
+        filterColumns, filterValues, operators, sortColumn, sortType, search, problemType);
     tickets = await augmentTicketUpdate(tickets);
     res.render('./all_tickets', {
         url: 'all_tickets',
         username: req.user.username,
         usertype: user.type,
         tickets: tickets,
-        ticket_table_total: ticket_table_total
+        ticket_table_total: ticket_table_total,
+        page: page
     });
 })
 router.get('/users', checkAuthenticated(['admin']), async (req, res) => {
