@@ -14,8 +14,8 @@
 
             <div class="table_options_container">
                 <div class="table_options">
-                    <button class="add-new-btn">
-                        Add New
+                    <button class="btn btn-primary" onclick="createRow('/hardware')">
+                        Add new
                     </button>
                 </div>
                 <!-- Searchbar -->
@@ -37,7 +37,7 @@
 
         </div>
         <div class="p-3">
-            <table class="table">
+            <table class="table" id="table">
                 <thead>
                 <tr>
                     <th>Serial Number</th>
@@ -45,7 +45,7 @@
                     <th>Edit</th>
                 </tr>
                 </thead>
-                <tbody class="align-middle">
+                <tbody class="align-middle" id="tableBody">
                 <% hardwares.forEach(function(hardware){ %>
                     <tr>
                         <td>

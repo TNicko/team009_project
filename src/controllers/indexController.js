@@ -422,6 +422,24 @@ router.put('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async 
     await OS.update(conn, body.oldSerial, body.newSerial, body.newName);
     res.sendStatus(200)
 });
+// Add new to table endpoints
+router.post('/hardware', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+    let body = req.body;
+    await Hardware.add(conn, body.serial, body.name);
+    res.sendStatus(200)
+});
+// Add new to table endpoints
+router.post('/software', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+    let body = req.body;
+    await Software.add(conn, body.serial, body.name);
+    res.sendStatus(200)
+});
+// Add new to table endpoints
+router.post('/os', checkAuthenticated(['specialist', 'admin', 'analyst']), async (req, res) => {
+    let body = req.body;
+    await OS.add(conn, body.serial, body.name);
+    res.sendStatus(200)
+});
 
 // Other
 router.get('/ticket/:id', checkAuthenticated(['specialist', 'admin', 'analyst', 'external specialist', 'user']), async (req, res) => {
