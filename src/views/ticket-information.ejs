@@ -23,7 +23,7 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
             <% } %>
         </div>
 
-        <% if (user.type !== 'external specialist') { %>
+        <% if (usertype !== 'external specialist') { %>
             <div class="info-section">
                 <h3>Employee</h3>
                 <table class="table table-light">
