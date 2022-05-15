@@ -180,7 +180,13 @@ class Ticket {
             tickets.map(ticket => this.#augmentTicket(conn, ticket))
         );
 
-        return tickets.map(
+        let deduplicated = tickets.reduce((acc, ticket) => {
+            if (!acc.some(t => t.ticketId === ticket.ticketId))
+                acc.push(ticket);
+            return acc;
+        }, []);
+
+        return deduplicated.map(
             ticket => new Ticket(
                 ticket.ticketId,
                 ticket.userId,
