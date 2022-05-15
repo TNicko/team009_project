@@ -311,32 +311,32 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
                     <button type="button" onclick="sendFeedback(<%= ticket.ticketId %>)" class="btn btn-primary">
                         Submit feedback
                     </button>
+                </form>
+            </div>
+        <% } %>
 
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">
-                        Close ticket
-                    </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="confirmModal" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmModalLabel">Confirm</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure you want to close this ticket?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger"
-                                            onclick="closeTicket(<%= ticket.ticketId %>)">
-                                        Close ticket
-                                    </button>
-                                </div>
-                            </div>
+        <% if (ticket.status !== "closed") { %>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                Close ticket
+            </button>
+            <div class="modal fade" id="confirmModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmModalLabel">Confirm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to close this ticket?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger"
+                                    onclick="closeTicket(<%= ticket.ticketId %>)">
+                                Close ticket
+                            </button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         <% } %>
     </div>
