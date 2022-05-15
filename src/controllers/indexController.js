@@ -812,9 +812,13 @@ async function checkOverdue(ticket) {
     const updateDate = ticket.updateDate;
     const currentDate = new Date();
     const ticketDate = new Date(updateDate);
+    console.log(currentDate);
+    console.log(ticketDate);
 
-    const diffTime = Math.abs(currentDate - ticketDate);
+    const diffTime = currentDate.getTime() - ticketDate.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    console.log(diffDays);
 
     if (diffDays > 7 && ticket.status !== 'closed') {
         return true;
