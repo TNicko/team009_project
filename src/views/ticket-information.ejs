@@ -17,7 +17,7 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
             <% if (isAssignedSpecialist && ticket.status !== "closed" && usertype !== "external specialist") { %>
                 <button class="btn btn-danger" onclick="dropTicket(<%= ticket.ticketId %>)">Drop ticket</button>
             <% } else if (usertype === "specialist" && ticket.handlerId === null) { %>
-                    <button class="btn btn-primary" onclick="assignToSelf(<%= ticket.ticketId %>)">
+                <button class="btn btn-primary" onclick="assignToSelf(<%= ticket.ticketId %>)">
                     Assign ticket to myself
                 </button>
             <% } %>
@@ -56,7 +56,9 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
         <div class="info-section">
             <h3>
                 Ticket
-                <button type="button" class="btn btn-primary" onclick="editTicketInfo(this, <%= ticket.ticketId %>)">Edit</button>
+                <button type="button" class="btn btn-primary" onclick="editTicketInfo(this, <%= ticket.ticketId %>)">
+                    Edit
+                </button>
             </h3>
 
             <table class="table table-light">
@@ -209,14 +211,14 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
                                 </tr>
                                 </thead>
                                 <tbody>
-                                
-                                    <% logs.forEach(log => { %>
-                                        <tr>
-                                            <th><%= log.updateDate %></th>
-                                            <th><%= log.updateType %></th>
-                                            <th><%= log.updateValue %></th>
-                                        </tr>
-                                    <% }); %>
+
+                                <% logs.forEach(log => { %>
+                                    <tr>
+                                        <th><%= log.updateDate %></th>
+                                        <th><%= log.updateType %></th>
+                                        <th><%= log.updateValue %></th>
+                                    </tr>
+                                <% }); %>
 
                                 </tbody>
                             </table>
@@ -307,12 +309,33 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
                     <textarea class="form-control mb-3" placeholder="Add feedback" rows="8"
                               id="feedbackText"></textarea>
                     <button type="button" onclick="sendFeedback(<%= ticket.ticketId %>)" class="btn btn-primary">
-                        Submit
-                        feedback
+                        Submit feedback
                     </button>
-                    <button type="button" onclick="closeTicket(<%= ticket.ticketId %>)" class="btn btn-danger">Close
-                        ticket
+
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                        Close ticket
                     </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">Confirm</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to close this ticket?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="closeTicket(<%= ticket.ticketId %>)">
+                                        Close ticket
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         <% } %>
