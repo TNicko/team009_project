@@ -285,7 +285,7 @@ let isAssignedSpecialist = currentUserId === ticket.handlerId;
         <%
         let specialistCanSubmit = ticket.status === "active" || ticket.status === "unsuccessful";
         let userCanSubmit = ticket.status === "submitted";
-        if (specialistCanSubmit && usertype === "specialist" && isAssignedSpecialist) { %>
+        if (specialistCanSubmit && (usertype === "specialist" || usertype === "external specialist") && isAssignedSpecialist) { %>
             <div class="info-section">
                 <h3>Solution</h3>
                 <form>

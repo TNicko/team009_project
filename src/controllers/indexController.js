@@ -529,7 +529,7 @@ router.post('/ticket/:id/feedback', checkAuthenticated(['user']), async (req, re
         res.sendStatus(500);
     }
 })
-router.post('/ticket/:id/solution', checkAuthenticated(['specialist']), async (req, res) => {
+router.post('/ticket/:id/solution', checkAuthenticated(['specialist', 'external specialist']), async (req, res) => {
     let ticketId = req.params.id;
     let body = req.body;
     try {
