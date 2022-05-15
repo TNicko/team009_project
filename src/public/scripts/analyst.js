@@ -179,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let hardwareCount = [];
     let hardwareMergeList = [];
     hardwareList.forEach(function(hardware){
-        console.log(hardware);
         if (!hardwareMergeList.includes(hardware)) {
             hardwareMergeList.push(hardware);
             hardwareCount.push(countPerHardware[hardware])
